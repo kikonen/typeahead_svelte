@@ -1,7 +1,30 @@
 {
-  "license": "All rights reserved",
-  "dependencies": {
-    "svelte": "^3.12.1",
-    "svelte-loader": "^2.13.6",
+  "license": "MIT",
+  "version": "0.0.1",
+  "name": "@kikonen/typeahead_svelte",
+  "svelte": "src/components/typeahead.svelte",
+  "devDependencies": {
+    "rollup-plugin-svelte": "^5.1.1",
+    "svelte": "^3.15.0"
   },
+  "description": "Simple typeahead widget implemented using Svelte",
+  "main": "index.js",
+  "dependencies": {
+    "estree-walker": "^0.6.1",
+    "require-relative": "^0.8.7",
+    "rollup-pluginutils": "^2.8.2",
+    "sourcemap-codec": "^1.4.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kikonen/typeahead_svelte.git"
+  },
+  "author": "Kari Ikonen",
+  "bugs": {
+    "url": "https://github.com/kikonen/typeahead_svelte/issues"
+  },
+  "homepage": "https://github.com/kikonen/typeahead_svelte"
 }
