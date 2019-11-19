@@ -1,1 +1,1 @@
-export { typeahead as Typeahead } from './src';
+export { typeahead as Typeahead } from './src/components';
