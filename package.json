@@ -1,0 +1,7 @@
+{
+  "license": "All rights reserved",
+  "dependencies": {
+    "svelte": "^3.12.1",
+    "svelte-loader": "^2.13.6",
+  },
+}
