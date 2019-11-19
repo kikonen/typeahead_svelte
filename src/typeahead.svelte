@@ -2,21 +2,21 @@
  import {onMount} from 'svelte';
 
  export let real;
-
- export let query = '';
- export let queryMinLen = 1;
-
- export let entries = [];
-
- export let onSelected = function() {};
  export let fetcher;
- export let hasMore = false;
- export let tooShort = false;
- export let fetchingMore = false;
- export let fetchError = null;
+ export let queryMinLen = 1;
+ export let onSelected = function() {};
 
- export let popupVisible = false;
- export let activeFetch = null;
+ let query = '';
+
+ let entries = [];
+
+ let hasMore = false;
+ let tooShort = false;
+ let fetchingMore = false;
+ let fetchError = null;
+
+ let popupVisible = false;
+ let activeFetch = null;
 
  let input;
  let toggle;
