@@ -1,6 +1,6 @@
 {
-  "license": "MIT",
-  "version": "0.0.1",
+  "license": "SEE LICENSE IN LICENSE",
+  "version": "0.0.2",
   "name": "@kikonen/typeahead_svelte",
   "svelte": "src/components/typeahead.svelte",
   "devDependencies": {
@@ -9,12 +9,6 @@
   },
   "description": "Simple typeahead widget implemented using Svelte",
   "main": "index.js",
-  "dependencies": {
-    "estree-walker": "^0.6.1",
-    "require-relative": "^0.8.7",
-    "rollup-pluginutils": "^2.8.2",
-    "sourcemap-codec": "^1.4.6"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
