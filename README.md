@@ -4,7 +4,7 @@ Simple typeahead widget implemented using Svelte
 
 ## Styling
 
-This is hardcoded to use bootstrap 4
+- This is hardcoded to use bootstrap 4
 
 ## Fetures
 
@@ -15,5 +15,5 @@ This is hardcoded to use bootstrap 4
 
 ## Example
 
-- https://github.com/kikonen/host/blob/master/app/javascript/packs/hello_svelte.js
-- https://github.com/kikonen/host/blob/master/app/views/svelte_test/hello.haml
+- https://github.com/kikonen/host/blob/master/app/javascript/packs/typeahead_svelte.js
+- https://github.com/kikonen/host/blob/master/app/views/svelte_test/typeahead.haml
