@@ -1,6 +1,6 @@
 {
   "license": "SEE LICENSE IN LICENSE",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "name": "@kikonen/typeahead_svelte",
   "svelte": "src/components/typeahead.svelte",
   "devDependencies": {
