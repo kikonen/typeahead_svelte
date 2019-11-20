@@ -17,3 +17,7 @@ Simple typeahead widget implemented using Svelte
 
 - https://github.com/kikonen/host/blob/master/app/javascript/packs/typeahead_svelte.js
 - https://github.com/kikonen/host/blob/master/app/views/svelte_test/typeahead.haml
+
+## DEMO
+
+https://host.ikari.fi/svelte_test/typeahead
