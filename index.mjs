@@ -1,1 +1,1 @@
-export { typeahead as Typeahead } from './src';
+export { default as Typeahead } from './src/components/typeahead.svelte';
