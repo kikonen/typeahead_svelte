@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import svelte from 'rollup-plugin-svelte';
 
 export default {
-  input: 'src/main.js',
+  input: 'src/typeahead.svelte',
   output: {
-    file: 'public/bundle.js',
+    file: 'dist/typeahead_svelte.js',
     format: 'iife'
   },
   plugins: [
@@ -15,7 +15,7 @@ export default {
 
       // You can restrict which files are compiled
       // using `include` and `exclude`
-      include: 'src/components/**/*.svelte',
+      include: 'src/**/*.svelte',
 
       // By default, the client-side compiler is used. You
       // can also use the server-side rendering compiler
@@ -23,7 +23,7 @@ export default {
 
       // Optionally, preprocess components with svelte.preprocess:
       // https://svelte.dev/docs#svelte_preprocess
-      preprocess: {
+/*      preprocess: {
         style: ({ content }) => {
           return transformStyles(content);
         }
@@ -34,15 +34,16 @@ export default {
 
       // Extract CSS into a separate file (recommended).
       // See note below
+
       css: function (css) {
         console.log(css.code); // the concatenated CSS
         console.log(css.map); // a sourcemap
 
         // creates `main.css` and `main.css.map` — pass `false`
         // as the second argument if you don't want the sourcemap
-        css.write('public/main.css');
+        css.write('dist/main.css');
       },
-
+*/
       // Warnings are normally passed straight to Rollup. You can
       // optionally handle them here, for example to squelch
       // warnings with a particular code
