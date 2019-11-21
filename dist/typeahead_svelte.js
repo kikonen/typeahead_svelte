@@ -552,14 +552,14 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (538:8) {#if entries.length === 0 }
+  } // (542:8) {#if entries.length === 0 }
 
 
-  function create_if_block_5(ctx) {
+  function create_if_block_6(ctx) {
     var div;
 
     function select_block_type_1(changed, ctx) {
-      if (ctx.tooShort) return create_if_block_6;
+      if (ctx.tooShort) return create_if_block_7;
       return create_else_block;
     }
 
@@ -594,12 +594,12 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (531:6) {#if activeFetch }
+  } // (535:6) {#if activeFetch }
 
 
-  function create_if_block_3(ctx) {
+  function create_if_block_4(ctx) {
     var if_block_anchor;
-    var if_block = !ctx.fetchingMore && create_if_block_4(ctx);
+    var if_block = !ctx.fetchingMore && create_if_block_5(ctx);
     return {
       c: function c() {
         if (if_block) if_block.c();
@@ -614,7 +614,7 @@ var Typeahead = (function () {
           if (if_block) {
             if_block.p(changed, ctx);
           } else {
-            if_block = create_if_block_4(ctx);
+            if_block = create_if_block_5(ctx);
             if_block.c();
             if_block.m(if_block_anchor.parentNode, if_block_anchor);
           }
@@ -628,10 +628,10 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (526:4) {#if fetchError }
+  } // (530:4) {#if fetchError }
 
 
-  function create_if_block_2(ctx) {
+  function create_if_block_3(ctx) {
     var div;
     var t;
     return {
@@ -652,11 +652,11 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (542:12) {:else}
+  } // (546:12) {:else}
 
 
   function create_else_block(ctx) {
-    var t_value = ctx.i18n.no_results + "";
+    var t_value = ctx.translate("no_results") + "";
     var t;
     return {
       c: function c() {
@@ -670,11 +670,11 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (540:12) {#if tooShort }
+  } // (544:12) {#if tooShort }
 
 
-  function create_if_block_6(ctx) {
-    var t_value = ctx.i18n.too_short + "";
+  function create_if_block_7(ctx) {
+    var t_value = ctx.translate("too_short") + "";
     var t;
     return {
       c: function c() {
@@ -688,15 +688,15 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (532:8) {#if !fetchingMore }
+  } // (536:8) {#if !fetchingMore }
 
 
-  function create_if_block_4(ctx) {
+  function create_if_block_5(ctx) {
     var div;
     return {
       c: function c() {
         div = element("div");
-        div.textContent = "".concat(ctx.i18n.fetching);
+        div.textContent = "".concat(ctx.translate("fetching"));
         attr(div, "tabindex", "-1");
         attr(div, "class", "dropdown-item text-muted");
       },
@@ -708,7 +708,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (550:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+  } // (554:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
 
 
   function create_if_block_1(ctx) {
@@ -767,56 +767,88 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (551:6) {#each entries as item, index}
+  } // (564:10) {#if item.desc}
+
+
+  function create_if_block_2(ctx) {
+    var div;
+    var t_value = ctx.item.desc + "";
+    var t;
+    return {
+      c: function c() {
+        div = element("div");
+        t = text(t_value);
+        attr(div, "class", "no-click text-muted svelte-2ap05h");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+        append(div, t);
+      },
+      p: function p(changed, ctx) {
+        if (changed.entries && t_value !== (t_value = ctx.item.desc + "")) set_data(t, t_value);
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (555:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
-    var div2;
+    var div1;
     var div0;
     var t0_value = ctx.item.text + "";
     var t0;
     var t1;
-    var div1;
-    var t2_value = ctx.item.desc + "";
     var t2;
-    var t3;
-    var div2_data_index_value;
+    var div1_data_index_value;
     var dispose;
+    var if_block = ctx.item.desc && create_if_block_2(ctx);
     return {
       c: function c() {
-        div2 = element("div");
+        div1 = element("div");
         div0 = element("div");
         t0 = text(t0_value);
         t1 = space();
-        div1 = element("div");
-        t2 = text(t2_value);
-        t3 = space();
+        if (if_block) if_block.c();
+        t2 = space();
         attr(div0, "class", "no-click svelte-2ap05h");
-        attr(div1, "class", "no-click text-muted svelte-2ap05h");
-        attr(div2, "tabindex", "1");
-        attr(div2, "class", "js-item dropdown-item");
-        attr(div2, "data-index", div2_data_index_value = ctx.index);
-        dispose = [listen(div2, "blur", ctx.handleBlur), listen(div2, "click", ctx.handleItemClick), listen(div2, "keydown", ctx.handleItemKeydown), listen(div2, "keyup", ctx.handleItemKeyup)];
+        attr(div1, "tabindex", "1");
+        attr(div1, "class", "js-item dropdown-item");
+        attr(div1, "data-index", div1_data_index_value = ctx.index);
+        dispose = [listen(div1, "blur", ctx.handleBlur), listen(div1, "click", ctx.handleItemClick), listen(div1, "keydown", ctx.handleItemKeydown), listen(div1, "keyup", ctx.handleItemKeyup)];
       },
       m: function m(target, anchor) {
-        insert(target, div2, anchor);
-        append(div2, div0);
+        insert(target, div1, anchor);
+        append(div1, div0);
         append(div0, t0);
-        append(div2, t1);
-        append(div2, div1);
+        append(div1, t1);
+        if (if_block) if_block.m(div1, null);
         append(div1, t2);
-        append(div2, t3);
       },
       p: function p(changed, ctx) {
         if (changed.entries && t0_value !== (t0_value = ctx.item.text + "")) set_data(t0, t0_value);
-        if (changed.entries && t2_value !== (t2_value = ctx.item.desc + "")) set_data(t2, t2_value);
+
+        if (ctx.item.desc) {
+          if (if_block) {
+            if_block.p(changed, ctx);
+          } else {
+            if_block = create_if_block_2(ctx);
+            if_block.c();
+            if_block.m(div1, t2);
+          }
+        } else if (if_block) {
+          if_block.d(1);
+          if_block = null;
+        }
       },
       d: function d(detaching) {
-        if (detaching) detach(div2);
+        if (detaching) detach(div1);
+        if (if_block) if_block.d();
         run_all(dispose);
       }
     };
-  } // (567:4) {#if hasMore}
+  } // (573:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -824,7 +856,7 @@ var Typeahead = (function () {
     return {
       c: function c() {
         div = element("div");
-        div.textContent = "".concat(ctx.i18n.has_more);
+        div.textContent = "".concat(ctx.translate("has_more"));
         attr(div, "tabindex", "-1");
         attr(div, "class", "js-more dropdown-item text-muted");
       },
@@ -857,9 +889,9 @@ var Typeahead = (function () {
     var dispose;
 
     function select_block_type(changed, ctx) {
-      if (ctx.fetchError) return create_if_block_2;
-      if (ctx.activeFetch) return create_if_block_3;
-      if (ctx.entries.length === 0) return create_if_block_5;
+      if (ctx.fetchError) return create_if_block_3;
+      if (ctx.activeFetch) return create_if_block_4;
+      if (ctx.entries.length === 0) return create_if_block_6;
     }
 
     var current_block_type = select_block_type(null, ctx);
@@ -1004,12 +1036,21 @@ var Typeahead = (function () {
   function handleInputClick(event) {}
 
   function instance($$self, $$props, $$invalidate) {
+    var I18N_DEFAULTS = {
+      fetching: "Searching..",
+      no_results: "No results",
+      too_short: "Too short",
+      has_more: "More...",
+      fetching_more: "Searching more..."
+    };
     var real = $$props.real;
     var fetcher = $$props.fetcher;
     var _$$props$queryMinLen = $$props.queryMinLen,
         queryMinLen = _$$props$queryMinLen === void 0 ? 1 : _$$props$queryMinLen;
     var _$$props$onSelected = $$props.onSelected,
         onSelected = _$$props$onSelected === void 0 ? function () {} : _$$props$onSelected;
+    var _$$props$translations = $$props.translations,
+        translations = _$$props$translations === void 0 ? I18N_DEFAULTS : _$$props$translations;
     var query = "";
     var entries = [];
     var hasMore = false;
@@ -1024,13 +1065,6 @@ var Typeahead = (function () {
     var more;
     var previousQuery = null;
     var wasDown = false;
-    var i18n = {
-      fetching: "Searching..",
-      no_results: "No results",
-      too_short: "Too short",
-      has_more: "More...",
-      fetching_more: "Searching more..."
-    };
 
     function fetchEntries(more) {
       var currentQuery = query.trim();
@@ -1177,6 +1211,10 @@ var Typeahead = (function () {
 
     function containsElement(el) {
       return el === input || el === toggle || popup.contains(el);
+    }
+
+    function translate(key) {
+      return translations[key] || I18N_DEFAULTS[key];
     }
 
     onMount(function () {
@@ -1462,6 +1500,7 @@ var Typeahead = (function () {
       if ("fetcher" in $$props) $$invalidate("fetcher", fetcher = $$props.fetcher);
       if ("queryMinLen" in $$props) $$invalidate("queryMinLen", queryMinLen = $$props.queryMinLen);
       if ("onSelected" in $$props) $$invalidate("onSelected", onSelected = $$props.onSelected);
+      if ("translations" in $$props) $$invalidate("translations", translations = $$props.translations);
     };
 
     $$self.$$.update = function () {
@@ -1480,6 +1519,7 @@ var Typeahead = (function () {
       fetcher: fetcher,
       queryMinLen: queryMinLen,
       onSelected: onSelected,
+      translations: translations,
       query: query,
       entries: entries,
       hasMore: hasMore,
@@ -1492,7 +1532,7 @@ var Typeahead = (function () {
       toggle: toggle,
       popup: popup,
       more: more,
-      i18n: i18n,
+      translate: translate,
       handleBlur: handleBlur,
       handleInputKeypress: handleInputKeypress,
       handleInputKeydown: handleInputKeydown,
@@ -1526,7 +1566,8 @@ var Typeahead = (function () {
         real: 0,
         fetcher: 0,
         queryMinLen: 0,
-        onSelected: 0
+        onSelected: 0,
+        translations: 0
       });
       return _this;
     }

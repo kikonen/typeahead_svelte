@@ -1,10 +1,19 @@
 <script>
  import {onMount} from 'svelte';
 
+ const I18N_DEFAULTS = {
+     fetching: 'Searching..',
+     no_results: 'No results',
+     too_short: 'Too short',
+     has_more: 'More...',
+     fetching_more: 'Searching more...',
+ };
+
  export let real;
  export let fetcher;
  export let queryMinLen = 1;
  export let onSelected = function() {};
+ export let translations = I18N_DEFAULTS;
 
  let query = '';
 
@@ -28,15 +37,6 @@
  let selectedItem = null;
  let downQuery = null;
  let wasDown = false;
-
- let i18n = {
-     fetching: 'Searching..',
-     no_results: 'No results',
-     too_short: 'Too short',
-     has_more: 'More...',
-     fetching_more: 'Searching more...',
- };
-
 
  ////////////////////////////////////////////////////////////
  //
@@ -212,6 +212,10 @@
 
  function hasModifier(event) {
      return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+ }
+
+ function translate(key) {
+     return translations[key] || I18N_DEFAULTS[key];
  }
 
  ////////////////////////////////////////////////////////////
@@ -531,16 +535,16 @@
       {#if activeFetch }
         {#if !fetchingMore }
           <div tabindex=-1 class="dropdown-item text-muted">
-            {i18n.fetching}
+            {translate('fetching')}
           </div>
         {/if}
       {:else}
         {#if entries.length === 0 }
           <div tabindex=-1 class="dropdown-item text-muted">
             {#if tooShort }
-              {i18n.too_short}
+              {translate('too_short')}
             {:else}
-              {i18n.no_results}
+              {translate('no_results')}
             {/if}
           </div>
         {/if}
@@ -557,9 +561,11 @@
           <div class="no-click">
             {item.text}
           </div>
-          <div class="no-click text-muted">
-            {item.desc}
-          </div>
+          {#if item.desc}
+            <div class="no-click text-muted">
+              {item.desc}
+            </div>
+          {/if}
         </div>
       {/each}
     {/if}
@@ -568,7 +574,7 @@
       <div tabindex="-1"
            class="js-more dropdown-item text-muted"
            bind:this={more}>
-        {i18n.has_more}
+        {translate('has_more')}
       </div>
     {/if}
   </div>
