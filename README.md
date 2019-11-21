@@ -22,6 +22,7 @@ Simple typeahead widget implemented using Svelte
 ### Rails sprockets4 version
 - https://github.com/kikonen/host/blob/master/app/assets/javascripts/module_test.js
 - https://github.com/kikonen/host/blob/master/app/assets/javascripts/test/typeahead_svelte_init.es6
+- https://github.com/kikonen/host/blob/master/app/assets/stylesheets/module_test.css
 - https://github.com/kikonen/host/blob/master/app/views/test/_typeahead_svelte_pane.haml
 
 ## DEMO
