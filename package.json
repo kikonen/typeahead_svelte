@@ -1,16 +1,23 @@
 {
   "license": "SEE LICENSE IN LICENSE",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "name": "@kikonen/typeahead_svelte",
-  "svelte": "src/typeahead.svelte",
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/runtime": "^7.7.2",
     "rollup": "^1.27.3",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-svelte": "^5.1.1",
-    "svelte": "^3.15.0"
+    "svelte": "^3.15.0",
+    "svelte-preprocess": "^3.2.6"
   },
   "description": "Simple typeahead widget implemented using Svelte",
-  "main": "index.mjs",
   "scripts": {
     "build": "rollup -c",
     "prepublishOnly": "npm run build"
@@ -23,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/kikonen/typeahead_svelte/issues"
   },
-  "homepage": "https://github.com/kikonen/typeahead_svelte"
+  "homepage": "https://github.com/kikonen/typeahead_svelte",
+  "dependencies": {
+    "core-js": "^3.4.1"
+  }
 }
