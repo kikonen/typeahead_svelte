@@ -136,7 +136,7 @@
              previousQuery = null;
              activeFetch = null;
              fetched = false;
-             fetchingMode = false;
+             fetchingMore = false;
 
              input.focus();
              openPopup();
@@ -319,7 +319,11 @@
          let next = event.target.nextElementSibling;
 
          if (next) {
-             if (!next.classList.contains('js-item')) {
+             if (next.classList.contains('js-separator')) {
+                 next = next.nextElementSibling;
+             }
+
+             if (next && !next.classList.contains('js-item')) {
                  next = null;
              }
          }
@@ -333,6 +337,9 @@
          let next = event.target.previousElementSibling;
 
          if (next) {
+             if (next.classList.contains('js-separator')) {
+                 next = next.previousElementSibling;
+             }
              if (!next.classList.contains('js-item')) {
                  next = null;
              }
@@ -552,7 +559,7 @@
 
     {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
       {#each entries as item, index}
-        <div tabindex=1 class="js-item dropdown-item"  data-index="{index}"
+          <div tabindex={item.separator ? -1 : 1} class="{item.separator ? 'dropdown-divider js-separator' : 'js-item  dropdown-item'}"  data-index="{index}"
              on:blur={handleBlur}
              on:click={handleItemClick}
              on:keydown={handleItemKeydown}
