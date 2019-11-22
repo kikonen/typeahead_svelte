@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (548:8) {#if entries.length === 0 }
+  } // (551:8) {#if entries.length === 0 }
 
 
   function create_if_block_6(ctx) {
@@ -594,7 +594,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (541:6) {#if activeFetch }
+  } // (544:6) {#if activeFetch }
 
 
   function create_if_block_4(ctx) {
@@ -628,7 +628,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (536:4) {#if fetchError }
+  } // (539:4) {#if fetchError }
 
 
   function create_if_block_3(ctx) {
@@ -652,7 +652,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (552:12) {:else}
+  } // (555:12) {:else}
 
 
   function create_else_block(ctx) {
@@ -670,7 +670,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (550:12) {#if tooShort }
+  } // (553:12) {#if tooShort }
 
 
   function create_if_block_7(ctx) {
@@ -688,7 +688,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (542:8) {#if !fetchingMore }
+  } // (545:8) {#if !fetchingMore }
 
 
   function create_if_block_5(ctx) {
@@ -708,7 +708,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (560:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+  } // (563:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
 
 
   function create_if_block_1(ctx) {
@@ -767,7 +767,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (570:10) {#if item.desc}
+  } // (573:10) {#if item.desc}
 
 
   function create_if_block_2(ctx) {
@@ -791,7 +791,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (561:6) {#each entries as item, index}
+  } // (564:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -858,7 +858,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (579:4) {#if hasMore}
+  } // (582:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -932,9 +932,7 @@ var Typeahead = (function () {
         attr(div0, "class", "input-group-append");
         attr(div1, "class", div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h");
         attr(div2, "class", "input-group typeahead js-typeahead-container svelte-2ap05h");
-        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "click", handleInputClick), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll, {
-          passive: true
-        })];
+        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "click", handleInputClick), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
       },
       m: function m(target, anchor) {
         insert(target, div2, anchor);
@@ -1248,9 +1246,13 @@ var Typeahead = (function () {
         wasDown = true;
       },
       ArrowDown: function ArrowDown(event) {
-        var item = popupVisible ? popup.querySelector(".js-item:first-child") : null;
+        var item = popupVisible ? popup.querySelectorAll(".js-item")[0] : null;
 
         if (item) {
+          while (item && item.classList.contains("js-separator")) {
+            item = item.nextElementSibling;
+          }
+
           item.focus();
         } else {
           openPopup();
@@ -1338,7 +1340,7 @@ var Typeahead = (function () {
             next = next.previousElementSibling;
           }
 
-          if (!next.classList.contains("js-item")) {
+          if (next && !next.classList.contains("js-item")) {
             next = null;
           }
         }

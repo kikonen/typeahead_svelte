@@ -247,8 +247,11 @@
          wasDown = true;
      },
      ArrowDown: function(event) {
-         let item = popupVisible ? popup.querySelector('.js-item:first-child') : null;
+         let item = popupVisible ? popup.querySelectorAll('.js-item')[0] : null;
          if (item) {
+             while (item && item.classList.contains('js-separator')) {
+                 item = item.nextElementSibling;
+             }
              item.focus();
          } else {
              openPopup();
@@ -340,7 +343,7 @@
              while (next && next.classList.contains('js-separator')) {
                  next = next.previousElementSibling;
              }
-             if (!next.classList.contains('js-item')) {
+             if (next && !next.classList.contains('js-item')) {
                  next = null;
              }
          }
@@ -532,7 +535,7 @@
 
   <div class="js-popup dropdown-menu typeahead-popup {popupVisible ? 'show' : ''}"
        bind:this={popup}
-       on:scroll|passive={handlePopupScroll}>
+       on:scroll={handlePopupScroll}>
     {#if fetchError }
       <div tabindex=-1 class="dropdown-item text-danger">
         {fetchError}
