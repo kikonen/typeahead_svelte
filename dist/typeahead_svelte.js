@@ -1315,7 +1315,7 @@ var Typeahead = (function () {
         var next = event.target.nextElementSibling;
 
         if (next) {
-          if (next.classList.contains("js-separator")) {
+          while (next && next.classList.contains("js-separator")) {
             next = next.nextElementSibling;
           }
 
@@ -1334,7 +1334,7 @@ var Typeahead = (function () {
         var next = event.target.previousElementSibling;
 
         if (next) {
-          if (next.classList.contains("js-separator")) {
+          while (next && next.classList.contains("js-separator")) {
             next = next.previousElementSibling;
           }
 
