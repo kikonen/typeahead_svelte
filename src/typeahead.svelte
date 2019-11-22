@@ -14,8 +14,7 @@
  export let queryMinLen = 1;
  export let onSelected = function() {};
  export let translations = I18N_DEFAULTS;
-
- let query = '';
+ export let query;
 
  let entries = [];
 
@@ -224,7 +223,7 @@
  $: real.setAttribute('value', query);
 
  onMount(function() {
-     query = real.value || '';
+     query = real.getAttribute('value') || '';
      real.classList.add('d-none');
      real.addEventListener('change', function() {
          var realValue = real.getAttribute('value');
@@ -559,7 +558,7 @@
              on:keydown={handleItemKeydown}
              on:keyup={handleItemKeyup}>
           <div class="no-click">
-            {item.text}
+            {item.display_text || item.text}
           </div>
           {#if item.desc}
             <div class="no-click text-muted">

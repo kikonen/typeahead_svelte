@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (542:8) {#if entries.length === 0 }
+  } // (541:8) {#if entries.length === 0 }
 
 
   function create_if_block_6(ctx) {
@@ -594,7 +594,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (535:6) {#if activeFetch }
+  } // (534:6) {#if activeFetch }
 
 
   function create_if_block_4(ctx) {
@@ -628,7 +628,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (530:4) {#if fetchError }
+  } // (529:4) {#if fetchError }
 
 
   function create_if_block_3(ctx) {
@@ -652,7 +652,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (546:12) {:else}
+  } // (545:12) {:else}
 
 
   function create_else_block(ctx) {
@@ -670,7 +670,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (544:12) {#if tooShort }
+  } // (543:12) {#if tooShort }
 
 
   function create_if_block_7(ctx) {
@@ -688,7 +688,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (536:8) {#if !fetchingMore }
+  } // (535:8) {#if !fetchingMore }
 
 
   function create_if_block_5(ctx) {
@@ -708,7 +708,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (554:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+  } // (553:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
 
 
   function create_if_block_1(ctx) {
@@ -767,7 +767,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (564:10) {#if item.desc}
+  } // (563:10) {#if item.desc}
 
 
   function create_if_block_2(ctx) {
@@ -791,13 +791,13 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (555:6) {#each entries as item, index}
+  } // (554:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
     var div1;
     var div0;
-    var t0_value = ctx.item.text + "";
+    var t0_value = (ctx.item.display_text || ctx.item.text) + "";
     var t0;
     var t1;
     var t2;
@@ -827,7 +827,7 @@ var Typeahead = (function () {
         append(div1, t2);
       },
       p: function p(changed, ctx) {
-        if (changed.entries && t0_value !== (t0_value = ctx.item.text + "")) set_data(t0, t0_value);
+        if (changed.entries && t0_value !== (t0_value = (ctx.item.display_text || ctx.item.text) + "")) set_data(t0, t0_value);
 
         if (ctx.item.desc) {
           if (if_block) {
@@ -848,7 +848,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (573:4) {#if hasMore}
+  } // (572:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1051,7 +1051,7 @@ var Typeahead = (function () {
         onSelected = _$$props$onSelected === void 0 ? function () {} : _$$props$onSelected;
     var _$$props$translations = $$props.translations,
         translations = _$$props$translations === void 0 ? I18N_DEFAULTS : _$$props$translations;
-    var query = "";
+    var query = $$props.query;
     var entries = [];
     var hasMore = false;
     var tooShort = false;
@@ -1218,7 +1218,7 @@ var Typeahead = (function () {
     }
 
     onMount(function () {
-      $$invalidate("query", query = real.value || "");
+      $$invalidate("query", query = real.getAttribute("value") || "");
       real.classList.add("d-none");
       real.addEventListener("change", function () {
         var realValue = real.getAttribute("value");
@@ -1501,6 +1501,7 @@ var Typeahead = (function () {
       if ("queryMinLen" in $$props) $$invalidate("queryMinLen", queryMinLen = $$props.queryMinLen);
       if ("onSelected" in $$props) $$invalidate("onSelected", onSelected = $$props.onSelected);
       if ("translations" in $$props) $$invalidate("translations", translations = $$props.translations);
+      if ("query" in $$props) $$invalidate("query", query = $$props.query);
     };
 
     $$self.$$.update = function () {
@@ -1567,7 +1568,8 @@ var Typeahead = (function () {
         fetcher: 0,
         queryMinLen: 0,
         onSelected: 0,
-        translations: 0
+        translations: 0,
+        query: 0
       });
       return _this;
     }
