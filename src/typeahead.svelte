@@ -509,7 +509,7 @@
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<div class="input-group mb-3 typeahead js-typeahead-container">
+<div class="input-group typeahead js-typeahead-container">
   <input class="js-input {real.getAttribute('class')}"
          data-target="{real.id}"
          placeholder="{real.placeholder}"

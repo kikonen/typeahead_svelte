@@ -931,7 +931,7 @@ var Typeahead = (function () {
         attr(button, "tabindex", "-1");
         attr(div0, "class", "input-group-append");
         attr(div1, "class", div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h");
-        attr(div2, "class", "input-group mb-3 typeahead js-typeahead-container svelte-2ap05h");
+        attr(div2, "class", "input-group typeahead js-typeahead-container svelte-2ap05h");
         dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "click", handleInputClick), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll, {
           passive: true
         })];
