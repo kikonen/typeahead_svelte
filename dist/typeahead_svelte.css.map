@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "file": "typeahead.css",
+  "file": "typeahead_svelte.css",
   "sources": [
     "../src/typeahead.svelte"
   ],

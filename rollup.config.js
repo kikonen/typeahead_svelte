@@ -50,7 +50,7 @@ export default {
 
         // creates `main.css` and `main.css.map` — pass `false`
         // as the second argument if you don't want the sourcemap
-        css.write('dist/typeahead.css');
+        css.write('dist/typeahead_svelte.css');
       },
 
       // Warnings are normally passed straight to Rollup. You can
