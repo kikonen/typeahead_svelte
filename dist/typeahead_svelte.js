@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (551:8) {#if entries.length === 0 }
+  } // (552:8) {#if entries.length === 0 }
 
 
   function create_if_block_6(ctx) {
@@ -594,7 +594,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (544:6) {#if activeFetch }
+  } // (545:6) {#if activeFetch }
 
 
   function create_if_block_4(ctx) {
@@ -628,7 +628,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (539:4) {#if fetchError }
+  } // (540:4) {#if fetchError }
 
 
   function create_if_block_3(ctx) {
@@ -652,7 +652,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (555:12) {:else}
+  } // (556:12) {:else}
 
 
   function create_else_block(ctx) {
@@ -670,7 +670,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (553:12) {#if tooShort }
+  } // (554:12) {#if tooShort }
 
 
   function create_if_block_7(ctx) {
@@ -688,7 +688,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (545:8) {#if !fetchingMore }
+  } // (546:8) {#if !fetchingMore }
 
 
   function create_if_block_5(ctx) {
@@ -708,7 +708,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (563:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+  } // (564:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
 
 
   function create_if_block_1(ctx) {
@@ -767,7 +767,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (573:10) {#if item.desc}
+  } // (574:10) {#if item.desc}
 
 
   function create_if_block_2(ctx) {
@@ -791,7 +791,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (564:6) {#each entries as item, index}
+  } // (565:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -858,7 +858,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (582:4) {#if hasMore}
+  } // (583:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1060,6 +1060,8 @@ var Typeahead = (function () {
     var _$$props$translations = $$props.translations,
         translations = _$$props$translations === void 0 ? I18N_DEFAULTS : _$$props$translations;
     var query = $$props.query;
+    var _$$props$delay = $$props.delay,
+        delay = _$$props$delay === void 0 ? 250 : _$$props$delay;
     var entries = [];
     var hasMore = false;
     var tooShort = false;
@@ -1119,15 +1121,13 @@ var Typeahead = (function () {
               } else {
                 reject("cancel");
               }
-            }, 300);
+            }, delay);
           }
         }
       }).then(function (response) {
         if (currentFetch === activeFetch) {
           var newEntries = response.entries || [];
           var info = response.info || {};
-          console.debug("APPLY fetch: " + currentQuery + ", isMore: " + currentFetchingMore + ", offset: " + currentFetchOffset + ", resultSize: " + newEntries.length + ", oldSize: " + entries.length);
-          console.debug(info);
           var updateEntries;
 
           if (currentFetchingMore) {
@@ -1140,7 +1140,7 @@ var Typeahead = (function () {
           }
 
           $$invalidate("entries", entries = updateEntries);
-          $$invalidate("hasMore", hasMore = info.more);
+          $$invalidate("hasMore", hasMore = info.more && entries.length > 0);
           $$invalidate("tooShort", tooShort = info.too_short);
           previousQuery = currentQuery;
           $$invalidate("activeFetch", activeFetch = null);
@@ -1232,7 +1232,6 @@ var Typeahead = (function () {
         var realValue = real.getAttribute("value");
 
         if (realValue !== query) {
-          console.debug("Changed: " + realValue);
           $$invalidate("query", query = realValue);
         }
       });
@@ -1522,6 +1521,7 @@ var Typeahead = (function () {
       if ("onSelected" in $$props) $$invalidate("onSelected", onSelected = $$props.onSelected);
       if ("translations" in $$props) $$invalidate("translations", translations = $$props.translations);
       if ("query" in $$props) $$invalidate("query", query = $$props.query);
+      if ("delay" in $$props) $$invalidate("delay", delay = $$props.delay);
     };
 
     $$self.$$.update = function () {
@@ -1542,6 +1542,7 @@ var Typeahead = (function () {
       onSelected: onSelected,
       translations: translations,
       query: query,
+      delay: delay,
       entries: entries,
       hasMore: hasMore,
       tooShort: tooShort,
@@ -1589,7 +1590,8 @@ var Typeahead = (function () {
         queryMinLen: 0,
         onSelected: 0,
         translations: 0,
-        query: 0
+        query: 0,
+        delay: 0
       });
       return _this;
     }

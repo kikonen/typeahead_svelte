@@ -15,6 +15,7 @@
  export let onSelected = function() {};
  export let translations = I18N_DEFAULTS;
  export let query;
+ export let delay = 250;
 
  let entries = [];
 
@@ -93,7 +94,7 @@
 //                         console.debug("TIMER reject: " + currentQuery);
                          reject("cancel");
                      }
-                 }, 300);
+                 }, delay);
              }
          }
      }).then(function(response) {
@@ -101,8 +102,8 @@
              let newEntries = response.entries || [];
              let info = response.info || {};
 
-             console.debug("APPLY fetch: " + currentQuery + ", isMore: " + currentFetchingMore + ", offset: " + currentFetchOffset + ", resultSize: " + newEntries.length + ", oldSize: " + entries.length);
-             console.debug(info);
+//             console.debug("APPLY fetch: " + currentQuery + ", isMore: " + currentFetchingMore + ", offset: " + currentFetchOffset + ", resultSize: " + newEntries.length + ", oldSize: " + entries.length);
+//             console.debug(info);
 
              let updateEntries;
              if (currentFetchingMore) {
@@ -115,7 +116,7 @@
              }
              entries = updateEntries;
 
-             hasMore = info.more;
+             hasMore = info.more && entries.length > 0;
              tooShort = info.too_short;
 
              previousQuery = currentQuery;
@@ -228,7 +229,7 @@
      real.addEventListener('change', function() {
          var realValue = real.getAttribute('value');
          if (realValue !== query) {
-             console.debug("Changed: " + realValue);
+//             console.debug("Changed: " + realValue);
              query = realValue;
          }
      });
