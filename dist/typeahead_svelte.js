@@ -555,12 +555,12 @@ var Typeahead = (function () {
   } // (557:8) {#if entries.length === 0 }
 
 
-  function create_if_block_6(ctx) {
+  function create_if_block_9(ctx) {
     var div;
 
     function select_block_type_1(changed, ctx) {
-      if (ctx.tooShort) return create_if_block_7;
-      return create_else_block;
+      if (ctx.tooShort) return create_if_block_10;
+      return create_else_block_1;
     }
 
     var current_block_type = select_block_type_1(null, ctx);
@@ -597,9 +597,9 @@ var Typeahead = (function () {
   } // (550:6) {#if activeFetch }
 
 
-  function create_if_block_4(ctx) {
+  function create_if_block_7(ctx) {
     var if_block_anchor;
-    var if_block = !ctx.fetchingMore && create_if_block_5(ctx);
+    var if_block = !ctx.fetchingMore && create_if_block_8(ctx);
     return {
       c: function c() {
         if (if_block) if_block.c();
@@ -614,7 +614,7 @@ var Typeahead = (function () {
           if (if_block) {
             if_block.p(changed, ctx);
           } else {
-            if_block = create_if_block_5(ctx);
+            if_block = create_if_block_8(ctx);
             if_block.c();
             if_block.m(if_block_anchor.parentNode, if_block_anchor);
           }
@@ -631,7 +631,7 @@ var Typeahead = (function () {
   } // (545:4) {#if fetchError }
 
 
-  function create_if_block_3(ctx) {
+  function create_if_block_6(ctx) {
     var div;
     var t;
     return {
@@ -655,7 +655,7 @@ var Typeahead = (function () {
   } // (561:12) {:else}
 
 
-  function create_else_block(ctx) {
+  function create_else_block_1(ctx) {
     var t_value = ctx.translate("no_results") + "";
     var t;
     return {
@@ -673,7 +673,7 @@ var Typeahead = (function () {
   } // (559:12) {#if tooShort }
 
 
-  function create_if_block_7(ctx) {
+  function create_if_block_10(ctx) {
     var t_value = ctx.translate("too_short") + "";
     var t;
     return {
@@ -691,7 +691,7 @@ var Typeahead = (function () {
   } // (551:8) {#if !fetchingMore }
 
 
-  function create_if_block_5(ctx) {
+  function create_if_block_8(ctx) {
     var div;
     return {
       c: function c() {
@@ -767,10 +767,164 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (579:10) {#if item.desc}
+  } // (584:8) {:else}
+
+
+  function create_else_block(ctx) {
+    var div1;
+    var div0;
+    var t0_value = (ctx.item.display_text || ctx.item.text) + "";
+    var t0;
+    var t1;
+    var t2;
+    var div1_data_index_value;
+    var dispose;
+    var if_block = ctx.item.desc && create_if_block_5(ctx);
+    return {
+      c: function c() {
+        div1 = element("div");
+        div0 = element("div");
+        t0 = text(t0_value);
+        t1 = space();
+        if (if_block) if_block.c();
+        t2 = space();
+        attr(div0, "class", "no-click svelte-2ap05h");
+        attr(div1, "tabindex", "1");
+        attr(div1, "class", "js-item dropdown-item");
+        attr(div1, "data-index", div1_data_index_value = ctx.index);
+        dispose = [listen(div1, "blur", ctx.handleBlur), listen(div1, "click", ctx.handleItemClick), listen(div1, "keydown", ctx.handleItemKeydown), listen(div1, "keyup", ctx.handleItemKeyup)];
+      },
+      m: function m(target, anchor) {
+        insert(target, div1, anchor);
+        append(div1, div0);
+        append(div0, t0);
+        append(div1, t1);
+        if (if_block) if_block.m(div1, null);
+        append(div1, t2);
+      },
+      p: function p(changed, ctx) {
+        if (changed.entries && t0_value !== (t0_value = (ctx.item.display_text || ctx.item.text) + "")) set_data(t0, t0_value);
+
+        if (ctx.item.desc) {
+          if (if_block) {
+            if_block.p(changed, ctx);
+          } else {
+            if_block = create_if_block_5(ctx);
+            if_block.c();
+            if_block.m(div1, t2);
+          }
+        } else if (if_block) {
+          if_block.d(1);
+          if_block = null;
+        }
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div1);
+        if (if_block) if_block.d();
+        run_all(dispose);
+      }
+    };
+  } // (573:32) 
+
+
+  function create_if_block_3(ctx) {
+    var div1;
+    var div0;
+    var t0_value = (ctx.item.display_text || ctx.item.text) + "";
+    var t0;
+    var t1;
+    var t2;
+    var if_block = ctx.item.desc && create_if_block_4(ctx);
+    return {
+      c: function c() {
+        div1 = element("div");
+        div0 = element("div");
+        t0 = text(t0_value);
+        t1 = space();
+        if (if_block) if_block.c();
+        t2 = space();
+        attr(div0, "class", "no-click svelte-2ap05h");
+        attr(div1, "tabindex", "-1");
+        attr(div1, "class", "dropdown-item text-muted js-blank");
+      },
+      m: function m(target, anchor) {
+        insert(target, div1, anchor);
+        append(div1, div0);
+        append(div0, t0);
+        append(div1, t1);
+        if (if_block) if_block.m(div1, null);
+        append(div1, t2);
+      },
+      p: function p(changed, ctx) {
+        if (changed.entries && t0_value !== (t0_value = (ctx.item.display_text || ctx.item.text) + "")) set_data(t0, t0_value);
+
+        if (ctx.item.desc) {
+          if (if_block) {
+            if_block.p(changed, ctx);
+          } else {
+            if_block = create_if_block_4(ctx);
+            if_block.c();
+            if_block.m(div1, t2);
+          }
+        } else if (if_block) {
+          if_block.d(1);
+          if_block = null;
+        }
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div1);
+        if (if_block) if_block.d();
+      }
+    };
+  } // (571:8) {#if item.separator}
 
 
   function create_if_block_2(ctx) {
+    var div;
+    var div_data_index_value;
+    return {
+      c: function c() {
+        div = element("div");
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-divider js-blank");
+        attr(div, "data-index", div_data_index_value = ctx.index);
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+      },
+      p: noop,
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (594:12) {#if item.desc}
+
+
+  function create_if_block_5(ctx) {
+    var div;
+    var t_value = ctx.item.desc + "";
+    var t;
+    return {
+      c: function c() {
+        div = element("div");
+        t = text(t_value);
+        attr(div, "class", "no-click text-muted svelte-2ap05h");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+        append(div, t);
+      },
+      p: function p(changed, ctx) {
+        if (changed.entries && t_value !== (t_value = ctx.item.desc + "")) set_data(t, t_value);
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (578:12) {#if item.desc}
+
+
+  function create_if_block_4(ctx) {
     var div;
     var t_value = ctx.item.desc + "";
     var t;
@@ -795,70 +949,44 @@ var Typeahead = (function () {
 
 
   function create_each_block(ctx) {
-    var div1;
-    var div0;
-    var t0_value = (ctx.item.display_text || ctx.item.text) + "";
-    var t0;
-    var t1;
-    var t2;
-    var div1_tabindex_value;
-    var div1_class_value;
-    var div1_data_index_value;
-    var dispose;
-    var if_block = ctx.item.desc && create_if_block_2(ctx);
+    var if_block_anchor;
+
+    function select_block_type_2(changed, ctx) {
+      if (ctx.item.separator) return create_if_block_2;
+      if (ctx.item.disabled) return create_if_block_3;
+      return create_else_block;
+    }
+
+    var current_block_type = select_block_type_2(null, ctx);
+    var if_block = current_block_type(ctx);
     return {
       c: function c() {
-        div1 = element("div");
-        div0 = element("div");
-        t0 = text(t0_value);
-        t1 = space();
-        if (if_block) if_block.c();
-        t2 = space();
-        attr(div0, "class", "no-click svelte-2ap05h");
-        attr(div1, "tabindex", div1_tabindex_value = ctx.item.separator ? -1 : 1);
-        attr(div1, "class", div1_class_value = ctx.item.separator ? "dropdown-divider js-separator" : "js-item  dropdown-item");
-        attr(div1, "data-index", div1_data_index_value = ctx.index);
-        dispose = [listen(div1, "blur", ctx.handleBlur), listen(div1, "click", ctx.handleItemClick), listen(div1, "keydown", ctx.handleItemKeydown), listen(div1, "keyup", ctx.handleItemKeyup)];
+        if_block.c();
+        if_block_anchor = empty();
       },
       m: function m(target, anchor) {
-        insert(target, div1, anchor);
-        append(div1, div0);
-        append(div0, t0);
-        append(div1, t1);
-        if (if_block) if_block.m(div1, null);
-        append(div1, t2);
+        if_block.m(target, anchor);
+        insert(target, if_block_anchor, anchor);
       },
       p: function p(changed, ctx) {
-        if (changed.entries && t0_value !== (t0_value = (ctx.item.display_text || ctx.item.text) + "")) set_data(t0, t0_value);
-
-        if (ctx.item.desc) {
-          if (if_block) {
-            if_block.p(changed, ctx);
-          } else {
-            if_block = create_if_block_2(ctx);
-            if_block.c();
-            if_block.m(div1, t2);
-          }
-        } else if (if_block) {
+        if (current_block_type === (current_block_type = select_block_type_2(changed, ctx)) && if_block) {
+          if_block.p(changed, ctx);
+        } else {
           if_block.d(1);
-          if_block = null;
-        }
+          if_block = current_block_type(ctx);
 
-        if (changed.entries && div1_tabindex_value !== (div1_tabindex_value = ctx.item.separator ? -1 : 1)) {
-          attr(div1, "tabindex", div1_tabindex_value);
-        }
-
-        if (changed.entries && div1_class_value !== (div1_class_value = ctx.item.separator ? "dropdown-divider js-separator" : "js-item  dropdown-item")) {
-          attr(div1, "class", div1_class_value);
+          if (if_block) {
+            if_block.c();
+            if_block.m(if_block_anchor.parentNode, if_block_anchor);
+          }
         }
       },
       d: function d(detaching) {
-        if (detaching) detach(div1);
-        if (if_block) if_block.d();
-        run_all(dispose);
+        if_block.d(detaching);
+        if (detaching) detach(if_block_anchor);
       }
     };
-  } // (588:4) {#if hasMore}
+  } // (604:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -899,9 +1027,9 @@ var Typeahead = (function () {
     var dispose;
 
     function select_block_type(changed, ctx) {
-      if (ctx.fetchError) return create_if_block_3;
-      if (ctx.activeFetch) return create_if_block_4;
-      if (ctx.entries.length === 0) return create_if_block_6;
+      if (ctx.fetchError) return create_if_block_6;
+      if (ctx.activeFetch) return create_if_block_7;
+      if (ctx.entries.length === 0) return create_if_block_9;
     }
 
     var current_block_type = select_block_type(null, ctx);
@@ -915,7 +1043,7 @@ var Typeahead = (function () {
         t0 = space();
         div0 = element("div");
         button = element("button");
-        button.innerHTML = "<i class=\"fas fa-caret-down\"></i>";
+        button.innerHTML = "<i class=\"text-dark fas fa-caret-down\"></i>";
         t1 = space();
         div1 = element("div");
         if (if_block0) if_block0.c();
@@ -924,19 +1052,19 @@ var Typeahead = (function () {
         t3 = space();
         if (if_block2) if_block2.c();
         attr(input_1, "class", input_1_class_value = "js-input " + ctx.real.getAttribute("class") + " svelte-2ap05h");
-        attr(input_1, "autocomplete", "new-password");
         attr(input_1, "autocorrect", "off");
         attr(input_1, "autocapitalize", "off");
         attr(input_1, "spellcheck", "off");
         attr(input_1, "data-target", input_1_data_target_value = ctx.real.id);
         attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
+        attr(input_1, "autocomplete", "new-password");
         attr(button, "class", "btn btn-outline-secondary");
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
         attr(div0, "class", "input-group-append");
         attr(div1, "class", div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h");
         attr(div2, "class", "input-group typeahead js-typeahead-container svelte-2ap05h");
-        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "click", handleInputClick), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
+        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "click", handleInputClick), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
       },
       m: function m(target, anchor) {
         insert(target, div2, anchor);
@@ -1252,7 +1380,7 @@ var Typeahead = (function () {
         var item = popupVisible ? popup.querySelectorAll(".js-item")[0] : null;
 
         if (item) {
-          while (item && item.classList.contains("js-separator")) {
+          while (item && item.classList.contains("js-blank")) {
             item = item.nextElementSibling;
           }
 
@@ -1320,7 +1448,7 @@ var Typeahead = (function () {
         var next = event.target.nextElementSibling;
 
         if (next) {
-          while (next && next.classList.contains("js-separator")) {
+          while (next && next.classList.contains("js-blank")) {
             next = next.nextElementSibling;
           }
 
@@ -1339,7 +1467,7 @@ var Typeahead = (function () {
         var next = event.target.previousElementSibling;
 
         if (next) {
-          while (next && next.classList.contains("js-separator")) {
+          while (next && next.classList.contains("js-blank")) {
             next = next.previousElementSibling;
           }
 

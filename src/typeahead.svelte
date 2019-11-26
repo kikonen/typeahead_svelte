@@ -250,7 +250,7 @@
      ArrowDown: function(event) {
          let item = popupVisible ? popup.querySelectorAll('.js-item')[0] : null;
          if (item) {
-             while (item && item.classList.contains('js-separator')) {
+             while (item && item.classList.contains('js-blank')) {
                  item = item.nextElementSibling;
              }
              item.focus();
@@ -323,7 +323,7 @@
          let next = event.target.nextElementSibling;
 
          if (next) {
-             while (next && next.classList.contains('js-separator')) {
+             while (next && next.classList.contains('js-blank')) {
                  next = next.nextElementSibling;
              }
 
@@ -341,7 +341,7 @@
          let next = event.target.previousElementSibling;
 
          if (next) {
-             while (next && next.classList.contains('js-separator')) {
+             while (next && next.classList.contains('js-blank')) {
                  next = next.previousElementSibling;
              }
              if (next && !next.classList.contains('js-item')) {
@@ -535,7 +535,7 @@
             on:blur={handleBlur}
             on:keydown={handleToggleKeydown}
             on:click={handleToggleClick}>
-      <i class="fas fa-caret-down"></i>
+      <i class="text-dark fas fa-caret-down"></i>
     </button>
   </div>
 
@@ -568,20 +568,36 @@
 
     {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
       {#each entries as item, index}
-          <div tabindex={item.separator ? -1 : 1} class="{item.separator ? 'dropdown-divider js-separator' : 'js-item  dropdown-item'}"  data-index="{index}"
+        {#if item.separator}
+          <div tabindex="-1" class="dropdown-divider js-blank" data-index="{index}"></div>
+        {:else if item.disabled}
+          <div tabindex="-1" class="dropdown-item text-muted js-blank">
+            <div class="no-click">
+              {item.display_text || item.text}
+            </div>
+            {#if item.desc}
+            <div class="no-click text-muted">
+              {item.desc}
+            </div>
+            {/if}
+          </div>
+        {:else}
+          <div tabindex=1 class="js-item dropdown-item"  data-index="{index}"
              on:blur={handleBlur}
              on:click={handleItemClick}
              on:keydown={handleItemKeydown}
              on:keyup={handleItemKeyup}>
-          <div class="no-click">
-            {item.display_text || item.text}
-          </div>
-          {#if item.desc}
-            <div class="no-click text-muted">
-              {item.desc}
+
+            <div class="no-click">
+              {item.display_text || item.text}
             </div>
-          {/if}
-        </div>
+            {#if item.desc}
+              <div class="no-click text-muted">
+                {item.desc}
+              </div>
+            {/if}
+          </div>
+        {/if}
       {/each}
     {/if}
 
