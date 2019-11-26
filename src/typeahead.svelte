@@ -515,6 +515,11 @@
 <!-- ------------------------------------------------------------ -->
 <div class="input-group typeahead js-typeahead-container">
   <input class="js-input {real.getAttribute('class')}"
+         autocomplete=new-password
+         autocorrect=off
+         autocapitalize=off
+         spellcheck=off
+
          data-target="{real.id}"
          placeholder="{real.placeholder}"
          bind:this={input}

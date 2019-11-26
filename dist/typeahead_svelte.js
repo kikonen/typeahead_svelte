@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (552:8) {#if entries.length === 0 }
+  } // (557:8) {#if entries.length === 0 }
 
 
   function create_if_block_6(ctx) {
@@ -594,7 +594,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (545:6) {#if activeFetch }
+  } // (550:6) {#if activeFetch }
 
 
   function create_if_block_4(ctx) {
@@ -628,7 +628,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (540:4) {#if fetchError }
+  } // (545:4) {#if fetchError }
 
 
   function create_if_block_3(ctx) {
@@ -652,7 +652,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (556:12) {:else}
+  } // (561:12) {:else}
 
 
   function create_else_block(ctx) {
@@ -670,7 +670,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (554:12) {#if tooShort }
+  } // (559:12) {#if tooShort }
 
 
   function create_if_block_7(ctx) {
@@ -688,7 +688,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (546:8) {#if !fetchingMore }
+  } // (551:8) {#if !fetchingMore }
 
 
   function create_if_block_5(ctx) {
@@ -708,7 +708,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (564:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+  } // (569:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
 
 
   function create_if_block_1(ctx) {
@@ -767,7 +767,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (574:10) {#if item.desc}
+  } // (579:10) {#if item.desc}
 
 
   function create_if_block_2(ctx) {
@@ -791,7 +791,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (565:6) {#each entries as item, index}
+  } // (570:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -858,7 +858,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (583:4) {#if hasMore}
+  } // (588:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -924,6 +924,10 @@ var Typeahead = (function () {
         t3 = space();
         if (if_block2) if_block2.c();
         attr(input_1, "class", input_1_class_value = "js-input " + ctx.real.getAttribute("class") + " svelte-2ap05h");
+        attr(input_1, "autocomplete", "new-password");
+        attr(input_1, "autocorrect", "off");
+        attr(input_1, "autocapitalize", "off");
+        attr(input_1, "spellcheck", "off");
         attr(input_1, "data-target", input_1_data_target_value = ctx.real.id);
         attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
         attr(button, "class", "btn btn-outline-secondary");
