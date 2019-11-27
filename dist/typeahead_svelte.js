@@ -552,166 +552,10 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (586:8) {#if displayCount === 0 }
-
-
-  function create_if_block_9(ctx) {
-    var div;
-
-    function select_block_type_1(changed, ctx) {
-      if (ctx.tooShort) return create_if_block_10;
-      return create_else_block_1;
-    }
-
-    var current_block_type = select_block_type_1(null, ctx);
-    var if_block = current_block_type(ctx);
-    return {
-      c: function c() {
-        div = element("div");
-        if_block.c();
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-item text-muted");
-      },
-      m: function m(target, anchor) {
-        insert(target, div, anchor);
-        if_block.m(div, null);
-      },
-      p: function p(changed, ctx) {
-        if (current_block_type === (current_block_type = select_block_type_1(changed, ctx)) && if_block) {
-          if_block.p(changed, ctx);
-        } else {
-          if_block.d(1);
-          if_block = current_block_type(ctx);
-
-          if (if_block) {
-            if_block.c();
-            if_block.m(div, null);
-          }
-        }
-      },
-      d: function d(detaching) {
-        if (detaching) detach(div);
-        if_block.d();
-      }
-    };
-  } // (579:6) {#if activeFetch }
-
-
-  function create_if_block_7(ctx) {
-    var if_block_anchor;
-    var if_block = !ctx.fetchingMore && create_if_block_8(ctx);
-    return {
-      c: function c() {
-        if (if_block) if_block.c();
-        if_block_anchor = empty();
-      },
-      m: function m(target, anchor) {
-        if (if_block) if_block.m(target, anchor);
-        insert(target, if_block_anchor, anchor);
-      },
-      p: function p(changed, ctx) {
-        if (!ctx.fetchingMore) {
-          if (if_block) {
-            if_block.p(changed, ctx);
-          } else {
-            if_block = create_if_block_8(ctx);
-            if_block.c();
-            if_block.m(if_block_anchor.parentNode, if_block_anchor);
-          }
-        } else if (if_block) {
-          if_block.d(1);
-          if_block = null;
-        }
-      },
-      d: function d(detaching) {
-        if (if_block) if_block.d(detaching);
-        if (detaching) detach(if_block_anchor);
-      }
-    };
-  } // (574:4) {#if fetchError }
-
-
-  function create_if_block_6(ctx) {
-    var div;
-    var t;
-    return {
-      c: function c() {
-        div = element("div");
-        t = text(ctx.fetchError);
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-item text-danger");
-      },
-      m: function m(target, anchor) {
-        insert(target, div, anchor);
-        append(div, t);
-      },
-      p: function p(changed, ctx) {
-        if (changed.fetchError) set_data(t, ctx.fetchError);
-      },
-      d: function d(detaching) {
-        if (detaching) detach(div);
-      }
-    };
-  } // (590:12) {:else}
+  } // (588:4) {:else}
 
 
   function create_else_block_1(ctx) {
-    var t_value = ctx.translate("no_results") + "";
-    var t;
-    return {
-      c: function c() {
-        t = text(t_value);
-      },
-      m: function m(target, anchor) {
-        insert(target, t, anchor);
-      },
-      p: noop,
-      d: function d(detaching) {
-        if (detaching) detach(t);
-      }
-    };
-  } // (588:12) {#if tooShort }
-
-
-  function create_if_block_10(ctx) {
-    var t_value = ctx.translate("too_short") + "";
-    var t;
-    return {
-      c: function c() {
-        t = text(t_value);
-      },
-      m: function m(target, anchor) {
-        insert(target, t, anchor);
-      },
-      p: noop,
-      d: function d(detaching) {
-        if (detaching) detach(t);
-      }
-    };
-  } // (580:8) {#if !fetchingMore }
-
-
-  function create_if_block_8(ctx) {
-    var div;
-    return {
-      c: function c() {
-        div = element("div");
-        div.textContent = "".concat(ctx.translate("fetching"));
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-item text-muted");
-      },
-      m: function m(target, anchor) {
-        insert(target, div, anchor);
-      },
-      p: noop,
-      d: function d(detaching) {
-        if (detaching) detach(div);
-      }
-    };
-  } // (598:4) {#if (!activeFetch  || fetchingMore) && displayCount > 0 }
-
-
-  function create_if_block_1(ctx) {
     var each_1_anchor;
     var each_value = ctx.entries;
     var each_blocks = [];
@@ -767,10 +611,96 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (618:8) {:else}
+  } // (580:33) 
 
 
-  function create_else_block(ctx) {
+  function create_if_block_3(ctx) {
+    var div;
+
+    function select_block_type_1(changed, ctx) {
+      if (ctx.tooShort) return create_if_block_4;
+      return create_else_block;
+    }
+
+    var current_block_type = select_block_type_1(null, ctx);
+    var if_block = current_block_type(ctx);
+    return {
+      c: function c() {
+        div = element("div");
+        if_block.c();
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-item text-muted");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+        if_block.m(div, null);
+      },
+      p: function p(changed, ctx) {
+        if (current_block_type === (current_block_type = select_block_type_1(changed, ctx)) && if_block) {
+          if_block.p(changed, ctx);
+        } else {
+          if_block.d(1);
+          if_block = current_block_type(ctx);
+
+          if (if_block) {
+            if_block.c();
+            if_block.m(div, null);
+          }
+        }
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div);
+        if_block.d();
+      }
+    };
+  } // (576:43) 
+
+
+  function create_if_block_2(ctx) {
+    var div;
+    return {
+      c: function c() {
+        div = element("div");
+        div.textContent = "".concat(ctx.translate("fetching"));
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-item text-muted");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+      },
+      p: noop,
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (572:4) {#if fetchError}
+
+
+  function create_if_block_1(ctx) {
+    var div;
+    var t;
+    return {
+      c: function c() {
+        div = element("div");
+        t = text(ctx.fetchError);
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-item text-danger");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+        append(div, t);
+      },
+      p: function p(changed, ctx) {
+        if (changed.fetchError) set_data(t, ctx.fetchError);
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (608:8) {:else}
+
+
+  function create_else_block_2(ctx) {
     var div1;
     var div0;
     var t0_value = (ctx.item.display_text || ctx.item.text) + "";
@@ -779,7 +709,7 @@ var Typeahead = (function () {
     var t2;
     var div1_data_index_value;
     var dispose;
-    var if_block = ctx.item.desc && create_if_block_5(ctx);
+    var if_block = ctx.item.desc && create_if_block_8(ctx);
     return {
       c: function c() {
         div1 = element("div");
@@ -809,7 +739,7 @@ var Typeahead = (function () {
           if (if_block) {
             if_block.p(changed, ctx);
           } else {
-            if_block = create_if_block_5(ctx);
+            if_block = create_if_block_8(ctx);
             if_block.c();
             if_block.m(div1, t2);
           }
@@ -824,10 +754,10 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (606:52) 
+  } // (596:52) 
 
 
-  function create_if_block_3(ctx) {
+  function create_if_block_6(ctx) {
     var div1;
     var div0;
     var t0_value = (ctx.item.display_text || ctx.item.text) + "";
@@ -835,7 +765,7 @@ var Typeahead = (function () {
     var t1;
     var t2;
     var dispose;
-    var if_block = ctx.item.desc && create_if_block_4(ctx);
+    var if_block = ctx.item.desc && create_if_block_7(ctx);
     return {
       c: function c() {
         div1 = element("div");
@@ -864,7 +794,7 @@ var Typeahead = (function () {
           if (if_block) {
             if_block.p(changed, ctx);
           } else {
-            if_block = create_if_block_4(ctx);
+            if_block = create_if_block_7(ctx);
             if_block.c();
             if_block.m(div1, t2);
           }
@@ -879,10 +809,10 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (600:8) {#if item.separator}
+  } // (590:8) {#if item.separator}
 
 
-  function create_if_block_2(ctx) {
+  function create_if_block_5(ctx) {
     var div;
     var div_data_index_value;
     var dispose;
@@ -903,10 +833,10 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (628:12) {#if item.desc}
+  } // (618:12) {#if item.desc}
 
 
-  function create_if_block_5(ctx) {
+  function create_if_block_8(ctx) {
     var div;
     var t_value = ctx.item.desc + "";
     var t;
@@ -927,10 +857,10 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (612:12) {#if item.desc}
+  } // (602:12) {#if item.desc}
 
 
-  function create_if_block_4(ctx) {
+  function create_if_block_7(ctx) {
     var div;
     var t_value = ctx.item.desc + "";
     var t;
@@ -951,16 +881,16 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (599:6) {#each entries as item, index}
+  } // (589:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
     var if_block_anchor;
 
     function select_block_type_2(changed, ctx) {
-      if (ctx.item.separator) return create_if_block_2;
-      if (ctx.item.disabled || ctx.item.placeholder) return create_if_block_3;
-      return create_else_block;
+      if (ctx.item.separator) return create_if_block_5;
+      if (ctx.item.disabled || ctx.item.placeholder) return create_if_block_6;
+      return create_else_block_2;
     }
 
     var current_block_type = select_block_type_2(null, ctx);
@@ -992,7 +922,43 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (638:4) {#if hasMore}
+  } // (584:8) {:else}
+
+
+  function create_else_block(ctx) {
+    var t_value = ctx.translate("no_results") + "";
+    var t;
+    return {
+      c: function c() {
+        t = text(t_value);
+      },
+      m: function m(target, anchor) {
+        insert(target, t, anchor);
+      },
+      p: noop,
+      d: function d(detaching) {
+        if (detaching) detach(t);
+      }
+    };
+  } // (582:8) {#if tooShort }
+
+
+  function create_if_block_4(ctx) {
+    var t_value = ctx.translate("too_short") + "";
+    var t;
+    return {
+      c: function c() {
+        t = text(t_value);
+      },
+      m: function m(target, anchor) {
+        insert(target, t, anchor);
+      },
+      p: noop,
+      d: function d(detaching) {
+        if (detaching) detach(t);
+      }
+    };
+  } // (628:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1002,7 +968,7 @@ var Typeahead = (function () {
         div = element("div");
         div.textContent = "".concat(ctx.translate("has_more"));
         attr(div, "tabindex", "-1");
-        attr(div, "class", "ki-js-more dropdown-item text-muted");
+        attr(div, "class", "dropdown-item text-muted");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -1019,29 +985,28 @@ var Typeahead = (function () {
   function create_fragment(ctx) {
     var div2;
     var input_1;
+    var input_1_placeholder_value;
     var input_1_class_value;
     var input_1_data_target_value;
-    var input_1_placeholder_value;
     var t0;
     var div0;
     var button;
     var t1;
     var div1;
     var t2;
-    var t3;
     var div1_class_value;
     var dispose;
 
     function select_block_type(changed, ctx) {
-      if (ctx.fetchError) return create_if_block_6;
-      if (ctx.activeFetch) return create_if_block_7;
-      if (ctx.displayCount === 0) return create_if_block_9;
+      if (ctx.fetchError) return create_if_block_1;
+      if (ctx.activeFetch && !ctx.fetchingMore) return create_if_block_2;
+      if (ctx.displayCount === 0) return create_if_block_3;
+      return create_else_block_1;
     }
 
     var current_block_type = select_block_type(null, ctx);
-    var if_block0 = current_block_type && current_block_type(ctx);
-    var if_block1 = (!ctx.activeFetch || ctx.fetchingMore) && ctx.displayCount > 0 && create_if_block_1(ctx);
-    var if_block2 = ctx.hasMore && create_if_block(ctx);
+    var if_block0 = current_block_type(ctx);
+    var if_block1 = ctx.hasMore && create_if_block(ctx);
     return {
       c: function c() {
         div2 = element("div");
@@ -1052,17 +1017,15 @@ var Typeahead = (function () {
         button.innerHTML = "<i class=\"text-dark fas fa-caret-down\"></i>";
         t1 = space();
         div1 = element("div");
-        if (if_block0) if_block0.c();
+        if_block0.c();
         t2 = space();
         if (if_block1) if_block1.c();
-        t3 = space();
-        if (if_block2) if_block2.c();
+        attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
         attr(input_1, "class", input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s");
         attr(input_1, "autocorrect", "off");
         attr(input_1, "autocapitalize", "off");
         attr(input_1, "spellcheck", "off");
         attr(input_1, "data-target", input_1_data_target_value = ctx.real.id);
-        attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
         attr(input_1, "autocomplete", "new-password");
         attr(button, "class", "btn btn-outline-secondary");
         attr(button, "type", "button");
@@ -1070,7 +1033,7 @@ var Typeahead = (function () {
         attr(div0, "class", "input-group-append");
         attr(div1, "class", div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
         attr(div2, "class", "input-group ki-typeahead ki-js-typeahead-container svelte-1k67s1s");
-        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "click", handleInputClick), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
+        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keyup", ctx.handleInputKeyup), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
       },
       m: function m(target, anchor) {
         insert(target, div2, anchor);
@@ -1083,24 +1046,22 @@ var Typeahead = (function () {
         ctx.button_binding(button);
         append(div2, t1);
         append(div2, div1);
-        if (if_block0) if_block0.m(div1, null);
+        if_block0.m(div1, null);
         append(div1, t2);
         if (if_block1) if_block1.m(div1, null);
-        append(div1, t3);
-        if (if_block2) if_block2.m(div1, null);
         ctx.div1_binding(div1);
       },
       p: function p(changed, ctx) {
+        if (changed.real && input_1_placeholder_value !== (input_1_placeholder_value = ctx.real.placeholder)) {
+          attr(input_1, "placeholder", input_1_placeholder_value);
+        }
+
         if (changed.real && input_1_class_value !== (input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s")) {
           attr(input_1, "class", input_1_class_value);
         }
 
         if (changed.real && input_1_data_target_value !== (input_1_data_target_value = ctx.real.id)) {
           attr(input_1, "data-target", input_1_data_target_value);
-        }
-
-        if (changed.real && input_1_placeholder_value !== (input_1_placeholder_value = ctx.real.placeholder)) {
-          attr(input_1, "placeholder", input_1_placeholder_value);
         }
 
         if (changed.query && input_1.value !== ctx.query) {
@@ -1110,8 +1071,8 @@ var Typeahead = (function () {
         if (current_block_type === (current_block_type = select_block_type(changed, ctx)) && if_block0) {
           if_block0.p(changed, ctx);
         } else {
-          if (if_block0) if_block0.d(1);
-          if_block0 = current_block_type && current_block_type(ctx);
+          if_block0.d(1);
+          if_block0 = current_block_type(ctx);
 
           if (if_block0) {
             if_block0.c();
@@ -1119,30 +1080,17 @@ var Typeahead = (function () {
           }
         }
 
-        if ((!ctx.activeFetch || ctx.fetchingMore) && ctx.displayCount > 0) {
+        if (ctx.hasMore) {
           if (if_block1) {
             if_block1.p(changed, ctx);
           } else {
-            if_block1 = create_if_block_1(ctx);
+            if_block1 = create_if_block(ctx);
             if_block1.c();
-            if_block1.m(div1, t3);
+            if_block1.m(div1, null);
           }
         } else if (if_block1) {
           if_block1.d(1);
           if_block1 = null;
-        }
-
-        if (ctx.hasMore) {
-          if (if_block2) {
-            if_block2.p(changed, ctx);
-          } else {
-            if_block2 = create_if_block(ctx);
-            if_block2.c();
-            if_block2.m(div1, null);
-          }
-        } else if (if_block2) {
-          if_block2.d(1);
-          if_block2 = null;
         }
 
         if (changed.popupVisible && div1_class_value !== (div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
@@ -1155,13 +1103,8 @@ var Typeahead = (function () {
         if (detaching) detach(div2);
         ctx.input_1_binding(null);
         ctx.button_binding(null);
-
-        if (if_block0) {
-          if_block0.d();
-        }
-
+        if_block0.d();
         if (if_block1) if_block1.d();
-        if (if_block2) if_block2.d();
         ctx.div1_binding(null);
         run_all(dispose);
       }
@@ -1175,11 +1118,8 @@ var Typeahead = (function () {
   function nop() {}
 
   function handleEvent(code, handlers, event) {
-    var handler = handlers[code] || handlers.base;
-    handler(event);
+    (handlers[code] || handlers.base)(event);
   }
-
-  function handleInputClick(event) {}
 
   function instance($$self, $$props, $$invalidate) {
     var I18N_DEFAULTS = {
@@ -1200,6 +1140,10 @@ var Typeahead = (function () {
     var query = $$props.query;
     var _$$props$delay = $$props.delay,
         delay = _$$props$delay === void 0 ? 250 : _$$props$delay;
+    var input;
+    var toggle;
+    var popup;
+    var more;
     var entries = [];
     var offsetCount = 0;
     var displayCount = 0;
@@ -1209,10 +1153,6 @@ var Typeahead = (function () {
     var fetchError = null;
     var popupVisible = false;
     var activeFetch = null;
-    var input;
-    var toggle;
-    var popup;
-    var more;
     var previousQuery = null;
     var wasDown = false;
 
@@ -1635,7 +1575,7 @@ var Typeahead = (function () {
       handleEvent(event.key, itemKeyupHandlers, event);
     }
 
-    function handleItemClick() {
+    function handleItemClick(event) {
       if (event.button === 0 && !hasModifier(event)) {
         selectItem(event.target);
       }
@@ -1703,6 +1643,10 @@ var Typeahead = (function () {
       translations: translations,
       query: query,
       delay: delay,
+      input: input,
+      toggle: toggle,
+      popup: popup,
+      more: more,
       entries: entries,
       displayCount: displayCount,
       hasMore: hasMore,
@@ -1711,10 +1655,6 @@ var Typeahead = (function () {
       fetchError: fetchError,
       popupVisible: popupVisible,
       activeFetch: activeFetch,
-      input: input,
-      toggle: toggle,
-      popup: popup,
-      more: more,
       translate: translate,
       handleBlur: handleBlur,
       handleInputKeypress: handleInputKeypress,

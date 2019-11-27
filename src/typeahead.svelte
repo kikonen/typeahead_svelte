@@ -17,9 +17,17 @@
  export let query;
  export let delay = 250;
 
+ let input;
+ let toggle;
+ let popup;
+ let more;
+
  let entries = [];
  let offsetCount = 0;
  let displayCount = 0;
+
+ let message = null;
+ let messageClass = null;
 
  let hasMore = false;
  let tooShort = false;
@@ -28,11 +36,6 @@
 
  let popupVisible = false;
  let activeFetch = null;
-
- let input;
- let toggle;
- let popup;
- let more;
 
  let previousQuery = null;
  let fetched = false;
@@ -268,7 +271,7 @@
 
  let inputKeypressHandlers = {
      base: function(event) {
-         selectedItem = false;
+         selectedItem = null;
      },
  };
 
@@ -464,8 +467,7 @@
  }
 
  function handleEvent(code, handlers, event) {
-     let handler = handlers[code] || handlers.base;
-     handler(event);
+     (handlers[code] || handlers.base)(event);
  }
 
  function handleBlur(event) {
@@ -485,9 +487,6 @@
 
  function handleInputKeyup(event) {
      handleEvent(event.key, inputKeyupHandlers, event);
- }
-
- function handleInputClick(event) {
  }
 
  function handleToggleKeydown(event) {
@@ -513,7 +512,7 @@
      handleEvent(event.key, itemKeyupHandlers, event);
  }
 
- function handleItemClick() {
+ function handleItemClick(event) {
      if (event.button === 0 && !hasModifier(event)) {
          selectItem(event.target)
      }
@@ -556,8 +555,7 @@
          on:blur={handleBlur}
          on:keypress={handleInputKeypress}
          on:keydown={handleInputKeydown}
-         on:keyup={handleInputKeyup}
-         on:click={handleInputClick}>
+         on:keyup={handleInputKeyup}>
   <div class="input-group-append">
     <button class="btn btn-outline-secondary" type="button" tabindex="-1"
             bind:this={toggle}
@@ -571,31 +569,23 @@
   <div class="ki-js-popup dropdown-menu ki-typeahead-popup {popupVisible ? 'show' : ''}"
        bind:this={popup}
        on:scroll={handlePopupScroll}>
-    {#if fetchError }
+    {#if fetchError}
       <div tabindex="-1" class="dropdown-item text-danger">
         {fetchError}
       </div>
+    {:else if activeFetch && !fetchingMore}
+      <div tabindex="-1" class="dropdown-item text-muted">
+        {translate('fetching')}
+      </div>
+    {:else if displayCount === 0}
+      <div tabindex="-1" class="dropdown-item text-muted">
+        {#if tooShort }
+          {translate('too_short')}
+        {:else}
+          {translate('no_results')}
+        {/if}
+      </div>
     {:else}
-      {#if activeFetch }
-        {#if !fetchingMore }
-          <div tabindex="-1" class="dropdown-item text-muted">
-            {translate('fetching')}
-          </div>
-        {/if}
-      {:else}
-        {#if displayCount === 0 }
-          <div tabindex="-1" class="dropdown-item text-muted">
-            {#if tooShort }
-              {translate('too_short')}
-            {:else}
-              {translate('no_results')}
-            {/if}
-          </div>
-        {/if}
-      {/if}
-    {/if}
-
-    {#if (!activeFetch  || fetchingMore) && displayCount > 0 }
       {#each entries as item, index}
         {#if item.separator}
           <div tabindex="-1"
@@ -610,9 +600,9 @@
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-            <div class="ki-no-click text-muted">
-              {item.desc}
-            </div>
+              <div class="ki-no-click text-muted">
+                {item.desc}
+              </div>
             {/if}
           </div>
         {:else}
@@ -637,7 +627,7 @@
 
     {#if hasMore}
       <div tabindex="-1"
-           class="ki-js-more dropdown-item text-muted"
+           class="dropdown-item text-muted"
            bind:this={more}>
         {translate('has_more')}
       </div>
