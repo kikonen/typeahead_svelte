@@ -271,7 +271,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (557:8) {#if entries.length === 0 }
+// (586:8) {#if displayCount === 0 }
 function create_if_block_9(ctx) {
 	let div;
 
@@ -314,7 +314,7 @@ function create_if_block_9(ctx) {
 	};
 }
 
-// (550:6) {#if activeFetch }
+// (579:6) {#if activeFetch }
 function create_if_block_7(ctx) {
 	let if_block_anchor;
 	let if_block = !ctx.fetchingMore && create_if_block_8(ctx);
@@ -349,7 +349,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (545:4) {#if fetchError }
+// (574:4) {#if fetchError }
 function create_if_block_6(ctx) {
 	let div;
 	let t;
@@ -374,7 +374,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (561:12) {:else}
+// (590:12) {:else}
 function create_else_block_1(ctx) {
 	let t_value = ctx.translate("no_results") + "";
 	let t;
@@ -393,7 +393,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (559:12) {#if tooShort }
+// (588:12) {#if tooShort }
 function create_if_block_10(ctx) {
 	let t_value = ctx.translate("too_short") + "";
 	let t;
@@ -412,7 +412,7 @@ function create_if_block_10(ctx) {
 	};
 }
 
-// (551:8) {#if !fetchingMore }
+// (580:8) {#if !fetchingMore }
 function create_if_block_8(ctx) {
 	let div;
 
@@ -433,7 +433,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (569:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+// (598:4) {#if (!activeFetch  || fetchingMore) && displayCount > 0 }
 function create_if_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = ctx.entries;
@@ -459,7 +459,7 @@ function create_if_block_1(ctx) {
 			insert(target, each_1_anchor, anchor);
 		},
 		p(changed, ctx) {
-			if (changed.entries || changed.handleBlur || changed.handleItemClick || changed.handleItemKeydown || changed.handleItemKeyup) {
+			if (changed.entries || changed.handleItemKeydown || changed.handleBlur || changed.handleItemClick || changed.handleItemKeyup) {
 				each_value = ctx.entries;
 				let i;
 
@@ -489,7 +489,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (584:8) {:else}
+// (618:8) {:else}
 function create_else_block(ctx) {
 	let div1;
 	let div0;
@@ -553,7 +553,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (573:32) 
+// (606:52) 
 function create_if_block_3(ctx) {
 	let div1;
 	let div0;
@@ -561,6 +561,7 @@ function create_if_block_3(ctx) {
 	let t0;
 	let t1;
 	let t2;
+	let dispose;
 	let if_block = ctx.item.desc && create_if_block_4(ctx);
 
 	return {
@@ -574,6 +575,7 @@ function create_if_block_3(ctx) {
 			attr(div0, "class", "no-click svelte-2ap05h");
 			attr(div1, "tabindex", "-1");
 			attr(div1, "class", "dropdown-item text-muted js-blank");
+			dispose = listen(div1, "keydown", ctx.handleItemKeydown);
 		},
 		m(target, anchor) {
 			insert(target, div1, anchor);
@@ -602,14 +604,16 @@ function create_if_block_3(ctx) {
 		d(detaching) {
 			if (detaching) detach(div1);
 			if (if_block) if_block.d();
+			dispose();
 		}
 	};
 }
 
-// (571:8) {#if item.separator}
+// (600:8) {#if item.separator}
 function create_if_block_2(ctx) {
 	let div;
 	let div_data_index_value;
+	let dispose;
 
 	return {
 		c() {
@@ -617,6 +621,7 @@ function create_if_block_2(ctx) {
 			attr(div, "tabindex", "-1");
 			attr(div, "class", "dropdown-divider js-blank");
 			attr(div, "data-index", div_data_index_value = ctx.index);
+			dispose = listen(div, "keydown", ctx.handleItemKeydown);
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -624,11 +629,12 @@ function create_if_block_2(ctx) {
 		p: noop,
 		d(detaching) {
 			if (detaching) detach(div);
+			dispose();
 		}
 	};
 }
 
-// (594:12) {#if item.desc}
+// (628:12) {#if item.desc}
 function create_if_block_5(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -653,7 +659,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (578:12) {#if item.desc}
+// (612:12) {#if item.desc}
 function create_if_block_4(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -678,13 +684,13 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (570:6) {#each entries as item, index}
+// (599:6) {#each entries as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
 	function select_block_type_2(changed, ctx) {
 		if (ctx.item.separator) return create_if_block_2;
-		if (ctx.item.disabled) return create_if_block_3;
+		if (ctx.item.disabled || ctx.item.placeholder) return create_if_block_3;
 		return create_else_block;
 	}
 
@@ -720,7 +726,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (604:4) {#if hasMore}
+// (638:4) {#if hasMore}
 function create_if_block(ctx) {
 	let div;
 
@@ -762,12 +768,12 @@ function create_fragment(ctx) {
 	function select_block_type(changed, ctx) {
 		if (ctx.fetchError) return create_if_block_6;
 		if (ctx.activeFetch) return create_if_block_7;
-		if (ctx.entries.length === 0) return create_if_block_9;
+		if (ctx.displayCount === 0) return create_if_block_9;
 	}
 
 	let current_block_type = select_block_type(null, ctx);
 	let if_block0 = current_block_type && current_block_type(ctx);
-	let if_block1 = (!ctx.activeFetch || ctx.fetchingMore) && ctx.entries.length > 0 && create_if_block_1(ctx);
+	let if_block1 = (!ctx.activeFetch || ctx.fetchingMore) && ctx.displayCount > 0 && create_if_block_1(ctx);
 	let if_block2 = ctx.hasMore && create_if_block(ctx);
 
 	return {
@@ -859,7 +865,7 @@ function create_fragment(ctx) {
 				}
 			}
 
-			if ((!ctx.activeFetch || ctx.fetchingMore) && ctx.entries.length > 0) {
+			if ((!ctx.activeFetch || ctx.fetchingMore) && ctx.displayCount > 0) {
 				if (if_block1) {
 					if_block1.p(changed, ctx);
 				} else {
@@ -946,6 +952,8 @@ function instance($$self, $$props, $$invalidate) {
 	let { query } = $$props;
 	let { delay = 250 } = $$props;
 	let entries = [];
+	let offsetCount = 0;
+	let displayCount = 0;
 	let hasMore = false;
 	let tooShort = false;
 	let fetchingMore = false;
@@ -974,10 +982,12 @@ function instance($$self, $$props, $$invalidate) {
 		let fetchOffset = 0;
 
 		if (more) {
-			fetchOffset = fetchOffset + entries.length;
+			fetchOffset = offsetCount;
 			$$invalidate("fetchingMore", fetchingMore = true);
 		} else {
 			$$invalidate("entries", entries = []);
+			offsetCount = 0;
+			$$invalidate("displayCount", displayCount = 0);
 			$$invalidate("hasMore", hasMore = false);
 			$$invalidate("fetchingMore", fetchingMore = false);
 		}
@@ -1025,7 +1035,8 @@ function instance($$self, $$props, $$invalidate) {
 				}
 
 				$$invalidate("entries", entries = updateEntries);
-				$$invalidate("hasMore", hasMore = info.more && entries.length > 0);
+				updateCounts(entries);
+				$$invalidate("hasMore", hasMore = info.more && offsetCount > 0);
 				$$invalidate("tooShort", tooShort = info.too_short);
 				previousQuery = currentQuery;
 				$$invalidate("activeFetch", activeFetch = null);
@@ -1036,6 +1047,8 @@ function instance($$self, $$props, $$invalidate) {
 				console.error(err);
 				$$invalidate("fetchError", fetchError = err);
 				$$invalidate("entries", entries = []);
+				offsetCount = 0;
+				$$invalidate("displayCount", displayCount = 0);
 				$$invalidate("hasMore", hasMore = false);
 				$$invalidate("tooShort", tooShort = false);
 				previousQuery = null;
@@ -1047,6 +1060,23 @@ function instance($$self, $$props, $$invalidate) {
 		});
 
 		$$invalidate("activeFetch", activeFetch = currentFetch);
+	}
+
+	function updateCounts(entries) {
+		let off = 0;
+		let disp = 0;
+
+		entries.forEach(function (item) {
+			if (item.separator) ; else if (item.placeholder) {
+				disp = disp + 1;
+			} else {
+				off = off + 1;
+				disp = disp + 1;
+			}
+		});
+
+		offsetCount = off;
+		$$invalidate("displayCount", displayCount = disp);
 	}
 
 	function cancelFetch() {
@@ -1436,6 +1466,7 @@ function instance($$self, $$props, $$invalidate) {
 		query,
 		delay,
 		entries,
+		displayCount,
 		hasMore,
 		tooShort,
 		fetchingMore,

@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (557:8) {#if entries.length === 0 }
+  } // (586:8) {#if displayCount === 0 }
 
 
   function create_if_block_9(ctx) {
@@ -594,7 +594,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (550:6) {#if activeFetch }
+  } // (579:6) {#if activeFetch }
 
 
   function create_if_block_7(ctx) {
@@ -628,7 +628,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (545:4) {#if fetchError }
+  } // (574:4) {#if fetchError }
 
 
   function create_if_block_6(ctx) {
@@ -652,7 +652,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (561:12) {:else}
+  } // (590:12) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -670,7 +670,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (559:12) {#if tooShort }
+  } // (588:12) {#if tooShort }
 
 
   function create_if_block_10(ctx) {
@@ -688,7 +688,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (551:8) {#if !fetchingMore }
+  } // (580:8) {#if !fetchingMore }
 
 
   function create_if_block_8(ctx) {
@@ -708,7 +708,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (569:4) {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+  } // (598:4) {#if (!activeFetch  || fetchingMore) && displayCount > 0 }
 
 
   function create_if_block_1(ctx) {
@@ -736,7 +736,7 @@ var Typeahead = (function () {
         insert(target, each_1_anchor, anchor);
       },
       p: function p(changed, ctx) {
-        if (changed.entries || changed.handleBlur || changed.handleItemClick || changed.handleItemKeydown || changed.handleItemKeyup) {
+        if (changed.entries || changed.handleItemKeydown || changed.handleBlur || changed.handleItemClick || changed.handleItemKeyup) {
           each_value = ctx.entries;
 
           var _i3;
@@ -767,7 +767,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (584:8) {:else}
+  } // (618:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -824,7 +824,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (573:32) 
+  } // (606:52) 
 
 
   function create_if_block_3(ctx) {
@@ -834,6 +834,7 @@ var Typeahead = (function () {
     var t0;
     var t1;
     var t2;
+    var dispose;
     var if_block = ctx.item.desc && create_if_block_4(ctx);
     return {
       c: function c() {
@@ -846,6 +847,7 @@ var Typeahead = (function () {
         attr(div0, "class", "no-click svelte-2ap05h");
         attr(div1, "tabindex", "-1");
         attr(div1, "class", "dropdown-item text-muted js-blank");
+        dispose = listen(div1, "keydown", ctx.handleItemKeydown);
       },
       m: function m(target, anchor) {
         insert(target, div1, anchor);
@@ -874,20 +876,23 @@ var Typeahead = (function () {
       d: function d(detaching) {
         if (detaching) detach(div1);
         if (if_block) if_block.d();
+        dispose();
       }
     };
-  } // (571:8) {#if item.separator}
+  } // (600:8) {#if item.separator}
 
 
   function create_if_block_2(ctx) {
     var div;
     var div_data_index_value;
+    var dispose;
     return {
       c: function c() {
         div = element("div");
         attr(div, "tabindex", "-1");
         attr(div, "class", "dropdown-divider js-blank");
         attr(div, "data-index", div_data_index_value = ctx.index);
+        dispose = listen(div, "keydown", ctx.handleItemKeydown);
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -895,9 +900,10 @@ var Typeahead = (function () {
       p: noop,
       d: function d(detaching) {
         if (detaching) detach(div);
+        dispose();
       }
     };
-  } // (594:12) {#if item.desc}
+  } // (628:12) {#if item.desc}
 
 
   function create_if_block_5(ctx) {
@@ -921,7 +927,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (578:12) {#if item.desc}
+  } // (612:12) {#if item.desc}
 
 
   function create_if_block_4(ctx) {
@@ -945,7 +951,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (570:6) {#each entries as item, index}
+  } // (599:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -953,7 +959,7 @@ var Typeahead = (function () {
 
     function select_block_type_2(changed, ctx) {
       if (ctx.item.separator) return create_if_block_2;
-      if (ctx.item.disabled) return create_if_block_3;
+      if (ctx.item.disabled || ctx.item.placeholder) return create_if_block_3;
       return create_else_block;
     }
 
@@ -986,7 +992,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (604:4) {#if hasMore}
+  } // (638:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1029,12 +1035,12 @@ var Typeahead = (function () {
     function select_block_type(changed, ctx) {
       if (ctx.fetchError) return create_if_block_6;
       if (ctx.activeFetch) return create_if_block_7;
-      if (ctx.entries.length === 0) return create_if_block_9;
+      if (ctx.displayCount === 0) return create_if_block_9;
     }
 
     var current_block_type = select_block_type(null, ctx);
     var if_block0 = current_block_type && current_block_type(ctx);
-    var if_block1 = (!ctx.activeFetch || ctx.fetchingMore) && ctx.entries.length > 0 && create_if_block_1(ctx);
+    var if_block1 = (!ctx.activeFetch || ctx.fetchingMore) && ctx.displayCount > 0 && create_if_block_1(ctx);
     var if_block2 = ctx.hasMore && create_if_block(ctx);
     return {
       c: function c() {
@@ -1113,7 +1119,7 @@ var Typeahead = (function () {
           }
         }
 
-        if ((!ctx.activeFetch || ctx.fetchingMore) && ctx.entries.length > 0) {
+        if ((!ctx.activeFetch || ctx.fetchingMore) && ctx.displayCount > 0) {
           if (if_block1) {
             if_block1.p(changed, ctx);
           } else {
@@ -1195,6 +1201,8 @@ var Typeahead = (function () {
     var _$$props$delay = $$props.delay,
         delay = _$$props$delay === void 0 ? 250 : _$$props$delay;
     var entries = [];
+    var offsetCount = 0;
+    var displayCount = 0;
     var hasMore = false;
     var tooShort = false;
     var fetchingMore = false;
@@ -1223,10 +1231,12 @@ var Typeahead = (function () {
       var fetchOffset = 0;
 
       if (more) {
-        fetchOffset = fetchOffset + entries.length;
+        fetchOffset = offsetCount;
         $$invalidate("fetchingMore", fetchingMore = true);
       } else {
         $$invalidate("entries", entries = []);
+        offsetCount = 0;
+        $$invalidate("displayCount", displayCount = 0);
         $$invalidate("hasMore", hasMore = false);
         $$invalidate("fetchingMore", fetchingMore = false);
       }
@@ -1272,7 +1282,8 @@ var Typeahead = (function () {
           }
 
           $$invalidate("entries", entries = updateEntries);
-          $$invalidate("hasMore", hasMore = info.more && entries.length > 0);
+          updateCounts(entries);
+          $$invalidate("hasMore", hasMore = info.more && offsetCount > 0);
           $$invalidate("tooShort", tooShort = info.too_short);
           previousQuery = currentQuery;
           $$invalidate("activeFetch", activeFetch = null);
@@ -1283,6 +1294,8 @@ var Typeahead = (function () {
           console.error(err);
           $$invalidate("fetchError", fetchError = err);
           $$invalidate("entries", entries = []);
+          offsetCount = 0;
+          $$invalidate("displayCount", displayCount = 0);
           $$invalidate("hasMore", hasMore = false);
           $$invalidate("tooShort", tooShort = false);
           previousQuery = null;
@@ -1293,6 +1306,21 @@ var Typeahead = (function () {
         }
       });
       $$invalidate("activeFetch", activeFetch = currentFetch);
+    }
+
+    function updateCounts(entries) {
+      var off = 0;
+      var disp = 0;
+      entries.forEach(function (item) {
+        if (item.separator) ; else if (item.placeholder) {
+          disp = disp + 1;
+        } else {
+          off = off + 1;
+          disp = disp + 1;
+        }
+      });
+      offsetCount = off;
+      $$invalidate("displayCount", displayCount = disp);
     }
 
     function cancelFetch() {
@@ -1676,6 +1704,7 @@ var Typeahead = (function () {
       query: query,
       delay: delay,
       entries: entries,
+      displayCount: displayCount,
       hasMore: hasMore,
       tooShort: tooShort,
       fetchingMore: fetchingMore,
