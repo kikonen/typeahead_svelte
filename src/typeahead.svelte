@@ -18,6 +18,8 @@
  export let delay = 250;
 
  let entries = [];
+ let offsetCount = 0;
+ let displayCount = 0;
 
  let hasMore = false;
  let tooShort = false;
@@ -57,10 +59,12 @@
      let fetchOffset = 0;
 
      if (more) {
-         fetchOffset = fetchOffset + entries.length
+         fetchOffset = offsetCount;
          fetchingMore = true;
      } else {
          entries = [];
+         offsetCount = 0;
+         displayCount = 0;
          hasMore = false;
          fetched = false;
          fetchingMore = false;
@@ -115,8 +119,9 @@
                  updateEntries = newEntries;
              }
              entries = updateEntries;
+             updateCounts(entries);
 
-             hasMore = info.more && entries.length > 0;
+             hasMore = info.more && offsetCount > 0;
              tooShort = info.too_short;
 
              previousQuery = currentQuery;
@@ -132,6 +137,8 @@
 
              fetchError = err;
              entries = [];
+             offsetCount = 0;
+             displayCount = 0;
              hasMore = false;
              tooShort = false;
              previousQuery = null;
@@ -147,6 +154,27 @@
      activeFetch = currentFetch;
  }
 
+ function updateCounts(entries) {
+     let off = 0;
+     let disp = 0;
+
+     entries.forEach(function(item) {
+         if (item.separator) {
+             // NOTE KI separator is ignored always
+         } else if (item.placeholder) {
+             // NOTE KI does not affect pagination
+             disp = disp + 1;
+         } else {
+             // NOTE KI normal or disabled affects pagination
+             off = off + 1;
+             disp = disp + 1;
+         }
+     });
+
+     offsetCount = off;
+     displayCount = disp;
+ }
+
  function cancelFetch() {
      if (activeFetch !== null) {
          activeFetch = null;
@@ -155,6 +183,7 @@
          previousQuery = null;
      }
  }
+
 
  function fetchMoreIfneeded() {
      if (hasMore && !fetchingMore) {
@@ -248,9 +277,9 @@
          wasDown = true;
      },
      ArrowDown: function(event) {
-         let item = popupVisible ? popup.querySelectorAll('.js-item')[0] : null;
+         let item = popupVisible ? popup.querySelectorAll('.ki-js-item')[0] : null;
          if (item) {
-             while (item && item.classList.contains('js-blank')) {
+             while (item && item.classList.contains('ki-js-blank')) {
                  item = item.nextElementSibling;
              }
              item.focus();
@@ -323,11 +352,11 @@
          let next = event.target.nextElementSibling;
 
          if (next) {
-             while (next && next.classList.contains('js-blank')) {
+             while (next && next.classList.contains('ki-js-blank')) {
                  next = next.nextElementSibling;
              }
 
-             if (next && !next.classList.contains('js-item')) {
+             if (next && !next.classList.contains('ki-js-item')) {
                  next = null;
              }
          }
@@ -341,10 +370,10 @@
          let next = event.target.previousElementSibling;
 
          if (next) {
-             while (next && next.classList.contains('js-blank')) {
+             while (next && next.classList.contains('ki-js-blank')) {
                  next = next.previousElementSibling;
              }
-             if (next && !next.classList.contains('js-item')) {
+             if (next && !next.classList.contains('ki-js-item')) {
                  next = null;
              }
          }
@@ -387,10 +416,10 @@
          let rect = popup.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
          if (!item) {
-             item = popup.querySelector('.js-item:first-child');
+             item = popup.querySelector('.ki-js-item:first-child');
          } else {
-             if (!item.classList.contains('js-item')) {
-                 item = popup.querySelector('.js-item:first-child');
+             if (!item.classList.contains('ki-js-item')) {
+                 item = popup.querySelector('.ki-js-item:first-child');
              }
          }
          if (item) {
@@ -406,10 +435,10 @@
          let rect = popup.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
          if (!item) {
-             item = popup.querySelector('.js-item:last-child');
+             item = popup.querySelector('.ki-js-item:last-child');
          } else {
-             if (!item.classList.contains('js-item')) {
-                 item = popup.querySelector('.js-item:last-child');
+             if (!item.classList.contains('ki-js-item')) {
+                 item = popup.querySelector('.ki-js-item:last-child');
              }
          }
          if (item) {
@@ -419,14 +448,14 @@
          event.preventDefault();
      },
      Home: function(event) {
-         let item = popup.querySelector('.js-item:first-child');
+         let item = popup.querySelector('.ki-js-item:first-child');
          if (item) {
              item.focus();
          }
          event.preventDefault();
      },
      End: function(event) {
-         let item = popup.querySelector('.js-item:last-child');
+         let item = popup.querySelector('.ki-js-item:last-child');
          if (item) {
              item.focus();
          }
@@ -498,23 +527,23 @@
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
 <style>
- .typeahead {
+ .ki-typeahead {
      position: relative;
  }
- .typeahead-popup {
+ .ki-typeahead-popup {
      max-height: 15rem;
      max-width: 90vw;
      overflow-y: auto;
  }
- .no-click {
+ .ki-no-click {
      pointer-events: none;
  }
 </style>
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<div class="input-group typeahead js-typeahead-container">
-  <input class="js-input {real.getAttribute('class')}"
+<div class="input-group ki-typeahead ki-js-typeahead-container">
+  <input class="ki-js-input {real.getAttribute('class')}"
          autocomplete=new-password
          autocorrect=off
          autocapitalize=off
@@ -539,23 +568,23 @@
     </button>
   </div>
 
-  <div class="js-popup dropdown-menu typeahead-popup {popupVisible ? 'show' : ''}"
+  <div class="ki-js-popup dropdown-menu ki-typeahead-popup {popupVisible ? 'show' : ''}"
        bind:this={popup}
        on:scroll={handlePopupScroll}>
     {#if fetchError }
-      <div tabindex=-1 class="dropdown-item text-danger">
+      <div tabindex="-1" class="dropdown-item text-danger">
         {fetchError}
       </div>
     {:else}
       {#if activeFetch }
         {#if !fetchingMore }
-          <div tabindex=-1 class="dropdown-item text-muted">
+          <div tabindex="-1" class="dropdown-item text-muted">
             {translate('fetching')}
           </div>
         {/if}
       {:else}
-        {#if entries.length === 0 }
-          <div tabindex=-1 class="dropdown-item text-muted">
+        {#if displayCount === 0 }
+          <div tabindex="-1" class="dropdown-item text-muted">
             {#if tooShort }
               {translate('too_short')}
             {:else}
@@ -566,33 +595,38 @@
       {/if}
     {/if}
 
-    {#if (!activeFetch  || fetchingMore) && entries.length > 0 }
+    {#if (!activeFetch  || fetchingMore) && displayCount > 0 }
       {#each entries as item, index}
         {#if item.separator}
-          <div tabindex="-1" class="dropdown-divider js-blank" data-index="{index}"></div>
-        {:else if item.disabled}
-          <div tabindex="-1" class="dropdown-item text-muted js-blank">
-            <div class="no-click">
+          <div tabindex="-1"
+            class="dropdown-divider ki-js-blank"
+            data-index="{index}"
+            on:keydown={handleItemKeydown}>
+          </div>
+        {:else if item.disabled || item.placeholder}
+          <div tabindex="-1" class="dropdown-item text-muted ki-js-blank"
+               on:keydown={handleItemKeydown}>
+            <div class="ki-no-click">
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-            <div class="no-click text-muted">
+            <div class="ki-no-click text-muted">
               {item.desc}
             </div>
             {/if}
           </div>
         {:else}
-          <div tabindex=1 class="js-item dropdown-item"  data-index="{index}"
+          <div tabindex=1 class="ki-js-item dropdown-item"  data-index="{index}"
              on:blur={handleBlur}
              on:click={handleItemClick}
              on:keydown={handleItemKeydown}
              on:keyup={handleItemKeyup}>
 
-            <div class="no-click">
+            <div class="ki-no-click">
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="no-click text-muted">
+              <div class="ki-no-click text-muted">
                 {item.desc}
               </div>
             {/if}
@@ -603,7 +637,7 @@
 
     {#if hasMore}
       <div tabindex="-1"
-           class="js-more dropdown-item text-muted"
+           class="ki-js-more dropdown-item text-muted"
            bind:this={more}>
         {translate('has_more')}
       </div>

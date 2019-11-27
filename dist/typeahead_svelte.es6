@@ -259,8 +259,8 @@ const { document: document_1 } = globals;
 
 function add_css() {
 	var style = element("style");
-	style.id = "svelte-2ap05h-style";
-	style.textContent = ".typeahead.svelte-2ap05h{position:relative}.typeahead-popup.svelte-2ap05h{max-height:15rem;max-width:90vw;overflow-y:auto}.no-click.svelte-2ap05h{pointer-events:none}";
+	style.id = "svelte-1k67s1s-style";
+	style.textContent = ".ki-typeahead.svelte-1k67s1s{position:relative}.ki-typeahead-popup.svelte-1k67s1s{max-height:15rem;max-width:90vw;overflow-y:auto}.ki-no-click.svelte-1k67s1s{pointer-events:none}";
 	append(document_1.head, style);
 }
 
@@ -509,9 +509,9 @@ function create_else_block(ctx) {
 			t1 = space();
 			if (if_block) if_block.c();
 			t2 = space();
-			attr(div0, "class", "no-click svelte-2ap05h");
+			attr(div0, "class", "ki-no-click svelte-1k67s1s");
 			attr(div1, "tabindex", "1");
-			attr(div1, "class", "js-item dropdown-item");
+			attr(div1, "class", "ki-js-item dropdown-item");
 			attr(div1, "data-index", div1_data_index_value = ctx.index);
 
 			dispose = [
@@ -572,9 +572,9 @@ function create_if_block_3(ctx) {
 			t1 = space();
 			if (if_block) if_block.c();
 			t2 = space();
-			attr(div0, "class", "no-click svelte-2ap05h");
+			attr(div0, "class", "ki-no-click svelte-1k67s1s");
 			attr(div1, "tabindex", "-1");
-			attr(div1, "class", "dropdown-item text-muted js-blank");
+			attr(div1, "class", "dropdown-item text-muted ki-js-blank");
 			dispose = listen(div1, "keydown", ctx.handleItemKeydown);
 		},
 		m(target, anchor) {
@@ -619,7 +619,7 @@ function create_if_block_2(ctx) {
 		c() {
 			div = element("div");
 			attr(div, "tabindex", "-1");
-			attr(div, "class", "dropdown-divider js-blank");
+			attr(div, "class", "dropdown-divider ki-js-blank");
 			attr(div, "data-index", div_data_index_value = ctx.index);
 			dispose = listen(div, "keydown", ctx.handleItemKeydown);
 		},
@@ -644,7 +644,7 @@ function create_if_block_5(ctx) {
 		c() {
 			div = element("div");
 			t = text(t_value);
-			attr(div, "class", "no-click text-muted svelte-2ap05h");
+			attr(div, "class", "ki-no-click text-muted svelte-1k67s1s");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -669,7 +669,7 @@ function create_if_block_4(ctx) {
 		c() {
 			div = element("div");
 			t = text(t_value);
-			attr(div, "class", "no-click text-muted svelte-2ap05h");
+			attr(div, "class", "ki-no-click text-muted svelte-1k67s1s");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -735,7 +735,7 @@ function create_if_block(ctx) {
 			div = element("div");
 			div.textContent = `${ctx.translate("has_more")}`;
 			attr(div, "tabindex", "-1");
-			attr(div, "class", "js-more dropdown-item text-muted");
+			attr(div, "class", "ki-js-more dropdown-item text-muted");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -791,7 +791,7 @@ function create_fragment(ctx) {
 			if (if_block1) if_block1.c();
 			t3 = space();
 			if (if_block2) if_block2.c();
-			attr(input_1, "class", input_1_class_value = "js-input " + ctx.real.getAttribute("class") + " svelte-2ap05h");
+			attr(input_1, "class", input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s");
 			attr(input_1, "autocorrect", "off");
 			attr(input_1, "autocapitalize", "off");
 			attr(input_1, "spellcheck", "off");
@@ -802,8 +802,8 @@ function create_fragment(ctx) {
 			attr(button, "type", "button");
 			attr(button, "tabindex", "-1");
 			attr(div0, "class", "input-group-append");
-			attr(div1, "class", div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h");
-			attr(div2, "class", "input-group typeahead js-typeahead-container svelte-2ap05h");
+			attr(div1, "class", div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
+			attr(div2, "class", "input-group ki-typeahead ki-js-typeahead-container svelte-1k67s1s");
 
 			dispose = [
 				listen(input_1, "input", ctx.input_1_input_handler),
@@ -837,7 +837,7 @@ function create_fragment(ctx) {
 			ctx.div1_binding(div1);
 		},
 		p(changed, ctx) {
-			if (changed.real && input_1_class_value !== (input_1_class_value = "js-input " + ctx.real.getAttribute("class") + " svelte-2ap05h")) {
+			if (changed.real && input_1_class_value !== (input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s")) {
 				attr(input_1, "class", input_1_class_value);
 			}
 
@@ -891,7 +891,7 @@ function create_fragment(ctx) {
 				if_block2 = null;
 			}
 
-			if (changed.popupVisible && div1_class_value !== (div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h")) {
+			if (changed.popupVisible && div1_class_value !== (div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
 				attr(div1, "class", div1_class_value);
 			}
 		},
@@ -1167,11 +1167,11 @@ function instance($$self, $$props, $$invalidate) {
 		},
 		ArrowDown(event) {
 			let item = popupVisible
-			? popup.querySelectorAll(".js-item")[0]
+			? popup.querySelectorAll(".ki-js-item")[0]
 			: null;
 
 			if (item) {
-				while (item && item.classList.contains("js-blank")) {
+				while (item && item.classList.contains("ki-js-blank")) {
 					item = item.nextElementSibling;
 				}
 
@@ -1242,11 +1242,11 @@ function instance($$self, $$props, $$invalidate) {
 			let next = event.target.nextElementSibling;
 
 			if (next) {
-				while (next && next.classList.contains("js-blank")) {
+				while (next && next.classList.contains("ki-js-blank")) {
 					next = next.nextElementSibling;
 				}
 
-				if (next && !next.classList.contains("js-item")) {
+				if (next && !next.classList.contains("ki-js-item")) {
 					next = null;
 				}
 			}
@@ -1261,11 +1261,11 @@ function instance($$self, $$props, $$invalidate) {
 			let next = event.target.previousElementSibling;
 
 			if (next) {
-				while (next && next.classList.contains("js-blank")) {
+				while (next && next.classList.contains("ki-js-blank")) {
 					next = next.previousElementSibling;
 				}
 
-				if (next && !next.classList.contains("js-item")) {
+				if (next && !next.classList.contains("ki-js-item")) {
 					next = null;
 				}
 			}
@@ -1306,10 +1306,10 @@ function instance($$self, $$props, $$invalidate) {
 			let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
 
 			if (!item) {
-				item = popup.querySelector(".js-item:first-child");
+				item = popup.querySelector(".ki-js-item:first-child");
 			} else {
-				if (!item.classList.contains("js-item")) {
-					item = popup.querySelector(".js-item:first-child");
+				if (!item.classList.contains("ki-js-item")) {
+					item = popup.querySelector(".ki-js-item:first-child");
 				}
 			}
 
@@ -1327,10 +1327,10 @@ function instance($$self, $$props, $$invalidate) {
 			let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
 
 			if (!item) {
-				item = popup.querySelector(".js-item:last-child");
+				item = popup.querySelector(".ki-js-item:last-child");
 			} else {
-				if (!item.classList.contains("js-item")) {
-					item = popup.querySelector(".js-item:last-child");
+				if (!item.classList.contains("ki-js-item")) {
+					item = popup.querySelector(".ki-js-item:last-child");
 				}
 			}
 
@@ -1341,7 +1341,7 @@ function instance($$self, $$props, $$invalidate) {
 			event.preventDefault();
 		},
 		Home(event) {
-			let item = popup.querySelector(".js-item:first-child");
+			let item = popup.querySelector(".ki-js-item:first-child");
 
 			if (item) {
 				item.focus();
@@ -1350,7 +1350,7 @@ function instance($$self, $$props, $$invalidate) {
 			event.preventDefault();
 		},
 		End(event) {
-			let item = popup.querySelector(".js-item:last-child");
+			let item = popup.querySelector(".ki-js-item:last-child");
 
 			if (item) {
 				item.focus();
@@ -1499,7 +1499,7 @@ function instance($$self, $$props, $$invalidate) {
 class Typeahead extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document_1.getElementById("svelte-2ap05h-style")) add_css();
+		if (!document_1.getElementById("svelte-1k67s1s-style")) add_css();
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
 			real: 0,

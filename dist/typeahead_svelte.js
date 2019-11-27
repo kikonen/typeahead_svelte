@@ -788,9 +788,9 @@ var Typeahead = (function () {
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "no-click svelte-2ap05h");
+        attr(div0, "class", "ki-no-click svelte-1k67s1s");
         attr(div1, "tabindex", "1");
-        attr(div1, "class", "js-item dropdown-item");
+        attr(div1, "class", "ki-js-item dropdown-item");
         attr(div1, "data-index", div1_data_index_value = ctx.index);
         dispose = [listen(div1, "blur", ctx.handleBlur), listen(div1, "click", ctx.handleItemClick), listen(div1, "keydown", ctx.handleItemKeydown), listen(div1, "keyup", ctx.handleItemKeyup)];
       },
@@ -844,9 +844,9 @@ var Typeahead = (function () {
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "no-click svelte-2ap05h");
+        attr(div0, "class", "ki-no-click svelte-1k67s1s");
         attr(div1, "tabindex", "-1");
-        attr(div1, "class", "dropdown-item text-muted js-blank");
+        attr(div1, "class", "dropdown-item text-muted ki-js-blank");
         dispose = listen(div1, "keydown", ctx.handleItemKeydown);
       },
       m: function m(target, anchor) {
@@ -890,7 +890,7 @@ var Typeahead = (function () {
       c: function c() {
         div = element("div");
         attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-divider js-blank");
+        attr(div, "class", "dropdown-divider ki-js-blank");
         attr(div, "data-index", div_data_index_value = ctx.index);
         dispose = listen(div, "keydown", ctx.handleItemKeydown);
       },
@@ -914,7 +914,7 @@ var Typeahead = (function () {
       c: function c() {
         div = element("div");
         t = text(t_value);
-        attr(div, "class", "no-click text-muted svelte-2ap05h");
+        attr(div, "class", "ki-no-click text-muted svelte-1k67s1s");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -938,7 +938,7 @@ var Typeahead = (function () {
       c: function c() {
         div = element("div");
         t = text(t_value);
-        attr(div, "class", "no-click text-muted svelte-2ap05h");
+        attr(div, "class", "ki-no-click text-muted svelte-1k67s1s");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -1002,7 +1002,7 @@ var Typeahead = (function () {
         div = element("div");
         div.textContent = "".concat(ctx.translate("has_more"));
         attr(div, "tabindex", "-1");
-        attr(div, "class", "js-more dropdown-item text-muted");
+        attr(div, "class", "ki-js-more dropdown-item text-muted");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -1057,7 +1057,7 @@ var Typeahead = (function () {
         if (if_block1) if_block1.c();
         t3 = space();
         if (if_block2) if_block2.c();
-        attr(input_1, "class", input_1_class_value = "js-input " + ctx.real.getAttribute("class") + " svelte-2ap05h");
+        attr(input_1, "class", input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s");
         attr(input_1, "autocorrect", "off");
         attr(input_1, "autocapitalize", "off");
         attr(input_1, "spellcheck", "off");
@@ -1068,8 +1068,8 @@ var Typeahead = (function () {
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
         attr(div0, "class", "input-group-append");
-        attr(div1, "class", div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h");
-        attr(div2, "class", "input-group typeahead js-typeahead-container svelte-2ap05h");
+        attr(div1, "class", div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
+        attr(div2, "class", "input-group ki-typeahead ki-js-typeahead-container svelte-1k67s1s");
         dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "click", handleInputClick), listen(input_1, "keyup", ctx.handleInputKeyup), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
       },
       m: function m(target, anchor) {
@@ -1091,7 +1091,7 @@ var Typeahead = (function () {
         ctx.div1_binding(div1);
       },
       p: function p(changed, ctx) {
-        if (changed.real && input_1_class_value !== (input_1_class_value = "js-input " + ctx.real.getAttribute("class") + " svelte-2ap05h")) {
+        if (changed.real && input_1_class_value !== (input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s")) {
           attr(input_1, "class", input_1_class_value);
         }
 
@@ -1145,7 +1145,7 @@ var Typeahead = (function () {
           if_block2 = null;
         }
 
-        if (changed.popupVisible && div1_class_value !== (div1_class_value = "js-popup dropdown-menu typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-2ap05h")) {
+        if (changed.popupVisible && div1_class_value !== (div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
           attr(div1, "class", div1_class_value);
         }
       },
@@ -1405,10 +1405,10 @@ var Typeahead = (function () {
         wasDown = true;
       },
       ArrowDown: function ArrowDown(event) {
-        var item = popupVisible ? popup.querySelectorAll(".js-item")[0] : null;
+        var item = popupVisible ? popup.querySelectorAll(".ki-js-item")[0] : null;
 
         if (item) {
-          while (item && item.classList.contains("js-blank")) {
+          while (item && item.classList.contains("ki-js-blank")) {
             item = item.nextElementSibling;
           }
 
@@ -1476,11 +1476,11 @@ var Typeahead = (function () {
         var next = event.target.nextElementSibling;
 
         if (next) {
-          while (next && next.classList.contains("js-blank")) {
+          while (next && next.classList.contains("ki-js-blank")) {
             next = next.nextElementSibling;
           }
 
-          if (next && !next.classList.contains("js-item")) {
+          if (next && !next.classList.contains("ki-js-item")) {
             next = null;
           }
         }
@@ -1495,11 +1495,11 @@ var Typeahead = (function () {
         var next = event.target.previousElementSibling;
 
         if (next) {
-          while (next && next.classList.contains("js-blank")) {
+          while (next && next.classList.contains("ki-js-blank")) {
             next = next.previousElementSibling;
           }
 
-          if (next && !next.classList.contains("js-item")) {
+          if (next && !next.classList.contains("ki-js-item")) {
             next = null;
           }
         }
@@ -1539,10 +1539,10 @@ var Typeahead = (function () {
         var item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
 
         if (!item) {
-          item = popup.querySelector(".js-item:first-child");
+          item = popup.querySelector(".ki-js-item:first-child");
         } else {
-          if (!item.classList.contains("js-item")) {
-            item = popup.querySelector(".js-item:first-child");
+          if (!item.classList.contains("ki-js-item")) {
+            item = popup.querySelector(".ki-js-item:first-child");
           }
         }
 
@@ -1560,10 +1560,10 @@ var Typeahead = (function () {
         var item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
 
         if (!item) {
-          item = popup.querySelector(".js-item:last-child");
+          item = popup.querySelector(".ki-js-item:last-child");
         } else {
-          if (!item.classList.contains("js-item")) {
-            item = popup.querySelector(".js-item:last-child");
+          if (!item.classList.contains("ki-js-item")) {
+            item = popup.querySelector(".ki-js-item:last-child");
           }
         }
 
@@ -1574,7 +1574,7 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       Home: function Home(event) {
-        var item = popup.querySelector(".js-item:first-child");
+        var item = popup.querySelector(".ki-js-item:first-child");
 
         if (item) {
           item.focus();
@@ -1583,7 +1583,7 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       End: function End(event) {
-        var item = popup.querySelector(".js-item:last-child");
+        var item = popup.querySelector(".ki-js-item:last-child");
 
         if (item) {
           item.focus();
