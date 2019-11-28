@@ -12,7 +12,7 @@
  export let real;
  export let fetcher;
  export let queryMinLen = 1;
- export let onSelected = function() {};
+ export let onSelected = nop;
  export let translations = I18N_DEFAULTS;
  export let query;
  export let delay = 250;
@@ -42,6 +42,12 @@
  let selectedItem = null;
  let downQuery = null;
  let wasDown = false;
+
+
+ ////////////////////////////////////////////////////////////
+ //
+
+ function nop() {};
 
  ////////////////////////////////////////////////////////////
  //
@@ -266,8 +272,6 @@
          }
      });
  });
-
- function nop() {};
 
  let inputKeypressHandlers = {
      base: function(event) {
