@@ -16,6 +16,7 @@
  export let translations = I18N_DEFAULTS;
  export let query;
  export let delay = 250;
+ export let extraClass = '';
 
  let input;
  let toggle;
@@ -545,8 +546,8 @@
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<div class="input-group ki-typeahead ki-js-typeahead-container">
-  <input class="ki-js-input {real.getAttribute('class')}"
+<div class="input-group ki-typeahead">
+  <input class="{real.getAttribute('class')} {extraClass}"
          autocomplete=new-password
          autocorrect=off
          autocapitalize=off
@@ -570,7 +571,7 @@
     </button>
   </div>
 
-  <div class="ki-js-popup dropdown-menu ki-typeahead-popup {popupVisible ? 'show' : ''}"
+  <div class="dropdown-menu ki-typeahead-popup {popupVisible ? 'show' : ''}"
        bind:this={popup}
        on:scroll={handlePopupScroll}>
     {#if fetchError}
