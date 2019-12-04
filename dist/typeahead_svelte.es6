@@ -271,7 +271,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (588:4) {:else}
+// (601:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = ctx.entries;
@@ -327,7 +327,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (580:33) 
+// (593:33) 
 function create_if_block_3(ctx) {
 	let div;
 
@@ -370,7 +370,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (576:43) 
+// (589:43) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -391,7 +391,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (572:4) {#if fetchError}
+// (585:4) {#if fetchError}
 function create_if_block_1(ctx) {
 	let div;
 	let t;
@@ -416,7 +416,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (608:8) {:else}
+// (621:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -480,7 +480,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (596:52) 
+// (609:52) 
 function create_if_block_6(ctx) {
 	let div1;
 	let div0;
@@ -536,7 +536,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (590:8) {#if item.separator}
+// (603:8) {#if item.separator}
 function create_if_block_5(ctx) {
 	let div;
 	let div_data_index_value;
@@ -561,7 +561,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (618:12) {#if item.desc}
+// (631:12) {#if item.desc}
 function create_if_block_8(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -586,7 +586,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (602:12) {#if item.desc}
+// (615:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -611,7 +611,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (589:6) {#each entries as item, index}
+// (602:6) {#each entries as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -653,7 +653,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (584:8) {:else}
+// (597:8) {:else}
 function create_else_block(ctx) {
 	let t_value = ctx.translate("no_results") + "";
 	let t;
@@ -672,7 +672,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (582:8) {#if tooShort }
+// (595:8) {#if tooShort }
 function create_if_block_4(ctx) {
 	let t_value = ctx.translate("too_short") + "";
 	let t;
@@ -691,7 +691,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (628:4) {#if hasMore}
+// (641:4) {#if hasMore}
 function create_if_block(ctx) {
 	let div;
 
@@ -717,9 +717,9 @@ function create_if_block(ctx) {
 function create_fragment(ctx) {
 	let div2;
 	let input_1;
-	let input_1_placeholder_value;
 	let input_1_class_value;
 	let input_1_data_target_value;
+	let input_1_placeholder_value;
 	let t0;
 	let div0;
 	let button;
@@ -753,25 +753,25 @@ function create_fragment(ctx) {
 			if_block0.c();
 			t2 = space();
 			if (if_block1) if_block1.c();
-			attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
-			attr(input_1, "class", input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s");
+			attr(input_1, "class", input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-1k67s1s"));
+			attr(input_1, "autocomplete", "new-password");
 			attr(input_1, "autocorrect", "off");
 			attr(input_1, "autocapitalize", "off");
 			attr(input_1, "spellcheck", "off");
 			attr(input_1, "data-target", input_1_data_target_value = ctx.real.id);
-			attr(input_1, "autocomplete", "new-password");
+			attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
 			attr(button, "class", "btn btn-outline-secondary");
 			attr(button, "type", "button");
 			attr(button, "tabindex", "-1");
 			attr(div0, "class", "input-group-append");
-			attr(div1, "class", div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
-			attr(div2, "class", "input-group ki-typeahead ki-js-typeahead-container svelte-1k67s1s");
+			attr(div1, "class", div1_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
+			attr(div2, "class", "input-group ki-typeahead svelte-1k67s1s");
 
 			dispose = [
 				listen(input_1, "input", ctx.input_1_input_handler),
-				listen(input_1, "keydown", ctx.handleInputKeydown),
-				listen(input_1, "keypress", ctx.handleInputKeypress),
 				listen(input_1, "blur", ctx.handleBlur),
+				listen(input_1, "keypress", ctx.handleInputKeypress),
+				listen(input_1, "keydown", ctx.handleInputKeydown),
 				listen(input_1, "keyup", ctx.handleInputKeyup),
 				listen(button, "blur", ctx.handleBlur),
 				listen(button, "keydown", ctx.handleToggleKeydown),
@@ -796,16 +796,16 @@ function create_fragment(ctx) {
 			ctx.div1_binding(div1);
 		},
 		p(changed, ctx) {
-			if (changed.real && input_1_placeholder_value !== (input_1_placeholder_value = ctx.real.placeholder)) {
-				attr(input_1, "placeholder", input_1_placeholder_value);
-			}
-
-			if (changed.real && input_1_class_value !== (input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s")) {
+			if ((changed.real || changed.extraClass) && input_1_class_value !== (input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-1k67s1s"))) {
 				attr(input_1, "class", input_1_class_value);
 			}
 
 			if (changed.real && input_1_data_target_value !== (input_1_data_target_value = ctx.real.id)) {
 				attr(input_1, "data-target", input_1_data_target_value);
+			}
+
+			if (changed.real && input_1_placeholder_value !== (input_1_placeholder_value = ctx.real.placeholder)) {
+				attr(input_1, "placeholder", input_1_placeholder_value);
 			}
 
 			if (changed.query && input_1.value !== ctx.query) {
@@ -837,7 +837,7 @@ function create_fragment(ctx) {
 				if_block1 = null;
 			}
 
-			if (changed.popupVisible && div1_class_value !== (div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
+			if (changed.popupVisible && div1_class_value !== (div1_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
 				attr(div1, "class", div1_class_value);
 			}
 		},
@@ -855,12 +855,12 @@ function create_fragment(ctx) {
 	};
 }
 
-function hasModifier(event) {
-	return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
-}
-
 function nop() {
 	
+}
+
+function hasModifier(event) {
+	return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
 }
 
 function handleEvent(code, handlers, event) {
@@ -879,14 +879,10 @@ function instance($$self, $$props, $$invalidate) {
 	let { real } = $$props;
 	let { fetcher } = $$props;
 	let { queryMinLen = 1 } = $$props;
-
-	let { onSelected = function () {
-		
-	} } = $$props;
-
 	let { translations = I18N_DEFAULTS } = $$props;
 	let { query } = $$props;
 	let { delay = 250 } = $$props;
+	let { extraClass = "" } = $$props;
 	let input;
 	let toggle;
 	let popup;
@@ -902,6 +898,7 @@ function instance($$self, $$props, $$invalidate) {
 	let activeFetch = null;
 	let previousQuery = null;
 	let wasDown = false;
+	
 
 	function fetchEntries(more) {
 		let currentQuery = query.trim();
@@ -1004,10 +1001,10 @@ function instance($$self, $$props, $$invalidate) {
 
 		entries.forEach(function (item) {
 			if (item.separator) ; else if (item.placeholder) {
-				disp = disp + 1;
+				disp += 1;
 			} else {
-				off = off + 1;
-				disp = disp + 1;
+				off += 1;
+				disp += 1;
 			}
 		});
 
@@ -1046,6 +1043,13 @@ function instance($$self, $$props, $$invalidate) {
 		}
 	}
 
+	function updateRealInput(query) {
+		if (real.value !== query) {
+			real.setAttribute("value", query);
+			real.dispatchEvent(new Event("change"));
+		}
+	}
+
 	function selectItem(el) {
 		let item = entries[el.dataset.index];
 
@@ -1064,8 +1068,8 @@ function instance($$self, $$props, $$invalidate) {
 				previousQuery = null;
 			}
 
-			real.setAttribute("value", query);
-			onSelected(item);
+			updateRealInput(query);
+			real.dispatchEvent(new CustomEvent("typeahead-select", { detail: item }));
 		}
 	}
 
@@ -1078,19 +1082,17 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	onMount(function () {
-		$$invalidate("query", query = real.getAttribute("value") || "");
+		$$invalidate("query", query = real.value || "");
 		real.classList.add("d-none");
 
 		real.addEventListener("change", function () {
-			var realValue = real.getAttribute("value");
+			var realValue = real.value;
 
 			if (realValue !== query) {
 				$$invalidate("query", query = realValue);
 			}
 		});
 	});
-
-	
 
 	let inputKeypressHandlers = {
 		base(event) {
@@ -1381,15 +1383,15 @@ function instance($$self, $$props, $$invalidate) {
 		if ("real" in $$props) $$invalidate("real", real = $$props.real);
 		if ("fetcher" in $$props) $$invalidate("fetcher", fetcher = $$props.fetcher);
 		if ("queryMinLen" in $$props) $$invalidate("queryMinLen", queryMinLen = $$props.queryMinLen);
-		if ("onSelected" in $$props) $$invalidate("onSelected", onSelected = $$props.onSelected);
 		if ("translations" in $$props) $$invalidate("translations", translations = $$props.translations);
 		if ("query" in $$props) $$invalidate("query", query = $$props.query);
 		if ("delay" in $$props) $$invalidate("delay", delay = $$props.delay);
+		if ("extraClass" in $$props) $$invalidate("extraClass", extraClass = $$props.extraClass);
 	};
 
-	$$self.$$.update = (changed = { real: 1, query: 1 }) => {
-		if (changed.real || changed.query) {
-			 real.setAttribute("value", query);
+	$$self.$$.update = (changed = { query: 1 }) => {
+		if (changed.query) {
+			 updateRealInput(query);
 		}
 	};
 
@@ -1397,10 +1399,10 @@ function instance($$self, $$props, $$invalidate) {
 		real,
 		fetcher,
 		queryMinLen,
-		onSelected,
 		translations,
 		query,
 		delay,
+		extraClass,
 		input,
 		toggle,
 		popup,
@@ -1441,10 +1443,10 @@ class Typeahead extends SvelteComponent {
 			real: 0,
 			fetcher: 0,
 			queryMinLen: 0,
-			onSelected: 0,
 			translations: 0,
 			query: 0,
-			delay: 0
+			delay: 0,
+			extraClass: 0
 		});
 	}
 }

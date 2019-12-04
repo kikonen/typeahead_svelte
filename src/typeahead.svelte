@@ -12,7 +12,6 @@
  export let real;
  export let fetcher;
  export let queryMinLen = 1;
- export let onSelected = nop;
  export let translations = I18N_DEFAULTS;
  export let query;
  export let delay = 250;
@@ -221,6 +220,14 @@
      }
  }
 
+ function updateRealInput(query) {
+     if (real.value !== query) {
+         real.setAttribute('value', query);
+
+         real.dispatchEvent(new Event('change'));
+     }
+ }
+
  function selectItem(el) {
      let item = entries[el.dataset.index];
      if (item) {
@@ -238,8 +245,8 @@
              previousQuery = null;
          }
 
-         real.setAttribute('value', query);
-         onSelected(item);
+         updateRealInput(query);
+         real.dispatchEvent(new CustomEvent('typeahead-select', { detail: item }));
 //     } else {
 //         console.debug("MISSING item", el);
      }
@@ -260,13 +267,14 @@
  ////////////////////////////////////////////////////////////
  // HANDLERS
  //
- $: real.setAttribute('value', query);
+ $: updateRealInput(query);
 
  onMount(function() {
-     query = real.getAttribute('value') || '';
+     query = real.value || '';
      real.classList.add('d-none');
+
      real.addEventListener('change', function() {
-         var realValue = real.getAttribute('value');
+         let realValue = real.value;
          if (realValue !== query) {
 //             console.debug("Changed: " + realValue);
              query = realValue;

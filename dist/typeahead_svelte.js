@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (588:4) {:else}
+  } // (601:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -611,7 +611,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (580:33) 
+  } // (593:33) 
 
 
   function create_if_block_3(ctx) {
@@ -653,7 +653,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (576:43) 
+  } // (589:43) 
 
 
   function create_if_block_2(ctx) {
@@ -673,7 +673,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (572:4) {#if fetchError}
+  } // (585:4) {#if fetchError}
 
 
   function create_if_block_1(ctx) {
@@ -697,7 +697,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (608:8) {:else}
+  } // (621:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -754,7 +754,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (596:52) 
+  } // (609:52) 
 
 
   function create_if_block_6(ctx) {
@@ -809,7 +809,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (590:8) {#if item.separator}
+  } // (603:8) {#if item.separator}
 
 
   function create_if_block_5(ctx) {
@@ -833,7 +833,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (618:12) {#if item.desc}
+  } // (631:12) {#if item.desc}
 
 
   function create_if_block_8(ctx) {
@@ -857,7 +857,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (602:12) {#if item.desc}
+  } // (615:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -881,7 +881,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (589:6) {#each entries as item, index}
+  } // (602:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -922,7 +922,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (584:8) {:else}
+  } // (597:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -940,7 +940,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (582:8) {#if tooShort }
+  } // (595:8) {#if tooShort }
 
 
   function create_if_block_4(ctx) {
@@ -958,7 +958,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (628:4) {#if hasMore}
+  } // (641:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -985,9 +985,9 @@ var Typeahead = (function () {
   function create_fragment(ctx) {
     var div2;
     var input_1;
-    var input_1_placeholder_value;
     var input_1_class_value;
     var input_1_data_target_value;
+    var input_1_placeholder_value;
     var t0;
     var div0;
     var button;
@@ -1020,20 +1020,20 @@ var Typeahead = (function () {
         if_block0.c();
         t2 = space();
         if (if_block1) if_block1.c();
-        attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
-        attr(input_1, "class", input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s");
+        attr(input_1, "class", input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-1k67s1s"));
+        attr(input_1, "autocomplete", "new-password");
         attr(input_1, "autocorrect", "off");
         attr(input_1, "autocapitalize", "off");
         attr(input_1, "spellcheck", "off");
         attr(input_1, "data-target", input_1_data_target_value = ctx.real.id);
-        attr(input_1, "autocomplete", "new-password");
+        attr(input_1, "placeholder", input_1_placeholder_value = ctx.real.placeholder);
         attr(button, "class", "btn btn-outline-secondary");
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
         attr(div0, "class", "input-group-append");
-        attr(div1, "class", div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
-        attr(div2, "class", "input-group ki-typeahead ki-js-typeahead-container svelte-1k67s1s");
-        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keyup", ctx.handleInputKeyup), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
+        attr(div1, "class", div1_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
+        attr(div2, "class", "input-group ki-typeahead svelte-1k67s1s");
+        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
       },
       m: function m(target, anchor) {
         insert(target, div2, anchor);
@@ -1052,16 +1052,16 @@ var Typeahead = (function () {
         ctx.div1_binding(div1);
       },
       p: function p(changed, ctx) {
-        if (changed.real && input_1_placeholder_value !== (input_1_placeholder_value = ctx.real.placeholder)) {
-          attr(input_1, "placeholder", input_1_placeholder_value);
-        }
-
-        if (changed.real && input_1_class_value !== (input_1_class_value = "ki-js-input " + ctx.real.getAttribute("class") + " svelte-1k67s1s")) {
+        if ((changed.real || changed.extraClass) && input_1_class_value !== (input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-1k67s1s"))) {
           attr(input_1, "class", input_1_class_value);
         }
 
         if (changed.real && input_1_data_target_value !== (input_1_data_target_value = ctx.real.id)) {
           attr(input_1, "data-target", input_1_data_target_value);
+        }
+
+        if (changed.real && input_1_placeholder_value !== (input_1_placeholder_value = ctx.real.placeholder)) {
+          attr(input_1, "placeholder", input_1_placeholder_value);
         }
 
         if (changed.query && input_1.value !== ctx.query) {
@@ -1093,7 +1093,7 @@ var Typeahead = (function () {
           if_block1 = null;
         }
 
-        if (changed.popupVisible && div1_class_value !== (div1_class_value = "ki-js-popup dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
+        if (changed.popupVisible && div1_class_value !== (div1_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
           attr(div1, "class", div1_class_value);
         }
       },
@@ -1111,11 +1111,11 @@ var Typeahead = (function () {
     };
   }
 
+  function nop() {}
+
   function hasModifier(event) {
     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
   }
-
-  function nop() {}
 
   function handleEvent(code, handlers, event) {
     (handlers[code] || handlers.base)(event);
@@ -1133,13 +1133,13 @@ var Typeahead = (function () {
     var fetcher = $$props.fetcher;
     var _$$props$queryMinLen = $$props.queryMinLen,
         queryMinLen = _$$props$queryMinLen === void 0 ? 1 : _$$props$queryMinLen;
-    var _$$props$onSelected = $$props.onSelected,
-        onSelected = _$$props$onSelected === void 0 ? function () {} : _$$props$onSelected;
     var _$$props$translations = $$props.translations,
         translations = _$$props$translations === void 0 ? I18N_DEFAULTS : _$$props$translations;
     var query = $$props.query;
     var _$$props$delay = $$props.delay,
         delay = _$$props$delay === void 0 ? 250 : _$$props$delay;
+    var _$$props$extraClass = $$props.extraClass,
+        extraClass = _$$props$extraClass === void 0 ? "" : _$$props$extraClass;
     var input;
     var toggle;
     var popup;
@@ -1253,10 +1253,10 @@ var Typeahead = (function () {
       var disp = 0;
       entries.forEach(function (item) {
         if (item.separator) ; else if (item.placeholder) {
-          disp = disp + 1;
+          disp += 1;
         } else {
-          off = off + 1;
-          disp = disp + 1;
+          off += 1;
+          disp += 1;
         }
       });
       offsetCount = off;
@@ -1294,6 +1294,13 @@ var Typeahead = (function () {
       }
     }
 
+    function updateRealInput(query) {
+      if (real.value !== query) {
+        real.setAttribute("value", query);
+        real.dispatchEvent(new Event("change"));
+      }
+    }
+
     function selectItem(el) {
       var item = entries[el.dataset.index];
 
@@ -1312,8 +1319,10 @@ var Typeahead = (function () {
           previousQuery = null;
         }
 
-        real.setAttribute("value", query);
-        onSelected(item);
+        updateRealInput(query);
+        real.dispatchEvent(new CustomEvent("typeahead-select", {
+          detail: item
+        }));
       }
     }
 
@@ -1326,10 +1335,10 @@ var Typeahead = (function () {
     }
 
     onMount(function () {
-      $$invalidate("query", query = real.getAttribute("value") || "");
+      $$invalidate("query", query = real.value || "");
       real.classList.add("d-none");
       real.addEventListener("change", function () {
-        var realValue = real.getAttribute("value");
+        var realValue = real.value;
 
         if (realValue !== query) {
           $$invalidate("query", query = realValue);
@@ -1618,20 +1627,19 @@ var Typeahead = (function () {
       if ("real" in $$props) $$invalidate("real", real = $$props.real);
       if ("fetcher" in $$props) $$invalidate("fetcher", fetcher = $$props.fetcher);
       if ("queryMinLen" in $$props) $$invalidate("queryMinLen", queryMinLen = $$props.queryMinLen);
-      if ("onSelected" in $$props) $$invalidate("onSelected", onSelected = $$props.onSelected);
       if ("translations" in $$props) $$invalidate("translations", translations = $$props.translations);
       if ("query" in $$props) $$invalidate("query", query = $$props.query);
       if ("delay" in $$props) $$invalidate("delay", delay = $$props.delay);
+      if ("extraClass" in $$props) $$invalidate("extraClass", extraClass = $$props.extraClass);
     };
 
     $$self.$$.update = function () {
       var changed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-        real: 1,
         query: 1
       };
 
-      if (changed.real || changed.query) {
-         real.setAttribute("value", query);
+      if (changed.query) {
+         updateRealInput(query);
       }
     };
 
@@ -1639,10 +1647,10 @@ var Typeahead = (function () {
       real: real,
       fetcher: fetcher,
       queryMinLen: queryMinLen,
-      onSelected: onSelected,
       translations: translations,
       query: query,
       delay: delay,
+      extraClass: extraClass,
       input: input,
       toggle: toggle,
       popup: popup,
@@ -1689,10 +1697,10 @@ var Typeahead = (function () {
         real: 0,
         fetcher: 0,
         queryMinLen: 0,
-        onSelected: 0,
         translations: 0,
         query: 0,
-        delay: 0
+        delay: 0,
+        extraClass: 0
       });
       return _this;
     }
