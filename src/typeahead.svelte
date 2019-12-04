@@ -172,11 +172,11 @@
              // NOTE KI separator is ignored always
          } else if (item.placeholder) {
              // NOTE KI does not affect pagination
-             disp = disp + 1;
+             disp += 1;
          } else {
              // NOTE KI normal or disabled affects pagination
-             off = off + 1;
-             disp = disp + 1;
+             off += 1;
+             disp += 1;
          }
      });
 
