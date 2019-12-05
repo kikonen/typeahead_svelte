@@ -271,7 +271,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (601:4) {:else}
+// (607:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = ctx.entries;
@@ -327,7 +327,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (593:33) 
+// (599:33) 
 function create_if_block_3(ctx) {
 	let div;
 
@@ -370,7 +370,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (589:43) 
+// (595:43) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -391,7 +391,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (585:4) {#if fetchError}
+// (591:4) {#if fetchError}
 function create_if_block_1(ctx) {
 	let div;
 	let t;
@@ -416,7 +416,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (621:8) {:else}
+// (627:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -480,7 +480,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (609:52) 
+// (615:52) 
 function create_if_block_6(ctx) {
 	let div1;
 	let div0;
@@ -536,7 +536,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (603:8) {#if item.separator}
+// (609:8) {#if item.separator}
 function create_if_block_5(ctx) {
 	let div;
 	let div_data_index_value;
@@ -561,7 +561,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (631:12) {#if item.desc}
+// (637:12) {#if item.desc}
 function create_if_block_8(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -586,7 +586,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (615:12) {#if item.desc}
+// (621:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -611,7 +611,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (602:6) {#each entries as item, index}
+// (608:6) {#each entries as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -653,7 +653,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (597:8) {:else}
+// (603:8) {:else}
 function create_else_block(ctx) {
 	let t_value = ctx.translate("no_results") + "";
 	let t;
@@ -672,7 +672,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (595:8) {#if tooShort }
+// (601:8) {#if tooShort }
 function create_if_block_4(ctx) {
 	let t_value = ctx.translate("too_short") + "";
 	let t;
@@ -691,7 +691,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (641:4) {#if hasMore}
+// (647:4) {#if hasMore}
 function create_if_block(ctx) {
 	let div;
 
@@ -898,6 +898,7 @@ function instance($$self, $$props, $$invalidate) {
 	let activeFetch = null;
 	let previousQuery = null;
 	let wasDown = false;
+	let updatingReal = false;
 	
 
 	function fetchEntries(more) {
@@ -1045,8 +1046,13 @@ function instance($$self, $$props, $$invalidate) {
 
 	function updateRealInput(query) {
 		if (real.value !== query) {
-			real.setAttribute("value", query);
-			real.dispatchEvent(new Event("change"));
+			try {
+				updatingReal = true;
+				real.setAttribute("value", query);
+				real.dispatchEvent(new Event("change"));
+			} finally {
+				updatingReal = false;
+			}
 		}
 	}
 
@@ -1086,9 +1092,9 @@ function instance($$self, $$props, $$invalidate) {
 		real.classList.add("d-none");
 
 		real.addEventListener("change", function () {
-			var realValue = real.value;
+			let realValue = real.value;
 
-			if (realValue !== query) {
+			if (!updatingReal && realValue !== query) {
 				$$invalidate("query", query = realValue);
 			}
 		});

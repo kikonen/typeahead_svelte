@@ -43,6 +43,8 @@
  let downQuery = null;
  let wasDown = false;
 
+ let updatingReal = false;
+
 
  ////////////////////////////////////////////////////////////
  //
@@ -222,9 +224,13 @@
 
  function updateRealInput(query) {
      if (real.value !== query) {
-         real.setAttribute('value', query);
-
-         real.dispatchEvent(new Event('change'));
+         try {
+             updatingReal = true;
+             real.setAttribute('value', query);
+             real.dispatchEvent(new Event('change'));
+         } finally {
+             updatingReal = false;
+         }
      }
  }
 
@@ -275,7 +281,7 @@
 
      real.addEventListener('change', function() {
          let realValue = real.value;
-         if (realValue !== query) {
+         if (!updatingReal && realValue !== query) {
 //             console.debug("Changed: " + realValue);
              query = realValue;
          }

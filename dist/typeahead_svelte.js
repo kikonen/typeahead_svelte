@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (601:4) {:else}
+  } // (607:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -611,7 +611,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (593:33) 
+  } // (599:33) 
 
 
   function create_if_block_3(ctx) {
@@ -653,7 +653,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (589:43) 
+  } // (595:43) 
 
 
   function create_if_block_2(ctx) {
@@ -673,7 +673,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (585:4) {#if fetchError}
+  } // (591:4) {#if fetchError}
 
 
   function create_if_block_1(ctx) {
@@ -697,7 +697,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (621:8) {:else}
+  } // (627:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -754,7 +754,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (609:52) 
+  } // (615:52) 
 
 
   function create_if_block_6(ctx) {
@@ -809,7 +809,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (603:8) {#if item.separator}
+  } // (609:8) {#if item.separator}
 
 
   function create_if_block_5(ctx) {
@@ -833,7 +833,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (631:12) {#if item.desc}
+  } // (637:12) {#if item.desc}
 
 
   function create_if_block_8(ctx) {
@@ -857,7 +857,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (615:12) {#if item.desc}
+  } // (621:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -881,7 +881,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (602:6) {#each entries as item, index}
+  } // (608:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -922,7 +922,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (597:8) {:else}
+  } // (603:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -940,7 +940,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (595:8) {#if tooShort }
+  } // (601:8) {#if tooShort }
 
 
   function create_if_block_4(ctx) {
@@ -958,7 +958,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (641:4) {#if hasMore}
+  } // (647:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1155,6 +1155,7 @@ var Typeahead = (function () {
     var activeFetch = null;
     var previousQuery = null;
     var wasDown = false;
+    var updatingReal = false;
 
     function fetchEntries(more) {
       var currentQuery = query.trim();
@@ -1296,8 +1297,13 @@ var Typeahead = (function () {
 
     function updateRealInput(query) {
       if (real.value !== query) {
-        real.setAttribute("value", query);
-        real.dispatchEvent(new Event("change"));
+        try {
+          updatingReal = true;
+          real.setAttribute("value", query);
+          real.dispatchEvent(new Event("change"));
+        } finally {
+          updatingReal = false;
+        }
       }
     }
 
@@ -1340,7 +1346,7 @@ var Typeahead = (function () {
       real.addEventListener("change", function () {
         var realValue = real.value;
 
-        if (realValue !== query) {
+        if (!updatingReal && realValue !== query) {
           $$invalidate("query", query = realValue);
         }
       });
