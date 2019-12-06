@@ -14,7 +14,7 @@
  export let queryMinLen = 1;
  export let translations = I18N_DEFAULTS;
  export let query;
- export let delay = 250;
+ export let delay = 200;
  export let extraClass = '';
 
  let input;
@@ -43,7 +43,7 @@
  let downQuery = null;
  let wasDown = false;
 
- let updatingReal = false;
+ let isSyncToReal = false;
 
 
  ////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@
              updateCounts(entries);
 
              hasMore = info.more && offsetCount > 0;
-             tooShort = info.too_short;
+             tooShort = info.too_short === true;
 
              previousQuery = currentQuery;
              activeFetch = null;
@@ -222,18 +222,6 @@
      }
  }
 
- function updateRealInput(query) {
-     if (real.value !== query) {
-         try {
-             updatingReal = true;
-             real.setAttribute('value', query);
-             real.dispatchEvent(new Event('change'));
-         } finally {
-             updatingReal = false;
-         }
-     }
- }
-
  function selectItem(el) {
      let item = entries[el.dataset.index];
      if (item) {
@@ -251,7 +239,7 @@
              previousQuery = null;
          }
 
-         updateRealInput(query);
+         syncToReal(query, selectedItem);
          real.dispatchEvent(new CustomEvent('typeahead-select', { detail: item }));
 //     } else {
 //         console.debug("MISSING item", el);
@@ -273,18 +261,41 @@
  ////////////////////////////////////////////////////////////
  // HANDLERS
  //
- $: updateRealInput(query);
+ $: {
+     if (syncToReal) {
+         syncToReal(query, selectedItem);
+     }
+ }
+
+ function syncFromReal() {
+     if (isSyncToReal) {
+         return;
+     }
+
+     let realValue = real.value;
+     if (realValue !== query) {
+         query = realValue;
+     }
+ }
+
+ function syncToReal(query, selectedItem) {
+     if (real.value !== query) {
+         try {
+             isSyncToReal = true;
+             real.setAttribute('value', query);
+             real.dispatchEvent(new Event('change'));
+         } finally {
+             isSyncToReal = false;
+         }
+     }
+ }
 
  onMount(function() {
      query = real.value || '';
      real.classList.add('d-none');
 
      real.addEventListener('change', function() {
-         let realValue = real.value;
-         if (!updatingReal && realValue !== query) {
-//             console.debug("Changed: " + realValue);
-             query = realValue;
-         }
+         syncFromReal();
      });
  });
 

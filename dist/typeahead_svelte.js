@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (607:4) {:else}
+  } // (618:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -611,7 +611,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (599:33) 
+  } // (610:33) 
 
 
   function create_if_block_3(ctx) {
@@ -653,7 +653,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (595:43) 
+  } // (606:43) 
 
 
   function create_if_block_2(ctx) {
@@ -673,7 +673,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (591:4) {#if fetchError}
+  } // (602:4) {#if fetchError}
 
 
   function create_if_block_1(ctx) {
@@ -697,7 +697,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (627:8) {:else}
+  } // (638:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -754,7 +754,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (615:52) 
+  } // (626:52) 
 
 
   function create_if_block_6(ctx) {
@@ -809,7 +809,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (609:8) {#if item.separator}
+  } // (620:8) {#if item.separator}
 
 
   function create_if_block_5(ctx) {
@@ -833,7 +833,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (637:12) {#if item.desc}
+  } // (648:12) {#if item.desc}
 
 
   function create_if_block_8(ctx) {
@@ -857,7 +857,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (621:12) {#if item.desc}
+  } // (632:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -881,7 +881,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (608:6) {#each entries as item, index}
+  } // (619:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -922,7 +922,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (603:8) {:else}
+  } // (614:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -940,7 +940,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (601:8) {#if tooShort }
+  } // (612:8) {#if tooShort }
 
 
   function create_if_block_4(ctx) {
@@ -958,7 +958,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (647:4) {#if hasMore}
+  } // (658:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1137,7 +1137,7 @@ var Typeahead = (function () {
         translations = _$$props$translations === void 0 ? I18N_DEFAULTS : _$$props$translations;
     var query = $$props.query;
     var _$$props$delay = $$props.delay,
-        delay = _$$props$delay === void 0 ? 250 : _$$props$delay;
+        delay = _$$props$delay === void 0 ? 200 : _$$props$delay;
     var _$$props$extraClass = $$props.extraClass,
         extraClass = _$$props$extraClass === void 0 ? "" : _$$props$extraClass;
     var input;
@@ -1154,8 +1154,9 @@ var Typeahead = (function () {
     var popupVisible = false;
     var activeFetch = null;
     var previousQuery = null;
+    var selectedItem = null;
     var wasDown = false;
-    var updatingReal = false;
+    var isSyncToReal = false;
 
     function fetchEntries(more) {
       var currentQuery = query.trim();
@@ -1225,7 +1226,7 @@ var Typeahead = (function () {
           $$invalidate("entries", entries = updateEntries);
           updateCounts(entries);
           $$invalidate("hasMore", hasMore = info.more && offsetCount > 0);
-          $$invalidate("tooShort", tooShort = info.too_short);
+          $$invalidate("tooShort", tooShort = info.too_short === true);
           previousQuery = currentQuery;
           $$invalidate("activeFetch", activeFetch = null);
           $$invalidate("fetchingMore", fetchingMore = false);
@@ -1295,22 +1296,11 @@ var Typeahead = (function () {
       }
     }
 
-    function updateRealInput(query) {
-      if (real.value !== query) {
-        try {
-          updatingReal = true;
-          real.setAttribute("value", query);
-          real.dispatchEvent(new Event("change"));
-        } finally {
-          updatingReal = false;
-        }
-      }
-    }
-
     function selectItem(el) {
       var item = entries[el.dataset.index];
 
       if (item) {
+        $$invalidate("selectedItem", selectedItem = item);
         var changed = item.text !== query;
         $$invalidate("query", query = item.text);
         previousQuery = query.trim();
@@ -1325,7 +1315,7 @@ var Typeahead = (function () {
           previousQuery = null;
         }
 
-        updateRealInput(query);
+        syncToReal(query);
         real.dispatchEvent(new CustomEvent("typeahead-select", {
           detail: item
         }));
@@ -1340,19 +1330,40 @@ var Typeahead = (function () {
       return translations[key] || I18N_DEFAULTS[key];
     }
 
+    function syncFromReal() {
+      if (isSyncToReal) {
+        return;
+      }
+
+      var realValue = real.value;
+
+      if (realValue !== query) {
+        $$invalidate("query", query = realValue);
+      }
+    }
+
+    function syncToReal(query, selectedItem) {
+      if (real.value !== query) {
+        try {
+          isSyncToReal = true;
+          real.setAttribute("value", query);
+          real.dispatchEvent(new Event("change"));
+        } finally {
+          isSyncToReal = false;
+        }
+      }
+    }
+
     onMount(function () {
       $$invalidate("query", query = real.value || "");
       real.classList.add("d-none");
       real.addEventListener("change", function () {
-        var realValue = real.value;
-
-        if (!updatingReal && realValue !== query) {
-          $$invalidate("query", query = realValue);
-        }
+        syncFromReal();
       });
     });
     var inputKeypressHandlers = {
       base: function base(event) {
+        $$invalidate("selectedItem", selectedItem = null);
       }
     };
     var inputKeydownHandlers = {
@@ -1641,11 +1652,16 @@ var Typeahead = (function () {
 
     $$self.$$.update = function () {
       var changed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-        query: 1
+        query: 1,
+        selectedItem: 1
       };
 
-      if (changed.query) {
-         updateRealInput(query);
+      if (changed.query || changed.selectedItem) {
+         {
+          if (syncToReal) {
+            syncToReal(query);
+          }
+        }
       }
     };
 

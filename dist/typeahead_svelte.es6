@@ -271,7 +271,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (607:4) {:else}
+// (618:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = ctx.entries;
@@ -327,7 +327,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (599:33) 
+// (610:33) 
 function create_if_block_3(ctx) {
 	let div;
 
@@ -370,7 +370,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (595:43) 
+// (606:43) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -391,7 +391,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (591:4) {#if fetchError}
+// (602:4) {#if fetchError}
 function create_if_block_1(ctx) {
 	let div;
 	let t;
@@ -416,7 +416,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (627:8) {:else}
+// (638:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -480,7 +480,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (615:52) 
+// (626:52) 
 function create_if_block_6(ctx) {
 	let div1;
 	let div0;
@@ -536,7 +536,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (609:8) {#if item.separator}
+// (620:8) {#if item.separator}
 function create_if_block_5(ctx) {
 	let div;
 	let div_data_index_value;
@@ -561,7 +561,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (637:12) {#if item.desc}
+// (648:12) {#if item.desc}
 function create_if_block_8(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -586,7 +586,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (621:12) {#if item.desc}
+// (632:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = ctx.item.desc + "";
@@ -611,7 +611,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (608:6) {#each entries as item, index}
+// (619:6) {#each entries as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -653,7 +653,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (603:8) {:else}
+// (614:8) {:else}
 function create_else_block(ctx) {
 	let t_value = ctx.translate("no_results") + "";
 	let t;
@@ -672,7 +672,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (601:8) {#if tooShort }
+// (612:8) {#if tooShort }
 function create_if_block_4(ctx) {
 	let t_value = ctx.translate("too_short") + "";
 	let t;
@@ -691,7 +691,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (647:4) {#if hasMore}
+// (658:4) {#if hasMore}
 function create_if_block(ctx) {
 	let div;
 
@@ -881,7 +881,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { queryMinLen = 1 } = $$props;
 	let { translations = I18N_DEFAULTS } = $$props;
 	let { query } = $$props;
-	let { delay = 250 } = $$props;
+	let { delay = 200 } = $$props;
 	let { extraClass = "" } = $$props;
 	let input;
 	let toggle;
@@ -897,8 +897,9 @@ function instance($$self, $$props, $$invalidate) {
 	let popupVisible = false;
 	let activeFetch = null;
 	let previousQuery = null;
+	let selectedItem = null;
 	let wasDown = false;
-	let updatingReal = false;
+	let isSyncToReal = false;
 	
 
 	function fetchEntries(more) {
@@ -971,7 +972,7 @@ function instance($$self, $$props, $$invalidate) {
 				$$invalidate("entries", entries = updateEntries);
 				updateCounts(entries);
 				$$invalidate("hasMore", hasMore = info.more && offsetCount > 0);
-				$$invalidate("tooShort", tooShort = info.too_short);
+				$$invalidate("tooShort", tooShort = info.too_short === true);
 				previousQuery = currentQuery;
 				$$invalidate("activeFetch", activeFetch = null);
 				$$invalidate("fetchingMore", fetchingMore = false);
@@ -1044,22 +1045,11 @@ function instance($$self, $$props, $$invalidate) {
 		}
 	}
 
-	function updateRealInput(query) {
-		if (real.value !== query) {
-			try {
-				updatingReal = true;
-				real.setAttribute("value", query);
-				real.dispatchEvent(new Event("change"));
-			} finally {
-				updatingReal = false;
-			}
-		}
-	}
-
 	function selectItem(el) {
 		let item = entries[el.dataset.index];
 
 		if (item) {
+			$$invalidate("selectedItem", selectedItem = item);
 			let changed = item.text !== query;
 			$$invalidate("query", query = item.text);
 			previousQuery = query.trim();
@@ -1074,7 +1064,7 @@ function instance($$self, $$props, $$invalidate) {
 				previousQuery = null;
 			}
 
-			updateRealInput(query);
+			syncToReal(query);
 			real.dispatchEvent(new CustomEvent("typeahead-select", { detail: item }));
 		}
 	}
@@ -1087,21 +1077,42 @@ function instance($$self, $$props, $$invalidate) {
 		return translations[key] || I18N_DEFAULTS[key];
 	}
 
+	function syncFromReal() {
+		if (isSyncToReal) {
+			return;
+		}
+
+		let realValue = real.value;
+
+		if (realValue !== query) {
+			$$invalidate("query", query = realValue);
+		}
+	}
+
+	function syncToReal(query, selectedItem) {
+		if (real.value !== query) {
+			try {
+				isSyncToReal = true;
+				real.setAttribute("value", query);
+				real.dispatchEvent(new Event("change"));
+			} finally {
+				isSyncToReal = false;
+			}
+		}
+	}
+
 	onMount(function () {
 		$$invalidate("query", query = real.value || "");
 		real.classList.add("d-none");
 
 		real.addEventListener("change", function () {
-			let realValue = real.value;
-
-			if (!updatingReal && realValue !== query) {
-				$$invalidate("query", query = realValue);
-			}
+			syncFromReal();
 		});
 	});
 
 	let inputKeypressHandlers = {
 		base(event) {
+			$$invalidate("selectedItem", selectedItem = null);
 		}
 	};
 
@@ -1395,9 +1406,13 @@ function instance($$self, $$props, $$invalidate) {
 		if ("extraClass" in $$props) $$invalidate("extraClass", extraClass = $$props.extraClass);
 	};
 
-	$$self.$$.update = (changed = { query: 1 }) => {
-		if (changed.query) {
-			 updateRealInput(query);
+	$$self.$$.update = (changed = { query: 1, selectedItem: 1 }) => {
+		if (changed.query || changed.selectedItem) {
+			 {
+				if (syncToReal) {
+					syncToReal(query);
+				}
+			}
 		}
 	};
 
