@@ -552,7 +552,7 @@ var Typeahead = (function () {
     child_ctx.item = list[i];
     child_ctx.index = i;
     return child_ctx;
-  } // (618:4) {:else}
+  } // (623:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -611,7 +611,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (610:33) 
+  } // (615:33) 
 
 
   function create_if_block_3(ctx) {
@@ -653,7 +653,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (606:43) 
+  } // (611:43) 
 
 
   function create_if_block_2(ctx) {
@@ -673,7 +673,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (602:4) {#if fetchError}
+  } // (607:4) {#if fetchError}
 
 
   function create_if_block_1(ctx) {
@@ -697,7 +697,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (638:8) {:else}
+  } // (643:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -718,7 +718,7 @@ var Typeahead = (function () {
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "ki-no-click svelte-1k67s1s");
+        attr(div0, "class", "ki-no-click svelte-80qp02");
         attr(div1, "tabindex", "1");
         attr(div1, "class", "ki-js-item dropdown-item");
         attr(div1, "data-index", div1_data_index_value = ctx.index);
@@ -754,7 +754,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (626:52) 
+  } // (631:52) 
 
 
   function create_if_block_6(ctx) {
@@ -774,7 +774,7 @@ var Typeahead = (function () {
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "ki-no-click svelte-1k67s1s");
+        attr(div0, "class", "ki-no-click svelte-80qp02");
         attr(div1, "tabindex", "-1");
         attr(div1, "class", "dropdown-item text-muted ki-js-blank");
         dispose = listen(div1, "keydown", ctx.handleItemKeydown);
@@ -809,7 +809,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (620:8) {#if item.separator}
+  } // (625:8) {#if item.separator}
 
 
   function create_if_block_5(ctx) {
@@ -833,7 +833,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (648:12) {#if item.desc}
+  } // (653:12) {#if item.desc}
 
 
   function create_if_block_8(ctx) {
@@ -844,7 +844,7 @@ var Typeahead = (function () {
       c: function c() {
         div = element("div");
         t = text(t_value);
-        attr(div, "class", "ki-no-click text-muted svelte-1k67s1s");
+        attr(div, "class", "ki-no-click text-muted svelte-80qp02");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -857,7 +857,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (632:12) {#if item.desc}
+  } // (637:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -868,7 +868,7 @@ var Typeahead = (function () {
       c: function c() {
         div = element("div");
         t = text(t_value);
-        attr(div, "class", "ki-no-click text-muted svelte-1k67s1s");
+        attr(div, "class", "ki-no-click text-muted svelte-80qp02");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -881,7 +881,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (619:6) {#each entries as item, index}
+  } // (624:6) {#each entries as item, index}
 
 
   function create_each_block(ctx) {
@@ -922,7 +922,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (614:8) {:else}
+  } // (619:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -940,7 +940,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (612:8) {#if tooShort }
+  } // (617:8) {#if tooShort }
 
 
   function create_if_block_4(ctx) {
@@ -958,7 +958,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (658:4) {#if hasMore}
+  } // (663:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -983,7 +983,8 @@ var Typeahead = (function () {
   }
 
   function create_fragment(ctx) {
-    var div2;
+    var div3;
+    var div1;
     var input_1;
     var input_1_class_value;
     var input_1_data_target_value;
@@ -992,9 +993,9 @@ var Typeahead = (function () {
     var div0;
     var button;
     var t1;
-    var div1;
+    var div2;
     var t2;
-    var div1_class_value;
+    var div2_class_value;
     var dispose;
 
     function select_block_type(changed, ctx) {
@@ -1009,18 +1010,19 @@ var Typeahead = (function () {
     var if_block1 = ctx.hasMore && create_if_block(ctx);
     return {
       c: function c() {
-        div2 = element("div");
+        div3 = element("div");
+        div1 = element("div");
         input_1 = element("input");
         t0 = space();
         div0 = element("div");
         button = element("button");
         button.innerHTML = "<i class=\"text-dark fas fa-caret-down\"></i>";
         t1 = space();
-        div1 = element("div");
+        div2 = element("div");
         if_block0.c();
         t2 = space();
         if (if_block1) if_block1.c();
-        attr(input_1, "class", input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-1k67s1s"));
+        attr(input_1, "class", input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-80qp02"));
         attr(input_1, "autocomplete", "new-password");
         attr(input_1, "autocorrect", "off");
         attr(input_1, "autocapitalize", "off");
@@ -1031,28 +1033,31 @@ var Typeahead = (function () {
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
         attr(div0, "class", "input-group-append");
-        attr(div1, "class", div1_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s");
-        attr(div2, "class", "input-group ki-typeahead svelte-1k67s1s");
-        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div1, "scroll", ctx.handlePopupScroll)];
+        attr(div1, "class", "input-group");
+        attr(div2, "class", div2_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-80qp02");
+        attr(div3, "class", "ki-typeahead-container svelte-80qp02");
+        dispose = [listen(input_1, "input", ctx.input_1_input_handler), listen(input_1, "blur", ctx.handleBlur), listen(input_1, "keypress", ctx.handleInputKeypress), listen(input_1, "keydown", ctx.handleInputKeydown), listen(input_1, "keyup", ctx.handleInputKeyup), listen(button, "blur", ctx.handleBlur), listen(button, "keydown", ctx.handleToggleKeydown), listen(button, "click", ctx.handleToggleClick), listen(div2, "scroll", ctx.handlePopupScroll)];
       },
       m: function m(target, anchor) {
-        insert(target, div2, anchor);
-        append(div2, input_1);
+        insert(target, div3, anchor);
+        append(div3, div1);
+        append(div1, input_1);
         set_input_value(input_1, ctx.query);
         ctx.input_1_binding(input_1);
-        append(div2, t0);
-        append(div2, div0);
+        append(div1, t0);
+        append(div1, div0);
         append(div0, button);
         ctx.button_binding(button);
-        append(div2, t1);
-        append(div2, div1);
-        if_block0.m(div1, null);
-        append(div1, t2);
-        if (if_block1) if_block1.m(div1, null);
-        ctx.div1_binding(div1);
+        append(div3, t1);
+        append(div3, div2);
+        if_block0.m(div2, null);
+        append(div2, t2);
+        if (if_block1) if_block1.m(div2, null);
+        ctx.div2_binding(div2);
+        ctx.div3_binding(div3);
       },
       p: function p(changed, ctx) {
-        if ((changed.real || changed.extraClass) && input_1_class_value !== (input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-1k67s1s"))) {
+        if ((changed.real || changed.extraClass) && input_1_class_value !== (input_1_class_value = "" + (ctx.real.getAttribute("class") + " " + ctx.extraClass + " svelte-80qp02"))) {
           attr(input_1, "class", input_1_class_value);
         }
 
@@ -1076,7 +1081,7 @@ var Typeahead = (function () {
 
           if (if_block0) {
             if_block0.c();
-            if_block0.m(div1, t2);
+            if_block0.m(div2, t2);
           }
         }
 
@@ -1086,26 +1091,27 @@ var Typeahead = (function () {
           } else {
             if_block1 = create_if_block(ctx);
             if_block1.c();
-            if_block1.m(div1, null);
+            if_block1.m(div2, null);
           }
         } else if (if_block1) {
           if_block1.d(1);
           if_block1 = null;
         }
 
-        if (changed.popupVisible && div1_class_value !== (div1_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-1k67s1s")) {
-          attr(div1, "class", div1_class_value);
+        if (changed.popupVisible && div2_class_value !== (div2_class_value = "dropdown-menu ki-typeahead-popup " + (ctx.popupVisible ? "show" : "") + " svelte-80qp02")) {
+          attr(div2, "class", div2_class_value);
         }
       },
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) detach(div2);
+        if (detaching) detach(div3);
         ctx.input_1_binding(null);
         ctx.button_binding(null);
         if_block0.d();
         if (if_block1) if_block1.d();
-        ctx.div1_binding(null);
+        ctx.div2_binding(null);
+        ctx.div3_binding(null);
         run_all(dispose);
       }
     };
@@ -1140,6 +1146,7 @@ var Typeahead = (function () {
         delay = _$$props$delay === void 0 ? 200 : _$$props$delay;
     var _$$props$extraClass = $$props.extraClass,
         extraClass = _$$props$extraClass === void 0 ? "" : _$$props$extraClass;
+    var container;
     var input;
     var toggle;
     var popup;
@@ -1291,7 +1298,7 @@ var Typeahead = (function () {
     function openPopup() {
       if (!popupVisible) {
         $$invalidate("popupVisible", popupVisible = true);
-        var w = input.parentElement.offsetWidth;
+        var w = container.offsetWidth;
         $$invalidate("popup", popup.style.minWidth = w + "px", popup);
       }
     }
@@ -1634,9 +1641,15 @@ var Typeahead = (function () {
       });
     }
 
-    function div1_binding($$value) {
+    function div2_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
         $$invalidate("popup", popup = $$value);
+      });
+    }
+
+    function div3_binding($$value) {
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate("container", container = $$value);
       });
     }
 
@@ -1673,6 +1686,7 @@ var Typeahead = (function () {
       query: query,
       delay: delay,
       extraClass: extraClass,
+      container: container,
       input: input,
       toggle: toggle,
       popup: popup,
@@ -1700,7 +1714,8 @@ var Typeahead = (function () {
       input_1_binding: input_1_binding,
       button_binding: button_binding,
       div_binding: div_binding,
-      div1_binding: div1_binding
+      div2_binding: div2_binding,
+      div3_binding: div3_binding
     };
   }
 

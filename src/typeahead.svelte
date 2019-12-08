@@ -17,6 +17,7 @@
  export let delay = 200;
  export let extraClass = '';
 
+ let container;
  let input;
  let toggle;
  let popup;
@@ -217,7 +218,7 @@
  function openPopup() {
      if (!popupVisible) {
          popupVisible = true;
-         let w = input.parentElement.offsetWidth;
+         let w = container.offsetWidth;
          popup.style.minWidth = w + "px";
      }
  }
@@ -556,7 +557,7 @@
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
 <style>
- .ki-typeahead {
+ .ki-typeahead-container {
      position: relative;
  }
  .ki-typeahead-popup {
@@ -571,29 +572,33 @@
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<div class="input-group ki-typeahead">
-  <input class="{real.getAttribute('class')} {extraClass}"
-         autocomplete=new-password
-         autocorrect=off
-         autocapitalize=off
-         spellcheck=off
+<div class="ki-typeahead-container"
+     bind:this={container} >
 
-         data-target="{real.id}"
-         placeholder="{real.placeholder}"
-         bind:this={input}
-         bind:value={query}
-         on:blur={handleBlur}
-         on:keypress={handleInputKeypress}
-         on:keydown={handleInputKeydown}
-         on:keyup={handleInputKeyup}>
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" tabindex="-1"
-            bind:this={toggle}
-            on:blur={handleBlur}
-            on:keydown={handleToggleKeydown}
-            on:click={handleToggleClick}>
-      <i class="text-dark fas fa-caret-down"></i>
-    </button>
+  <div class="input-group">
+    <input class="{real.getAttribute('class')} {extraClass}"
+           autocomplete=new-password
+           autocorrect=off
+           autocapitalize=off
+           spellcheck=off
+
+           data-target="{real.id}"
+           placeholder="{real.placeholder}"
+           bind:this={input}
+           bind:value={query}
+           on:blur={handleBlur}
+           on:keypress={handleInputKeypress}
+           on:keydown={handleInputKeydown}
+           on:keyup={handleInputKeyup}>
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" tabindex="-1"
+              bind:this={toggle}
+              on:blur={handleBlur}
+              on:keydown={handleToggleKeydown}
+              on:click={handleToggleClick}>
+        <i class="text-dark fas fa-caret-down"></i>
+      </button>
+    </div>
   </div>
 
   <div class="dropdown-menu ki-typeahead-popup {popupVisible ? 'show' : ''}"
