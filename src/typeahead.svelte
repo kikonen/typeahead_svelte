@@ -300,6 +300,9 @@
      });
  });
 
+
+ ////////////////////////////////////////////////////////////
+ //
  let inputKeypressHandlers = {
      base: function(event) {
          selectedItem = null;
@@ -497,6 +500,8 @@
      },
  }
 
+ ////////////////////////////////////////////////////////////
+ //
  function handleEvent(code, handlers, event) {
      (handlers[code] || handlers.base)(event);
  }
@@ -576,7 +581,7 @@
      bind:this={container} >
 
   <div class="input-group">
-    <input class="{real.getAttribute('class')} {extraClass}"
+    <input class="form-control {extraClass}"
            autocomplete=new-password
            autocorrect=off
            autocapitalize=off
@@ -590,6 +595,7 @@
            on:keypress={handleInputKeypress}
            on:keydown={handleInputKeydown}
            on:keyup={handleInputKeyup}>
+
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" tabindex="-1"
               bind:this={toggle}
