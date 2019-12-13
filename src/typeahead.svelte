@@ -552,7 +552,7 @@
      fetching_more: 'Searching more...',
  };
 
- export let config = {
+ export const config = {
      translations: I18N_DEFAULTS,
  }
 
