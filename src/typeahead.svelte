@@ -1,18 +1,10 @@
 <script>
  import {onMount} from 'svelte';
 
- const I18N_DEFAULTS = {
-     fetching: 'Searching..',
-     no_results: 'No results',
-     too_short: 'Too short',
-     has_more: 'More...',
-     fetching_more: 'Searching more...',
- };
 
  export let real;
  export let fetcher;
  export let queryMinLen = 1;
- export let translations = I18N_DEFAULTS;
  export let query;
  export let delay = 200;
  export let extraClass = '';
@@ -249,14 +241,6 @@
 
  function containsElement(el) {
      return el === input || el === toggle || popup.contains(el);
- }
-
- function hasModifier(event) {
-     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
- }
-
- function translate(key) {
-     return translations[key] || I18N_DEFAULTS[key];
  }
 
  ////////////////////////////////////////////////////////////
@@ -556,6 +540,28 @@
 
  function handlePopupScroll(event) {
      fetchMoreIfneeded();
+ }
+</script>
+
+<script context="module">
+ const I18N_DEFAULTS = {
+     fetching: 'Searching..',
+     no_results: 'No results',
+     too_short: 'Too short',
+     has_more: 'More...',
+     fetching_more: 'Searching more...',
+ };
+
+ export let config = {
+     translations: I18N_DEFAULTS,
+ }
+
+ function translate(key) {
+     return config.translations[key] || I18N_DEFAULTS[key];
+ }
+
+ function hasModifier(event) {
+     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
  }
 </script>
 
