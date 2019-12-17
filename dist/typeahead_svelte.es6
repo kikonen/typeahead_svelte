@@ -259,8 +259,8 @@ const { document: document_1 } = globals;
 
 function add_css() {
 	var style = element("style");
-	style.id = "svelte-1mymqwx-style";
-	style.textContent = ".typeahead-svelte-container{position:relative}.typeahead-svelte-popup{max-height:50vh;max-width:90vw;overflow-y:auto}.ki-no-click{pointer-events:none}";
+	style.id = "svelte-1ya3ozo-style";
+	style.textContent = ".ts-container{position:relative}.ts-popup{max-height:50vh;max-width:90vw;overflow-y:auto}.ts-no-click{pointer-events:none}";
 	append(document_1.head, style);
 }
 
@@ -436,7 +436,7 @@ function create_else_block_2(ctx) {
 			t1 = space();
 			if (if_block) if_block.c();
 			t2 = space();
-			attr(div0, "class", "ki-no-click");
+			attr(div0, "class", "ts-no-click");
 			attr(div1, "tabindex", "1");
 			attr(div1, "class", "ki-js-item dropdown-item");
 			attr(div1, "data-index", div1_data_index_value = /*index*/ ctx[59]);
@@ -499,7 +499,7 @@ function create_if_block_6(ctx) {
 			t1 = space();
 			if (if_block) if_block.c();
 			t2 = space();
-			attr(div0, "class", "ki-no-click");
+			attr(div0, "class", "ts-no-click");
 			attr(div1, "tabindex", "-1");
 			attr(div1, "class", "dropdown-item text-muted ki-js-blank");
 			dispose = listen(div1, "keydown", /*handleItemKeydown*/ ctx[22]);
@@ -571,7 +571,7 @@ function create_if_block_8(ctx) {
 		c() {
 			div = element("div");
 			t = text(t_value);
-			attr(div, "class", "ki-no-click text-muted");
+			attr(div, "class", "ts-no-click text-muted");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -596,7 +596,7 @@ function create_if_block_7(ctx) {
 		c() {
 			div = element("div");
 			t = text(t_value);
-			attr(div, "class", "ki-no-click text-muted");
+			attr(div, "class", "ts-no-click text-muted");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
@@ -767,7 +767,7 @@ function create_fragment(ctx) {
 			attr(button, "tabindex", "-1");
 			attr(div0, "class", "input-group-append");
 			attr(div1, "class", "input-group");
-			attr(div2, "class", div2_class_value = "dropdown-menu typeahead-svelte-popup " + (/*popupVisible*/ ctx[14] ? "show" : ""));
+			attr(div2, "class", div2_class_value = "dropdown-menu ts-popup " + (/*popupVisible*/ ctx[14] ? "show" : ""));
 			attr(div3, "class", div3_class_value = "form-control p-0 border-0 " + /*extraClass*/ ctx[2]);
 
 			dispose = [
@@ -838,7 +838,7 @@ function create_fragment(ctx) {
 				if_block1 = null;
 			}
 
-			if (dirty[0] & /*popupVisible*/ 16384 && div2_class_value !== (div2_class_value = "dropdown-menu typeahead-svelte-popup " + (/*popupVisible*/ ctx[14] ? "show" : ""))) {
+			if (dirty[0] & /*popupVisible*/ 16384 && div2_class_value !== (div2_class_value = "dropdown-menu ts-popup " + (/*popupVisible*/ ctx[14] ? "show" : ""))) {
 				attr(div2, "class", div2_class_value);
 			}
 
@@ -1502,7 +1502,7 @@ function instance($$self, $$props, $$invalidate) {
 class Typeahead extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document_1.getElementById("svelte-1mymqwx-style")) add_css();
+		if (!document_1.getElementById("svelte-1ya3ozo-style")) add_css();
 
 		init(
 			this,

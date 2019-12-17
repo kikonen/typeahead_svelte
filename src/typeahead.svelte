@@ -572,15 +572,15 @@
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
 <style>
- :global(.typeahead-svelte-container) {
+ :global(.ts-container) {
      position: relative;
  }
- :global(.typeahead-svelte-popup) {
+ :global(.ts-popup) {
      max-height: 50vh;
      max-width: 90vw;
      overflow-y: auto;
  }
- :global(.ki-no-click) {
+ :global(.ts-no-click) {
      pointer-events: none;
  }
 </style>
@@ -617,7 +617,7 @@
     </div>
   </div>
 
-  <div class="dropdown-menu typeahead-svelte-popup {popupVisible ? 'show' : ''}"
+  <div class="dropdown-menu ts-popup {popupVisible ? 'show' : ''}"
        bind:this={popup}
        on:scroll={handlePopupScroll}>
     {#if fetchError}
@@ -647,11 +647,11 @@
         {:else if item.disabled || item.placeholder}
           <div tabindex="-1" class="dropdown-item text-muted ki-js-blank"
                on:keydown={handleItemKeydown}>
-            <div class="ki-no-click">
+            <div class="ts-no-click">
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="ki-no-click text-muted">
+              <div class="ts-no-click text-muted">
                 {item.desc}
               </div>
             {/if}
@@ -663,11 +663,11 @@
              on:keydown={handleItemKeydown}
              on:keyup={handleItemKeyup}>
 
-            <div class="ki-no-click">
+            <div class="ts-no-click">
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="ki-no-click text-muted">
+              <div class="ts-no-click text-muted">
                 {item.desc}
               </div>
             {/if}
