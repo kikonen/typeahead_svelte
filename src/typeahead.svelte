@@ -587,11 +587,11 @@
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<div class="ki-typeahead-container"
+<div class="form-control p-0 border-0 {extraClass}"
      bind:this={container} >
 
   <div class="input-group">
-    <input class="form-control {extraClass}"
+    <input class="form-control"
            autocomplete=new-password
            autocorrect=off
            autocapitalize=off

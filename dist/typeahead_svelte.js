@@ -1065,7 +1065,6 @@ var Typeahead = (function (exports) {
     var div3;
     var div1;
     var input_1;
-    var input_1_class_value;
     var input_1_data_target_value;
     var input_1_placeholder_value;
     var t0;
@@ -1075,6 +1074,7 @@ var Typeahead = (function (exports) {
     var div2;
     var t2;
     var div2_class_value;
+    var div3_class_value;
     var dispose;
 
     function select_block_type(ctx, dirty) {
@@ -1111,9 +1111,7 @@ var Typeahead = (function (exports) {
         if_block0.c();
         t2 = space();
         if (if_block1) if_block1.c();
-        attr(input_1, "class", input_1_class_value = "form-control " +
-        /*extraClass*/
-        ctx[2] + " svelte-80qp02");
+        attr(input_1, "class", "form-control");
         attr(input_1, "autocomplete", "new-password");
         attr(input_1, "autocorrect", "off");
         attr(input_1, "autocapitalize", "off");
@@ -1132,7 +1130,9 @@ var Typeahead = (function (exports) {
         attr(div2, "class", div2_class_value = "dropdown-menu ki-typeahead-popup " + (
         /*popupVisible*/
         ctx[14] ? "show" : "") + " svelte-80qp02");
-        attr(div3, "class", "ki-typeahead-container svelte-80qp02");
+        attr(div3, "class", div3_class_value = "form-control p-0 border-0 " +
+        /*extraClass*/
+        ctx[2] + " svelte-80qp02");
         dispose = [listen(input_1, "input",
         /*input_1_input_handler*/
         ctx[51]), listen(input_1, "blur",
@@ -1182,14 +1182,6 @@ var Typeahead = (function (exports) {
         ctx[56](div3);
       },
       p: function p(ctx, dirty) {
-        if (dirty[0] &
-        /*extraClass*/
-        4 && input_1_class_value !== (input_1_class_value = "form-control " +
-        /*extraClass*/
-        ctx[2] + " svelte-80qp02")) {
-          attr(input_1, "class", input_1_class_value);
-        }
-
         if (dirty[0] &
         /*real*/
         2 && input_1_data_target_value !== (input_1_data_target_value =
@@ -1249,6 +1241,14 @@ var Typeahead = (function (exports) {
         /*popupVisible*/
         ctx[14] ? "show" : "") + " svelte-80qp02")) {
           attr(div2, "class", div2_class_value);
+        }
+
+        if (dirty[0] &
+        /*extraClass*/
+        4 && div3_class_value !== (div3_class_value = "form-control p-0 border-0 " +
+        /*extraClass*/
+        ctx[2] + " svelte-80qp02")) {
+          attr(div3, "class", div3_class_value);
         }
       },
       i: noop,

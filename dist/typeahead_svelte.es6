@@ -718,7 +718,6 @@ function create_fragment(ctx) {
 	let div3;
 	let div1;
 	let input_1;
-	let input_1_class_value;
 	let input_1_data_target_value;
 	let input_1_placeholder_value;
 	let t0;
@@ -728,6 +727,7 @@ function create_fragment(ctx) {
 	let div2;
 	let t2;
 	let div2_class_value;
+	let div3_class_value;
 	let dispose;
 
 	function select_block_type(ctx, dirty) {
@@ -755,7 +755,7 @@ function create_fragment(ctx) {
 			if_block0.c();
 			t2 = space();
 			if (if_block1) if_block1.c();
-			attr(input_1, "class", input_1_class_value = "form-control " + /*extraClass*/ ctx[2] + " svelte-80qp02");
+			attr(input_1, "class", "form-control");
 			attr(input_1, "autocomplete", "new-password");
 			attr(input_1, "autocorrect", "off");
 			attr(input_1, "autocapitalize", "off");
@@ -768,7 +768,7 @@ function create_fragment(ctx) {
 			attr(div0, "class", "input-group-append");
 			attr(div1, "class", "input-group");
 			attr(div2, "class", div2_class_value = "dropdown-menu ki-typeahead-popup " + (/*popupVisible*/ ctx[14] ? "show" : "") + " svelte-80qp02");
-			attr(div3, "class", "ki-typeahead-container svelte-80qp02");
+			attr(div3, "class", div3_class_value = "form-control p-0 border-0 " + /*extraClass*/ ctx[2] + " svelte-80qp02");
 
 			dispose = [
 				listen(input_1, "input", /*input_1_input_handler*/ ctx[51]),
@@ -801,10 +801,6 @@ function create_fragment(ctx) {
 			/*div3_binding*/ ctx[56](div3);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*extraClass*/ 4 && input_1_class_value !== (input_1_class_value = "form-control " + /*extraClass*/ ctx[2] + " svelte-80qp02")) {
-				attr(input_1, "class", input_1_class_value);
-			}
-
 			if (dirty[0] & /*real*/ 2 && input_1_data_target_value !== (input_1_data_target_value = /*real*/ ctx[1].id)) {
 				attr(input_1, "data-target", input_1_data_target_value);
 			}
@@ -844,6 +840,10 @@ function create_fragment(ctx) {
 
 			if (dirty[0] & /*popupVisible*/ 16384 && div2_class_value !== (div2_class_value = "dropdown-menu ki-typeahead-popup " + (/*popupVisible*/ ctx[14] ? "show" : "") + " svelte-80qp02")) {
 				attr(div2, "class", div2_class_value);
+			}
+
+			if (dirty[0] & /*extraClass*/ 4 && div3_class_value !== (div3_class_value = "form-control p-0 border-0 " + /*extraClass*/ ctx[2] + " svelte-80qp02")) {
+				attr(div3, "class", div3_class_value);
 			}
 		},
 		i: noop,
