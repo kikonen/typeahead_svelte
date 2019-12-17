@@ -572,15 +572,15 @@
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
 <style>
- .ki-typeahead-container {
+ :global(.typeahead-svelte-container) {
      position: relative;
  }
- .ki-typeahead-popup {
+ :global(.typeahead-svelte-popup) {
      max-height: 50vh;
      max-width: 90vw;
      overflow-y: auto;
  }
- .ki-no-click {
+ :global(.ki-no-click) {
      pointer-events: none;
  }
 </style>
@@ -617,7 +617,7 @@
     </div>
   </div>
 
-  <div class="dropdown-menu ki-typeahead-popup {popupVisible ? 'show' : ''}"
+  <div class="dropdown-menu typeahead-svelte-popup {popupVisible ? 'show' : ''}"
        bind:this={popup}
        on:scroll={handlePopupScroll}>
     {#if fetchError}

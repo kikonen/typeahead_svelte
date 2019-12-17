@@ -737,7 +737,7 @@ var Typeahead = (function (exports) {
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "ki-no-click svelte-bcw8ej");
+        attr(div0, "class", "ki-no-click");
         attr(div1, "tabindex", "1");
         attr(div1, "class", "ki-js-item dropdown-item");
         attr(div1, "data-index", div1_data_index_value =
@@ -817,7 +817,7 @@ var Typeahead = (function (exports) {
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "ki-no-click svelte-bcw8ej");
+        attr(div0, "class", "ki-no-click");
         attr(div1, "tabindex", "-1");
         attr(div1, "class", "dropdown-item text-muted ki-js-blank");
         dispose = listen(div1, "keydown",
@@ -903,7 +903,7 @@ var Typeahead = (function (exports) {
       c: function c() {
         div = element("div");
         t = text(t_value);
-        attr(div, "class", "ki-no-click text-muted svelte-bcw8ej");
+        attr(div, "class", "ki-no-click text-muted");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -933,7 +933,7 @@ var Typeahead = (function (exports) {
       c: function c() {
         div = element("div");
         t = text(t_value);
-        attr(div, "class", "ki-no-click text-muted svelte-bcw8ej");
+        attr(div, "class", "ki-no-click text-muted");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -1127,12 +1127,12 @@ var Typeahead = (function (exports) {
         attr(button, "tabindex", "-1");
         attr(div0, "class", "input-group-append");
         attr(div1, "class", "input-group");
-        attr(div2, "class", div2_class_value = "dropdown-menu ki-typeahead-popup " + (
+        attr(div2, "class", div2_class_value = "dropdown-menu typeahead-svelte-popup " + (
         /*popupVisible*/
-        ctx[14] ? "show" : "") + " svelte-bcw8ej");
+        ctx[14] ? "show" : ""));
         attr(div3, "class", div3_class_value = "form-control p-0 border-0 " +
         /*extraClass*/
-        ctx[2] + " svelte-bcw8ej");
+        ctx[2]);
         dispose = [listen(input_1, "input",
         /*input_1_input_handler*/
         ctx[51]), listen(input_1, "blur",
@@ -1237,9 +1237,9 @@ var Typeahead = (function (exports) {
 
         if (dirty[0] &
         /*popupVisible*/
-        16384 && div2_class_value !== (div2_class_value = "dropdown-menu ki-typeahead-popup " + (
+        16384 && div2_class_value !== (div2_class_value = "dropdown-menu typeahead-svelte-popup " + (
         /*popupVisible*/
-        ctx[14] ? "show" : "") + " svelte-bcw8ej")) {
+        ctx[14] ? "show" : ""))) {
           attr(div2, "class", div2_class_value);
         }
 
@@ -1247,7 +1247,7 @@ var Typeahead = (function (exports) {
         /*extraClass*/
         4 && div3_class_value !== (div3_class_value = "form-control p-0 border-0 " +
         /*extraClass*/
-        ctx[2] + " svelte-bcw8ej")) {
+        ctx[2])) {
           attr(div3, "class", div3_class_value);
         }
       },
