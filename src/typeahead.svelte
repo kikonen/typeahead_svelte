@@ -576,7 +576,7 @@
      position: relative;
  }
  .ki-typeahead-popup {
-     max-height: 15rem;
+     max-height: 50vh;
      max-width: 90vw;
      overflow-y: auto;
  }
