@@ -15,9 +15,9 @@
  let popup;
  let more;
 
- let entries = [];
+ let items = [];
  let offsetCount = 0;
- let displayCount = 0;
+ let actualCount = 0;
 
  let message = null;
  let messageClass = null;
@@ -46,7 +46,7 @@
 
  ////////////////////////////////////////////////////////////
  //
- function fetchEntries(more) {
+ function fetchItems(more) {
      let currentQuery = query.trim();
      if (currentQuery.length > 0) {
          currentQuery = query;
@@ -66,9 +66,9 @@
          fetchOffset = offsetCount;
          fetchingMore = true;
      } else {
-         entries = [];
+         items = [];
          offsetCount = 0;
-         displayCount = 0;
+         actualCount = 0;
          hasMore = false;
          fetched = false;
          fetchingMore = false;
@@ -86,7 +86,7 @@
              if (currentQuery.length < queryMinLen) {
 //                 console.debug("TOO_SHORT fetch: " + currentQuery + ", limit: " + queryMinLen);
                  resolve({
-                     entries: [],
+                     items: [],
                      info: {
                          more: false,
                          too_short: true,
@@ -107,23 +107,23 @@
          }
      }).then(function(response) {
          if (currentFetch === activeFetch) {
-             let newEntries = response.entries || [];
+             let fetchedtems = response.items || [];
              let info = response.info || {};
 
-//             console.debug("APPLY fetch: " + currentQuery + ", isMore: " + currentFetchingMore + ", offset: " + currentFetchOffset + ", resultSize: " + newEntries.length + ", oldSize: " + entries.length);
+//             console.debug("APPLY fetch: " + currentQuery + ", isMore: " + currentFetchingMore + ", offset: " + currentFetchOffset + ", resultSize: " + fetchedtems.length + ", oldSize: " + items.length);
 //             console.debug(info);
 
-             let updateEntries;
+             let newItems;
              if (currentFetchingMore) {
-                 updateEntries = entries;
-                 newEntries.forEach(function(item) {
-                     updateEntries.push(item);
+                 newItems = items;
+                 fetchedtems.forEach(function(item) {
+                     newItems.push(item);
                  });
              } else {
-                 updateEntries = newEntries;
+                 newItems = fetchedtems;
              }
-             entries = updateEntries;
-             updateCounts(entries);
+             items = newItems;
+             resolveItems(items);
 
              hasMore = info.more && offsetCount > 0;
              tooShort = info.too_short === true;
@@ -140,9 +140,9 @@
              console.error(err);
 
              fetchError = err;
-             entries = [];
+             items = [];
              offsetCount = 0;
-             displayCount = 0;
+             actualCount = 0;
              hasMore = false;
              tooShort = false;
              previousQuery = null;
@@ -158,25 +158,29 @@
      activeFetch = currentFetch;
  }
 
- function updateCounts(entries) {
+ function resolveItems(items) {
      let off = 0;
-     let disp = 0;
+     let act = 0;
 
-     entries.forEach(function(item) {
+     items.forEach(function(item) {
+         if (item.id) {
+             item.id = item.id.toString();
+         }
+
          if (item.separator) {
              // NOTE KI separator is ignored always
          } else if (item.placeholder) {
              // NOTE KI does not affect pagination
-             disp += 1;
+             act += 1;
          } else {
              // NOTE KI normal or disabled affects pagination
              off += 1;
-             disp += 1;
+             act += 1;
          }
      });
 
      offsetCount = off;
-     displayCount = disp;
+     actualCount = act;
  }
 
  function cancelFetch() {
@@ -195,7 +199,7 @@
          // console.debug(popup.scrollTop + popup.clientHeight >= popup.scrollHeight - more.height);
 
          if (popup.scrollTop + popup.clientHeight >= popup.scrollHeight - more.clientHeight * 2 - 2) {
-             fetchEntries(true);
+             fetchItems(true);
          }
      }
  }
@@ -216,7 +220,7 @@
  }
 
  function selectItem(el) {
-     let item = entries[el.dataset.index];
+     let item = items[el.dataset.index];
      if (item) {
          selectedItem = item;
          let changed = item.text !== query
@@ -306,13 +310,13 @@
              item.focus();
          } else {
              openPopup();
-             fetchEntries();
+             fetchItems();
          }
          event.preventDefault();
      },
      ArrowUp: function(event) {
          // NOTE KI closing popup here is *irritating* i.e. if one is trying to select
-         // first entry in dropdown
+         // first item in dropdown
          event.preventDefault();
      },
      Escape: function(event) {
@@ -326,7 +330,7 @@
      base: function(event) {
          if (wasDown) {
              openPopup();
-             fetchEntries();
+             fetchItems();
          }
      },
      Enter: nop,
@@ -519,7 +523,7 @@
              closePopup(false);
          } else {
              openPopup();
-             fetchEntries();
+             fetchItems();
          }
      }
  }
@@ -624,7 +628,7 @@
       <div tabindex="-1" class="dropdown-item text-muted">
         {translate('fetching')}
       </div>
-    {:else if displayCount === 0}
+    {:else if actualCount === 0}
       <div tabindex="-1" class="dropdown-item text-muted">
         {#if tooShort }
           {translate('too_short')}
@@ -633,7 +637,7 @@
         {/if}
       </div>
     {:else}
-      {#each entries as item, index}
+      {#each items as item, index}
         {#if item.separator}
           <div tabindex="-1"
             class="dropdown-divider ki-js-blank"

@@ -551,13 +551,13 @@ var Typeahead = (function (exports) {
     child_ctx[57] = list[i];
     child_ctx[59] = i;
     return child_ctx;
-  } // (635:4) {:else}
+  } // (639:4) {:else}
 
 
   function create_else_block_1(ctx) {
     var each_1_anchor;
     var each_value =
-    /*entries*/
+    /*items*/
     ctx[8];
     var each_blocks = [];
 
@@ -582,10 +582,10 @@ var Typeahead = (function (exports) {
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
-        /*entries, handleItemKeydown, handleBlur, handleItemClick, handleItemKeyup*/
+        /*items, handleItemKeydown, handleBlur, handleItemClick, handleItemKeyup*/
         29425920) {
           each_value =
-          /*entries*/
+          /*items*/
           ctx[8];
 
           var _i3;
@@ -616,7 +616,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (627:33) 
+  } // (631:32) 
 
 
   function create_if_block_3(ctx) {
@@ -660,7 +660,7 @@ var Typeahead = (function (exports) {
         if_block.d();
       }
     };
-  } // (623:43) 
+  } // (627:43) 
 
 
   function create_if_block_2(ctx) {
@@ -680,7 +680,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(div);
       }
     };
-  } // (619:4) {#if fetchError}
+  } // (623:4) {#if fetchError}
 
 
   function create_if_block_1(ctx) {
@@ -710,7 +710,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(div);
       }
     };
-  } // (655:8) {:else}
+  } // (659:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -763,7 +763,7 @@ var Typeahead = (function (exports) {
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
-        /*entries*/
+        /*items*/
         256 && t0_value !== (t0_value = (
         /*item*/
         ctx[57].display_text ||
@@ -791,7 +791,7 @@ var Typeahead = (function (exports) {
         run_all(dispose);
       }
     };
-  } // (643:52) 
+  } // (647:52) 
 
 
   function create_if_block_6(ctx) {
@@ -834,7 +834,7 @@ var Typeahead = (function (exports) {
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
-        /*entries*/
+        /*items*/
         256 && t0_value !== (t0_value = (
         /*item*/
         ctx[57].display_text ||
@@ -862,7 +862,7 @@ var Typeahead = (function (exports) {
         dispose();
       }
     };
-  } // (637:8) {#if item.separator}
+  } // (641:8) {#if item.separator}
 
 
   function create_if_block_5(ctx) {
@@ -890,7 +890,7 @@ var Typeahead = (function (exports) {
         dispose();
       }
     };
-  } // (665:12) {#if item.desc}
+  } // (669:12) {#if item.desc}
 
 
   function create_if_block_8(ctx) {
@@ -911,7 +911,7 @@ var Typeahead = (function (exports) {
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
-        /*entries*/
+        /*items*/
         256 && t_value !== (t_value =
         /*item*/
         ctx[57].desc + "")) set_data(t, t_value);
@@ -920,7 +920,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(div);
       }
     };
-  } // (649:12) {#if item.desc}
+  } // (653:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -941,7 +941,7 @@ var Typeahead = (function (exports) {
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
-        /*entries*/
+        /*items*/
         256 && t_value !== (t_value =
         /*item*/
         ctx[57].desc + "")) set_data(t, t_value);
@@ -950,7 +950,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(div);
       }
     };
-  } // (636:6) {#each entries as item, index}
+  } // (640:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -997,7 +997,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (631:8) {:else}
+  } // (635:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -1015,7 +1015,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(t);
       }
     };
-  } // (629:8) {#if tooShort }
+  } // (633:8) {#if tooShort }
 
 
   function create_if_block_4(ctx) {
@@ -1033,7 +1033,7 @@ var Typeahead = (function (exports) {
         if (detaching) detach(t);
       }
     };
-  } // (675:4) {#if hasMore}
+  } // (679:4) {#if hasMore}
 
 
   function create_if_block(ctx) {
@@ -1087,7 +1087,7 @@ var Typeahead = (function (exports) {
       /*fetchingMore*/
       ctx[12]) return create_if_block_2;
       if (
-      /*displayCount*/
+      /*actualCount*/
       ctx[9] === 0) return create_if_block_3;
       return create_else_block_1;
     }
@@ -1314,9 +1314,9 @@ var Typeahead = (function (exports) {
     var toggle;
     var popup;
     var more;
-    var entries = [];
+    var items = [];
     var offsetCount = 0;
-    var displayCount = 0;
+    var actualCount = 0;
     var hasMore = false;
     var tooShort = false;
     var fetchingMore = false;
@@ -1329,7 +1329,7 @@ var Typeahead = (function (exports) {
     var wasDown = false;
     var isSyncToReal = false;
 
-    function fetchEntries(more) {
+    function fetchItems(more) {
       var currentQuery = query.trim();
 
       if (currentQuery.length > 0) {
@@ -1347,9 +1347,9 @@ var Typeahead = (function (exports) {
         fetchOffset = offsetCount;
         $$invalidate(12, fetchingMore = true);
       } else {
-        $$invalidate(8, entries = []);
+        $$invalidate(8, items = []);
         offsetCount = 0;
-        $$invalidate(9, displayCount = 0);
+        $$invalidate(9, actualCount = 0);
         $$invalidate(10, hasMore = false);
         fetched = false;
         $$invalidate(12, fetchingMore = false);
@@ -1364,7 +1364,7 @@ var Typeahead = (function (exports) {
         } else {
           if (currentQuery.length < queryMinLen) {
             resolve({
-              entries: [],
+              items: [],
               info: {
                 more: false,
                 too_short: true
@@ -1382,21 +1382,21 @@ var Typeahead = (function (exports) {
         }
       }).then(function (response) {
         if (currentFetch === activeFetch) {
-          var newEntries = response.entries || [];
+          var fetchedtems = response.items || [];
           var info = response.info || {};
-          var updateEntries;
+          var newItems;
 
           if (currentFetchingMore) {
-            updateEntries = entries;
-            newEntries.forEach(function (item) {
-              updateEntries.push(item);
+            newItems = items;
+            fetchedtems.forEach(function (item) {
+              newItems.push(item);
             });
           } else {
-            updateEntries = newEntries;
+            newItems = fetchedtems;
           }
 
-          $$invalidate(8, entries = updateEntries);
-          updateCounts(entries);
+          $$invalidate(8, items = newItems);
+          resolveItems(items);
           $$invalidate(10, hasMore = info.more && offsetCount > 0);
           $$invalidate(11, tooShort = info.too_short === true);
           previousQuery = currentQuery;
@@ -1408,9 +1408,9 @@ var Typeahead = (function (exports) {
         if (currentFetch === activeFetch) {
           console.error(err);
           $$invalidate(13, fetchError = err);
-          $$invalidate(8, entries = []);
+          $$invalidate(8, items = []);
           offsetCount = 0;
-          $$invalidate(9, displayCount = 0);
+          $$invalidate(9, actualCount = 0);
           $$invalidate(10, hasMore = false);
           $$invalidate(11, tooShort = false);
           previousQuery = null;
@@ -1424,19 +1424,23 @@ var Typeahead = (function (exports) {
       $$invalidate(15, activeFetch = currentFetch);
     }
 
-    function updateCounts(entries) {
+    function resolveItems(items) {
       var off = 0;
-      var disp = 0;
-      entries.forEach(function (item) {
+      var act = 0;
+      items.forEach(function (item) {
+        if (item.id) {
+          item.id = item.id.toString();
+        }
+
         if (item.separator) ; else if (item.placeholder) {
-          disp += 1;
+          act += 1;
         } else {
           off += 1;
-          disp += 1;
+          act += 1;
         }
       });
       offsetCount = off;
-      $$invalidate(9, displayCount = disp);
+      $$invalidate(9, actualCount = act);
     }
 
     function cancelFetch() {
@@ -1450,7 +1454,7 @@ var Typeahead = (function (exports) {
     function fetchMoreIfneeded() {
       if (hasMore && !fetchingMore) {
         if (popup.scrollTop + popup.clientHeight >= popup.scrollHeight - more.clientHeight * 2 - 2) {
-          fetchEntries(true);
+          fetchItems(true);
         }
       }
     }
@@ -1472,7 +1476,7 @@ var Typeahead = (function (exports) {
     }
 
     function selectItem(el) {
-      var item = entries[el.dataset.index];
+      var item = items[el.dataset.index];
 
       if (item) {
         $$invalidate(32, selectedItem = item);
@@ -1552,7 +1556,7 @@ var Typeahead = (function (exports) {
           item.focus();
         } else {
           openPopup();
-          fetchEntries();
+          fetchItems();
         }
 
         event.preventDefault();
@@ -1570,7 +1574,7 @@ var Typeahead = (function (exports) {
       base: function base(event) {
         if (wasDown) {
           openPopup();
-          fetchEntries();
+          fetchItems();
         }
       },
       Enter: nop,
@@ -1759,7 +1763,7 @@ var Typeahead = (function (exports) {
           closePopup(false);
         } else {
           openPopup();
-          fetchEntries();
+          fetchItems();
         }
       }
     }
@@ -1840,7 +1844,7 @@ var Typeahead = (function (exports) {
       }
     };
 
-    return [query, real, extraClass, container, input, toggle, popup, more, entries, displayCount, hasMore, tooShort, fetchingMore, fetchError, popupVisible, activeFetch, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, fetcher, queryMinLen, delay, offsetCount, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchEntries, updateCounts, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_1_input_handler, input_1_binding, button_binding, div_binding, div2_binding, div3_binding];
+    return [query, real, extraClass, container, input, toggle, popup, more, items, actualCount, hasMore, tooShort, fetchingMore, fetchError, popupVisible, activeFetch, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, fetcher, queryMinLen, delay, offsetCount, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_1_input_handler, input_1_binding, button_binding, div_binding, div2_binding, div3_binding];
   }
 
   var Typeahead =

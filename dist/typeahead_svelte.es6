@@ -271,10 +271,10 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (635:4) {:else}
+// (639:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
-	let each_value = /*entries*/ ctx[8];
+	let each_value = /*items*/ ctx[8];
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -297,8 +297,8 @@ function create_else_block_1(ctx) {
 			insert(target, each_1_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*entries, handleItemKeydown, handleBlur, handleItemClick, handleItemKeyup*/ 29425920) {
-				each_value = /*entries*/ ctx[8];
+			if (dirty[0] & /*items, handleItemKeydown, handleBlur, handleItemClick, handleItemKeyup*/ 29425920) {
+				each_value = /*items*/ ctx[8];
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -327,7 +327,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (627:33) 
+// (631:32) 
 function create_if_block_3(ctx) {
 	let div;
 
@@ -370,7 +370,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (623:43) 
+// (627:43) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -391,7 +391,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (619:4) {#if fetchError}
+// (623:4) {#if fetchError}
 function create_if_block_1(ctx) {
 	let div;
 	let t;
@@ -416,7 +416,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (655:8) {:else}
+// (659:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -457,7 +457,7 @@ function create_else_block_2(ctx) {
 			append(div1, t2);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*entries*/ 256 && t0_value !== (t0_value = (/*item*/ ctx[57].display_text || /*item*/ ctx[57].text) + "")) set_data(t0, t0_value);
+			if (dirty[0] & /*items*/ 256 && t0_value !== (t0_value = (/*item*/ ctx[57].display_text || /*item*/ ctx[57].text) + "")) set_data(t0, t0_value);
 
 			if (/*item*/ ctx[57].desc) {
 				if (if_block) {
@@ -480,7 +480,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (643:52) 
+// (647:52) 
 function create_if_block_6(ctx) {
 	let div1;
 	let div0;
@@ -513,7 +513,7 @@ function create_if_block_6(ctx) {
 			append(div1, t2);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*entries*/ 256 && t0_value !== (t0_value = (/*item*/ ctx[57].display_text || /*item*/ ctx[57].text) + "")) set_data(t0, t0_value);
+			if (dirty[0] & /*items*/ 256 && t0_value !== (t0_value = (/*item*/ ctx[57].display_text || /*item*/ ctx[57].text) + "")) set_data(t0, t0_value);
 
 			if (/*item*/ ctx[57].desc) {
 				if (if_block) {
@@ -536,7 +536,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (637:8) {#if item.separator}
+// (641:8) {#if item.separator}
 function create_if_block_5(ctx) {
 	let div;
 	let div_data_index_value;
@@ -561,7 +561,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (665:12) {#if item.desc}
+// (669:12) {#if item.desc}
 function create_if_block_8(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[57].desc + "";
@@ -578,7 +578,7 @@ function create_if_block_8(ctx) {
 			append(div, t);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*entries*/ 256 && t_value !== (t_value = /*item*/ ctx[57].desc + "")) set_data(t, t_value);
+			if (dirty[0] & /*items*/ 256 && t_value !== (t_value = /*item*/ ctx[57].desc + "")) set_data(t, t_value);
 		},
 		d(detaching) {
 			if (detaching) detach(div);
@@ -586,7 +586,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (649:12) {#if item.desc}
+// (653:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[57].desc + "";
@@ -603,7 +603,7 @@ function create_if_block_7(ctx) {
 			append(div, t);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*entries*/ 256 && t_value !== (t_value = /*item*/ ctx[57].desc + "")) set_data(t, t_value);
+			if (dirty[0] & /*items*/ 256 && t_value !== (t_value = /*item*/ ctx[57].desc + "")) set_data(t, t_value);
 		},
 		d(detaching) {
 			if (detaching) detach(div);
@@ -611,7 +611,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (636:6) {#each entries as item, index}
+// (640:6) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -653,7 +653,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (631:8) {:else}
+// (635:8) {:else}
 function create_else_block(ctx) {
 	let t_value = translate("no_results") + "";
 	let t;
@@ -672,7 +672,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (629:8) {#if tooShort }
+// (633:8) {#if tooShort }
 function create_if_block_4(ctx) {
 	let t_value = translate("too_short") + "";
 	let t;
@@ -691,7 +691,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (675:4) {#if hasMore}
+// (679:4) {#if hasMore}
 function create_if_block(ctx) {
 	let div;
 
@@ -733,7 +733,7 @@ function create_fragment(ctx) {
 	function select_block_type(ctx, dirty) {
 		if (/*fetchError*/ ctx[13]) return create_if_block_1;
 		if (/*activeFetch*/ ctx[15] && !/*fetchingMore*/ ctx[12]) return create_if_block_2;
-		if (/*displayCount*/ ctx[9] === 0) return create_if_block_3;
+		if (/*actualCount*/ ctx[9] === 0) return create_if_block_3;
 		return create_else_block_1;
 	}
 
@@ -899,9 +899,9 @@ function instance($$self, $$props, $$invalidate) {
 	let toggle;
 	let popup;
 	let more;
-	let entries = [];
+	let items = [];
 	let offsetCount = 0;
-	let displayCount = 0;
+	let actualCount = 0;
 	let hasMore = false;
 	let tooShort = false;
 	let fetchingMore = false;
@@ -915,7 +915,7 @@ function instance($$self, $$props, $$invalidate) {
 	let isSyncToReal = false;
 	
 
-	function fetchEntries(more) {
+	function fetchItems(more) {
 		let currentQuery = query.trim();
 
 		if (currentQuery.length > 0) {
@@ -933,9 +933,9 @@ function instance($$self, $$props, $$invalidate) {
 			fetchOffset = offsetCount;
 			$$invalidate(12, fetchingMore = true);
 		} else {
-			$$invalidate(8, entries = []);
+			$$invalidate(8, items = []);
 			offsetCount = 0;
-			$$invalidate(9, displayCount = 0);
+			$$invalidate(9, actualCount = 0);
 			$$invalidate(10, hasMore = false);
 			fetched = false;
 			$$invalidate(12, fetchingMore = false);
@@ -951,7 +951,7 @@ function instance($$self, $$props, $$invalidate) {
 				} else {
 					if (currentQuery.length < queryMinLen) {
 						resolve({
-							entries: [],
+							items: [],
 							info: { more: false, too_short: true }
 						});
 					} else {
@@ -969,22 +969,22 @@ function instance($$self, $$props, $$invalidate) {
 				}
 			}).then(function (response) {
 			if (currentFetch === activeFetch) {
-				let newEntries = response.entries || [];
+				let fetchedtems = response.items || [];
 				let info = response.info || ({});
-				let updateEntries;
+				let newItems;
 
 				if (currentFetchingMore) {
-					updateEntries = entries;
+					newItems = items;
 
-					newEntries.forEach(function (item) {
-						updateEntries.push(item);
+					fetchedtems.forEach(function (item) {
+						newItems.push(item);
 					});
 				} else {
-					updateEntries = newEntries;
+					newItems = fetchedtems;
 				}
 
-				$$invalidate(8, entries = updateEntries);
-				updateCounts(entries);
+				$$invalidate(8, items = newItems);
+				resolveItems(items);
 				$$invalidate(10, hasMore = info.more && offsetCount > 0);
 				$$invalidate(11, tooShort = info.too_short === true);
 				previousQuery = currentQuery;
@@ -996,9 +996,9 @@ function instance($$self, $$props, $$invalidate) {
 			if (currentFetch === activeFetch) {
 				console.error(err);
 				$$invalidate(13, fetchError = err);
-				$$invalidate(8, entries = []);
+				$$invalidate(8, items = []);
 				offsetCount = 0;
-				$$invalidate(9, displayCount = 0);
+				$$invalidate(9, actualCount = 0);
 				$$invalidate(10, hasMore = false);
 				$$invalidate(11, tooShort = false);
 				previousQuery = null;
@@ -1013,21 +1013,25 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate(15, activeFetch = currentFetch);
 	}
 
-	function updateCounts(entries) {
+	function resolveItems(items) {
 		let off = 0;
-		let disp = 0;
+		let act = 0;
 
-		entries.forEach(function (item) {
+		items.forEach(function (item) {
+			if (item.id) {
+				item.id = item.id.toString();
+			}
+
 			if (item.separator) ; else if (item.placeholder) {
-				disp += 1;
+				act += 1;
 			} else {
 				off += 1;
-				disp += 1;
+				act += 1;
 			}
 		});
 
 		offsetCount = off;
-		$$invalidate(9, displayCount = disp);
+		$$invalidate(9, actualCount = act);
 	}
 
 	function cancelFetch() {
@@ -1041,7 +1045,7 @@ function instance($$self, $$props, $$invalidate) {
 	function fetchMoreIfneeded() {
 		if (hasMore && !fetchingMore) {
 			if (popup.scrollTop + popup.clientHeight >= popup.scrollHeight - more.clientHeight * 2 - 2) {
-				fetchEntries(true);
+				fetchItems(true);
 			}
 		}
 	}
@@ -1063,7 +1067,7 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function selectItem(el) {
-		let item = entries[el.dataset.index];
+		let item = items[el.dataset.index];
 
 		if (item) {
 			$$invalidate(32, selectedItem = item);
@@ -1146,7 +1150,7 @@ function instance($$self, $$props, $$invalidate) {
 				item.focus();
 			} else {
 				openPopup();
-				fetchEntries();
+				fetchItems();
 			}
 
 			event.preventDefault();
@@ -1165,7 +1169,7 @@ function instance($$self, $$props, $$invalidate) {
 		base(event) {
 			if (wasDown) {
 				openPopup();
-				fetchEntries();
+				fetchItems();
 			}
 		},
 		Enter: nop,
@@ -1357,7 +1361,7 @@ function instance($$self, $$props, $$invalidate) {
 				closePopup(false);
 			} else {
 				openPopup();
-				fetchEntries();
+				fetchItems();
 			}
 		}
 	}
@@ -1443,8 +1447,8 @@ function instance($$self, $$props, $$invalidate) {
 		toggle,
 		popup,
 		more,
-		entries,
-		displayCount,
+		items,
+		actualCount,
 		hasMore,
 		tooShort,
 		fetchingMore,
@@ -1470,8 +1474,8 @@ function instance($$self, $$props, $$invalidate) {
 		selectedItem,
 		wasDown,
 		isSyncToReal,
-		fetchEntries,
-		updateCounts,
+		fetchItems,
+		resolveItems,
 		cancelFetch,
 		fetchMoreIfneeded,
 		closePopup,
