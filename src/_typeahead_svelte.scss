@@ -1,4 +1,4 @@
-@mixin ss-no-click {
+@mixin ts-no-click {
   pointer-events: none;
   user-select: none;
 }
@@ -31,18 +31,20 @@
   padding-right: 0.5rem;
 }
 .ts-item-text {
-  @include ss-no-click;
+  @include ts-no-click;
 }
 .ts-item-desc {
-  @include ss-no-click;
+  @include ts-no-click;
   color: $text-muted;
 }
 .ts-item-disabled {
-  @include ss-no-click;
+  @include ts-no-click;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   color: $text-muted;
 }
 .ts-item-info {
-  @include ss-no-click;
+  @include ts-no-click;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   color: $text-muted;
