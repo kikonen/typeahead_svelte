@@ -660,7 +660,7 @@
             on:keydown={handleItemKeydown}>
           </div>
         {:else if item.disabled || item.placeholder}
-          <div tabindex="-1" class="dropdown-item ss-item-muted ts-js-dead"
+          <div tabindex="-1" class="dropdown-item ts-item-disabled ts-js-dead"
                on:keydown={handleItemKeydown}>
             <div class="ts-item-text">
               {item.display_text || item.text}
