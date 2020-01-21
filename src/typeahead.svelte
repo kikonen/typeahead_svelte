@@ -345,7 +345,7 @@
          wasDown = true;
      },
      ArrowDown: function(event) {
-         let item = popupVisible ? popupEl.querySelectorAll('.ki-js-item')[0] : null;
+         let item = popupVisible ? popupEl.querySelectorAll('.ts-js-item')[0] : null;
          if (item) {
              while (item && item.classList.contains('ts-js-dead')) {
                  item = item.nextElementSibling;
@@ -424,7 +424,7 @@
                  next = next.nextElementSibling;
              }
 
-             if (next && !next.classList.contains('ki-js-item')) {
+             if (next && !next.classList.contains('ts-js-item')) {
                  next = null;
              }
          }
@@ -441,7 +441,7 @@
              while (next && next.classList.contains('ts-js-dead')) {
                  next = next.previousElementSibling;
              }
-             if (next && !next.classList.contains('ki-js-item')) {
+             if (next && !next.classList.contains('ts-js-item')) {
                  next = null;
              }
          }
@@ -484,10 +484,10 @@
          let rect = popupEl.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
          if (!item) {
-             item = popupEl.querySelector('.ki-js-item:first-child');
+             item = popupEl.querySelector('.ts-js-item:first-child');
          } else {
-             if (!item.classList.contains('ki-js-item')) {
-                 item = popupEl.querySelector('.ki-js-item:first-child');
+             if (!item.classList.contains('ts-js-item')) {
+                 item = popupEl.querySelector('.ts-js-item:first-child');
              }
          }
          if (item) {
@@ -503,10 +503,10 @@
          let rect = popupEl.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
          if (!item) {
-             item = popupEl.querySelector('.ki-js-item:last-child');
+             item = popupEl.querySelector('.ts-js-item:last-child');
          } else {
-             if (!item.classList.contains('ki-js-item')) {
-                 item = popupEl.querySelector('.ki-js-item:last-child');
+             if (!item.classList.contains('ts-js-item')) {
+                 item = popupEl.querySelector('.ts-js-item:last-child');
              }
          }
          if (item) {
@@ -516,14 +516,14 @@
          event.preventDefault();
      },
      Home: function(event) {
-         let item = popupEl.querySelector('.ki-js-item:first-child');
+         let item = popupEl.querySelector('.ts-js-item:first-child');
          if (item) {
              item.focus();
          }
          event.preventDefault();
      },
      End: function(event) {
-         let item = popupEl.querySelector('.ki-js-item:last-child');
+         let item = popupEl.querySelector('.ts-js-item:last-child');
          if (item) {
              item.focus();
          }
@@ -672,7 +672,7 @@
             {/if}
           </div>
         {:else}
-          <div tabindex=1 class="dropdown-item ts-item ki-js-item"  data-index="{index}"
+          <div tabindex=1 class="dropdown-item ts-item ts-js-item"  data-index="{index}"
              on:blur={handleBlur}
              on:click={handleItemClick}
              on:keydown={handleItemKeydown}
