@@ -21,7 +21,6 @@
  import {beforeUpdate} from 'svelte';
 
  export let real;
- export let config = {};
 
  export let fetcher;
  export let queryMinLen = 1;
