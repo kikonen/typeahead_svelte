@@ -247,7 +247,7 @@
          let middleX = window.innerWidth / 2;
 
          popupTop = bounds.y > middleY;
-         popupLeft = bounds.x > middleX;
+         popupLeft = bounds.x + bounds.width > middleX;
      }
  }
 
