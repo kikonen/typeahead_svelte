@@ -1,19 +1,41 @@
+<script context="module">
+ const DEBUG = false;
+
+ const I18N_DEFAULTS = {
+     fetching: 'Searching..',
+     no_results: 'No results',
+     too_short: 'Too short',
+     fetching_more: 'Searching more...',
+ };
+
+ const STYLE_DEFAULTS = {
+     container_class: '',
+ };
+
+ function hasModifier(event) {
+     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+ }
+</script>
 <script>
  import {onMount} from 'svelte';
-
+ import {beforeUpdate} from 'svelte';
 
  export let real;
+ export let config = {};
+
  export let fetcher;
  export let queryMinLen = 1;
  export let query;
  export let delay = 200;
- export let extraClass = '';
+ export let translations = {};
+ export let styles = {};
 
- let container;
- let input;
- let toggle;
- let popup;
- let more;
+ let containerEl;
+ let inputEl;
+ let toggleEl;
+ let popupEl;
+
+ let setupDone = false;
 
  let items = [];
  let offsetCount = 0;
@@ -28,6 +50,9 @@
  let fetchError = null;
 
  let popupVisible = false;
+ let popupTop = false;
+ let popupLeft = false;
+
  let activeFetch = null;
 
  let previousQuery = null;
@@ -40,19 +65,23 @@
 
 
  ////////////////////////////////////////////////////////////
- //
+ // Utils
+
+ function translate(key) {
+     return translations[key];
+ }
 
  function nop() {};
 
  ////////////////////////////////////////////////////////////
  //
- function fetchItems(more) {
+ function fetchItems(fetchMore) {
      let currentQuery = query.trim();
      if (currentQuery.length > 0) {
          currentQuery = query;
      }
 
-     if (!more && !fetchingMore && currentQuery === previousQuery) {
+     if (!fetchMore && !fetchingMore && currentQuery === previousQuery) {
          return;
      }
 
@@ -62,7 +91,7 @@
 
      let fetchOffset = 0;
 
-     if (more) {
+     if (fetchMore) {
          fetchOffset = offsetCount;
          fetchingMore = true;
      } else {
@@ -150,7 +179,7 @@
              fetched = false;
              fetchingMore = false;
 
-             input.focus();
+             inputEl.focus();
              openPopup();
          }
      });
@@ -192,13 +221,9 @@
      }
  }
 
-
  function fetchMoreIfneeded() {
-     if (hasMore && !fetchingMore) {
-         // console.debug({scrollTop: popup.scrollTop, clientHeight: popup.clientHeight, scrollHeight: popup.scrollHeight, moreHeight: more.clientHeight});
-         // console.debug(popup.scrollTop + popup.clientHeight >= popup.scrollHeight - more.height);
-
-         if (popup.scrollTop + popup.clientHeight >= popup.scrollHeight - more.clientHeight * 2 - 2) {
+     if (hasMore && !fetchingMore && popupVisible) {
+         if (popupEl.scrollTop + popupEl.clientHeight >= popupEl.scrollHeight - popupEl.lastElementChild.clientHeight * 2 - 2) {
              fetchItems(true);
          }
      }
@@ -207,15 +232,22 @@
  function closePopup(focusInput) {
      popupVisible = false;
      if (focusInput) {
-         input.focus();
+         inputEl.focus();
      }
  }
 
  function openPopup() {
      if (!popupVisible) {
          popupVisible = true;
-         let w = container.offsetWidth;
-         popup.style.minWidth = w + "px";
+         let w = containerEl.offsetWidth;
+         popupEl.style.minWidth = w + "px";
+
+         let bounds = containerEl.getBoundingClientRect();
+         let middleY = window.innerHeight / 2;
+         let middleX = window.innerWidth / 2;
+
+         popupTop = bounds.y > middleY;
+         popupLeft = bounds.x > middleX;
      }
  }
 
@@ -244,7 +276,7 @@
  }
 
  function containsElement(el) {
-     return el === input || el === toggle || popup.contains(el);
+     return el === inputEl || el === toggleEl || popupEl.contains(el);
  }
 
  ////////////////////////////////////////////////////////////
@@ -281,13 +313,25 @@
 
  onMount(function() {
      query = real.value || '';
-     real.classList.add('d-none');
 
      real.addEventListener('change', function() {
          syncFromReal();
      });
  });
 
+ beforeUpdate(function() {
+     if (!setupDone) {
+         setupComponent();
+         setupDone = true;
+     }
+ });
+
+ function setupComponent() {
+     real.classList.add('d-none');
+
+     translations = Object.assign({}, I18N_DEFAULTS, translations || {});
+     styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
+ }
 
  ////////////////////////////////////////////////////////////
  //
@@ -302,9 +346,9 @@
          wasDown = true;
      },
      ArrowDown: function(event) {
-         let item = popupVisible ? popup.querySelectorAll('.ki-js-item')[0] : null;
+         let item = popupVisible ? popupEl.querySelectorAll('.ki-js-item')[0] : null;
          if (item) {
-             while (item && item.classList.contains('ki-js-blank')) {
+             while (item && item.classList.contains('ts-js-dead')) {
                  item = item.nextElementSibling;
              }
              item.focus();
@@ -355,29 +399,29 @@
 
  let toggleKeydownHandlers = {
      base: function(event) {
-         input.focus();
+         inputEl.focus();
      },
      ArrowDown: inputKeydownHandlers.ArrowDown,
      ArrowUp: inputKeydownHandlers.ArrowDown,
      Escape: function(event) {
          cancelFetch();
          closePopup(false);
-         input.focus();
+         inputEl.focus();
      },
      Tab: function(event) {
-         input.focus();
+         inputEl.focus();
      },
  };
 
  let itemKeydownHandlers = {
      base: function(event) {
-         input.focus();
+         inputEl.focus();
      },
      ArrowDown: function(event) {
          let next = event.target.nextElementSibling;
 
          if (next) {
-             while (next && next.classList.contains('ki-js-blank')) {
+             while (next && next.classList.contains('ts-js-dead')) {
                  next = next.nextElementSibling;
              }
 
@@ -395,7 +439,7 @@
          let next = event.target.previousElementSibling;
 
          if (next) {
-             while (next && next.classList.contains('ki-js-blank')) {
+             while (next && next.classList.contains('ts-js-dead')) {
                  next = next.previousElementSibling;
              }
              if (next && !next.classList.contains('ki-js-item')) {
@@ -406,7 +450,7 @@
          if (next) {
              next.focus();
          } else {
-             input.focus();
+             inputEl.focus();
          }
          event.preventDefault();
      },
@@ -438,13 +482,13 @@
          let scrollLeft = document.body.scrollLeft;
          let scrollTop = document.body.scrollTop;
 
-         let rect = popup.getBoundingClientRect();
+         let rect = popupEl.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
          if (!item) {
-             item = popup.querySelector('.ki-js-item:first-child');
+             item = popupEl.querySelector('.ki-js-item:first-child');
          } else {
              if (!item.classList.contains('ki-js-item')) {
-                 item = popup.querySelector('.ki-js-item:first-child');
+                 item = popupEl.querySelector('.ki-js-item:first-child');
              }
          }
          if (item) {
@@ -455,15 +499,15 @@
      PageDown: function(event) {
          let scrollLeft = document.body.scrollLeft;
          let scrollTop = document.body.scrollTop;
-         let h = popup.offsetHeight;
+         let h = popupEl.offsetHeight;
 
-         let rect = popup.getBoundingClientRect();
+         let rect = popupEl.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
          if (!item) {
-             item = popup.querySelector('.ki-js-item:last-child');
+             item = popupEl.querySelector('.ki-js-item:last-child');
          } else {
              if (!item.classList.contains('ki-js-item')) {
-                 item = popup.querySelector('.ki-js-item:last-child');
+                 item = popupEl.querySelector('.ki-js-item:last-child');
              }
          }
          if (item) {
@@ -473,14 +517,14 @@
          event.preventDefault();
      },
      Home: function(event) {
-         let item = popup.querySelector('.ki-js-item:first-child');
+         let item = popupEl.querySelector('.ki-js-item:first-child');
          if (item) {
              item.focus();
          }
          event.preventDefault();
      },
      End: function(event) {
-         let item = popup.querySelector('.ki-js-item:last-child');
+         let item = popupEl.querySelector('.ki-js-item:last-child');
          if (item) {
              item.focus();
          }
@@ -547,51 +591,20 @@
  }
 </script>
 
-<script context="module">
- const I18N_DEFAULTS = {
-     fetching: 'Searching..',
-     no_results: 'No results',
-     too_short: 'Too short',
-     has_more: 'More...',
-     fetching_more: 'Searching more...',
- };
-
- export const config = {
-     translations: I18N_DEFAULTS,
- }
-
- function translate(key) {
-     return config.translations[key] || I18N_DEFAULTS[key];
- }
-
- function hasModifier(event) {
-     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
- }
-</script>
-
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
 <style>
- :global(.ts-container) {
-     position: relative;
- }
- :global(.ts-popup) {
-     max-height: 50vh;
-     max-width: 90vw;
-     overflow-y: auto;
- }
- :global(.ts-no-click) {
-     pointer-events: none;
- }
 </style>
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<div class="form-control p-0 border-0 {extraClass}"
-     bind:this={container} >
+<div class="form-control ts-container {styles.container_class}"
+     id="ts_container_{real.id}"
+     name="ts_container_{real.name}"
+     bind:this={containerEl}>
 
   <div class="input-group">
-    <input class="form-control"
+    <input class="form-control ts-input"
            autocomplete=new-password
            autocorrect=off
            autocapitalize=off
@@ -599,7 +612,7 @@
 
            data-target="{real.id}"
            placeholder="{real.placeholder}"
-           bind:this={input}
+           bind:this={inputEl}
            bind:value={query}
            on:blur={handleBlur}
            on:keypress={handleInputKeypress}
@@ -608,7 +621,7 @@
 
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button" tabindex="-1"
-              bind:this={toggle}
+              bind:this={toggleEl}
               on:blur={handleBlur}
               on:keydown={handleToggleKeydown}
               on:click={handleToggleClick}>
@@ -617,8 +630,11 @@
     </div>
   </div>
 
-  <div class="dropdown-menu ts-popup {popupVisible ? 'show' : ''}"
-       bind:this={popup}
+  <div class="dropdown-menu ts-popup"
+       class:show={popupVisible}
+       class:ss-popup-top={popupTop}
+       class:ss-popup-left={popupLeft}
+       bind:this={popupEl}
        on:scroll={handlePopupScroll}>
     {#if fetchError}
       <div tabindex="-1" class="dropdown-item text-danger">
@@ -640,48 +656,40 @@
       {#each items as item, index}
         {#if item.separator}
           <div tabindex="-1"
-            class="dropdown-divider ki-js-blank"
+            class="dropdown-divider ts-js-dead"
             data-index="{index}"
             on:keydown={handleItemKeydown}>
           </div>
         {:else if item.disabled || item.placeholder}
-          <div tabindex="-1" class="dropdown-item text-muted ki-js-blank"
+          <div tabindex="-1" class="dropdown-item ss-item-muted ts-js-dead"
                on:keydown={handleItemKeydown}>
-            <div class="ts-no-click">
+            <div class="ts-item-text">
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="ts-no-click text-muted">
+              <div class="ts-item-desc text-muted">
                 {item.desc}
               </div>
             {/if}
           </div>
         {:else}
-          <div tabindex=1 class="ki-js-item dropdown-item"  data-index="{index}"
+          <div tabindex=1 class="dropdown-item ts-item ki-js-item"  data-index="{index}"
              on:blur={handleBlur}
              on:click={handleItemClick}
              on:keydown={handleItemKeydown}
              on:keyup={handleItemKeyup}>
 
-            <div class="ts-no-click">
+            <div class="ts-item-text">
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="ts-no-click text-muted">
+              <div class="ts-item-desc text-muted">
                 {item.desc}
               </div>
             {/if}
           </div>
         {/if}
       {/each}
-    {/if}
-
-    {#if hasMore}
-      <div tabindex="-1"
-           class="dropdown-item text-muted"
-           bind:this={more}>
-        {translate('has_more')}
-      </div>
     {/if}
   </div>
 </div>

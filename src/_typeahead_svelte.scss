@@ -1,0 +1,43 @@
+@mixin ss-no-click {
+  pointer-events: none;
+  user-select: none;
+}
+
+.ts-container {
+  position: relative;
+  width: 100% !important;
+  height: unset;
+  border: 0;
+  padding: 0;
+}
+.ts-popup {
+  padding-top: 0;
+  padding-bottom: 0;
+  max-height: 45vh;
+  max-width: 90vw;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.ts-popup-left {
+  right: 0;
+  left: unset;
+}
+.ts-popup-top {
+  top: unset;
+  bottom: 100%;
+}
+.ts-item {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.ts-item-text {
+  @include ss-no-click;
+}
+.ts-item-desc {
+  @include ss-no-click;
+  color: $text-muted;
+}
+.ss-item-muted {
+  @include ss-no-click;
+  color: $text-muted;
+}
