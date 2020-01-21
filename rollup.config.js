@@ -44,7 +44,7 @@ export default {
       // Extract CSS into a separate file (recommended).
       // See note below
 
-      css: function (css) {
+/*      css: function (css) {
 //        console.log(css.code); // the concatenated CSS
 //        console.log(css.map); // a sourcemap
 
@@ -52,7 +52,7 @@ export default {
         // as the second argument if you don't want the sourcemap
         css.write('dist/typeahead_svelte.css', false);
       },
-
+*/
       // Warnings are normally passed straight to Rollup. You can
       // optionally handle them here, for example to squelch
       // warnings with a particular code
