@@ -37,7 +37,13 @@
   @include ss-no-click;
   color: $text-muted;
 }
-.ss-item-muted {
+.ts-item-muted {
   @include ss-no-click;
+  color: $text-muted;
+}
+.ts-item-info {
+  @include ss-no-click;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   color: $text-muted;
 }

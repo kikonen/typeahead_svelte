@@ -640,11 +640,11 @@
         {fetchError}
       </div>
     {:else if activeFetch && !fetchingMore}
-      <div tabindex="-1" class="dropdown-item text-muted">
+      <div tabindex="-1" class="dropdown-item ts-item-info">
         {translate('fetching')}
       </div>
     {:else if actualCount === 0}
-      <div tabindex="-1" class="dropdown-item text-muted">
+      <div tabindex="-1" class="dropdown-item ts-item-info">
         {#if tooShort }
           {translate('too_short')}
         {:else}
@@ -666,7 +666,7 @@
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="ts-item-desc text-muted">
+              <div class="ts-item-desc">
                 {item.desc}
               </div>
             {/if}
@@ -682,7 +682,7 @@
               {item.display_text || item.text}
             </div>
             {#if item.desc}
-              <div class="ts-item-desc text-muted">
+              <div class="ts-item-desc">
                 {item.desc}
               </div>
             {/if}
