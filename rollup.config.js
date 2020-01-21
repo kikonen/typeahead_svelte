@@ -1,10 +1,10 @@
 // rollup.config.js
 //import * as fs from 'fs';
-import resolve from 'rollup-plugin-node-resolve';
+import resolve from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 //import { scss } from 'svelte-preprocess';
 import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs'
+import commonjs from '@rollup/plugin-commonjs';
 
 export default {
   input: 'src/typeahead.svelte',
