@@ -560,7 +560,7 @@ var Typeahead = (function () {
     child_ctx[61] = list[i];
     child_ctx[63] = i;
     return child_ctx;
-  } // (654:4) {:else}
+  } // (659:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -625,7 +625,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (646:32) 
+  } // (651:32) 
 
 
   function create_if_block_2(ctx) {
@@ -669,7 +669,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (642:43) 
+  } // (647:43) 
 
 
   function create_if_block_1(ctx) {
@@ -691,7 +691,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (638:4) {#if fetchError}
+  } // (643:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -721,7 +721,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (674:8) {:else}
+  } // (679:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -802,7 +802,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (662:52) 
+  } // (667:52) 
 
 
   function create_if_block_5(ctx) {
@@ -873,7 +873,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (656:8) {#if item.separator}
+  } // (661:8) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -901,7 +901,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (684:12) {#if item.desc}
+  } // (689:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -931,7 +931,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (668:12) {#if item.desc}
+  } // (673:12) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -961,7 +961,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (655:6) {#each items as item, index}
+  } // (660:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -1008,7 +1008,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (650:8) {:else}
+  } // (655:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -1028,7 +1028,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (648:8) {#if tooShort }
+  } // (653:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1112,6 +1112,7 @@ var Typeahead = (function () {
         attr(div0, "class", "input-group-append");
         attr(div1, "class", "input-group");
         attr(div2, "class", "dropdown-menu ts-popup");
+        attr(div2, "tabindex", "-1");
         toggle_class(div2, "show",
         /*popupVisible*/
         ctx[12]);
@@ -1714,6 +1715,10 @@ var Typeahead = (function () {
       Escape: function Escape(event) {
         cancelFetch();
         closePopup(true);
+      },
+      Tab: function Tab(event) {
+        inputEl.focus();
+        event.preventDefault();
       },
       // allow "meta" keys to navigate in items
       PageUp: nop,
