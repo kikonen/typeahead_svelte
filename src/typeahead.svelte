@@ -461,6 +461,10 @@
          cancelFetch();
          closePopup(true);
      },
+     Tab: function(event) {
+         inputEl.focus();
+         event.preventDefault();
+     },
      // allow "meta" keys to navigate in items
      PageUp: nop,
      PageDown: nop,
@@ -634,6 +638,7 @@
        class:ss-popup-top={popupTop}
        class:ss-popup-left={popupLeft}
        bind:this={popupEl}
+       tabindex="-1"
        on:scroll={handlePopupScroll}>
     {#if fetchError}
       <div tabindex="-1" class="dropdown-item text-danger">
