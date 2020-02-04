@@ -313,8 +313,8 @@
  onMount(function() {
      query = real.value || '';
 
-     real.addEventListener('change', function() {
-         syncFromReal();
+     Object.keys(eventListeners).forEach(function(ev) {
+         real.addEventListener(ev, eventListeners[ev]);
      });
  });
 
@@ -326,10 +326,19 @@
  });
 
  function setupComponent() {
-     real.classList.add('d-none');
+     real.classList.add('ts-real-hidden');
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
+ }
+
+ let eventListeners = {
+     change: function() {
+         syncFromReal();
+     },
+     'focus': function(event) {
+         inputEl.focus();
+     },
  }
 
  ////////////////////////////////////////////////////////////
