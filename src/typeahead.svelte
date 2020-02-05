@@ -34,6 +34,9 @@
  let toggleEl;
  let popupEl;
 
+ let containerId = null;
+ let containerName = null;
+
  let setupDone = false;
 
  let items = [];
@@ -327,6 +330,10 @@
 
  function setupComponent() {
      real.classList.add('ts-real-hidden');
+     real.setAttribute('tabindex', '-1');
+
+     containerId = real.id ? `ts_container_${real.id}` : null;
+     containerName = real.name ? `ts_container_${real.name}` : null;
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
@@ -611,8 +618,8 @@
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
 <div class="form-control ts-container {styles.container_class}"
-     id="ts_container_{real.id}"
-     name="ts_container_{real.name}"
+     id={containerId}
+     name={containerName}
      bind:this={containerEl}>
 
   <div class="input-group">
