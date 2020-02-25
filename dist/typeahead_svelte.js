@@ -299,17 +299,23 @@ var Typeahead = (function () {
     render_callbacks.push(fn);
   }
 
+  var flushing = false;
   var seen_callbacks = new Set();
 
   function flush() {
+    if (flushing) return;
+    flushing = true;
+
     do {
       // first, call beforeUpdate functions
       // and update components
-      while (dirty_components.length) {
-        var component = dirty_components.shift();
+      for (var i = 0; i < dirty_components.length; i += 1) {
+        var component = dirty_components[i];
         set_current_component(component);
         update(component.$$);
       }
+
+      dirty_components.length = 0;
 
       while (binding_callbacks.length) {
         binding_callbacks.pop()();
@@ -318,8 +324,8 @@ var Typeahead = (function () {
       // subsequent updates...
 
 
-      for (var i = 0; i < render_callbacks.length; i += 1) {
-        var callback = render_callbacks[i];
+      for (var _i = 0; _i < render_callbacks.length; _i += 1) {
+        var callback = render_callbacks[_i];
 
         if (!seen_callbacks.has(callback)) {
           // ...so guard against infinite loops
@@ -336,6 +342,7 @@ var Typeahead = (function () {
     }
 
     update_scheduled = false;
+    flushing = false;
     seen_callbacks.clear();
   }
 
