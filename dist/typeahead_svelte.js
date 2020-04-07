@@ -7,6 +7,14 @@ var Typeahead = (function () {
     }
   }
 
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
@@ -21,14 +29,6 @@ var Typeahead = (function () {
     }
 
     return _typeof(obj);
-  }
-
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return self;
   }
 
   function _possibleConstructorReturn(self, call) {
@@ -70,94 +70,39 @@ var Typeahead = (function () {
     if (superClass) _setPrototypeOf(subClass, superClass);
   }
 
-  function _isNativeFunction(fn) {
-    return Function.toString.call(fn).indexOf("[native code]") !== -1;
-  }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
 
-  function isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-
-    try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function _construct(Parent, args, Class) {
-    if (isNativeReflectConstruct()) {
-      _construct = Reflect.construct;
-    } else {
-      _construct = function _construct(Parent, args, Class) {
-        var a = [null];
-        a.push.apply(a, args);
-        var Constructor = Function.bind.apply(Parent, a);
-        var instance = new Constructor();
-        if (Class) _setPrototypeOf(instance, Class.prototype);
-        return instance;
-      };
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
     }
 
-    return _construct.apply(null, arguments);
-  }
-
-  function _wrapNativeSuper(Class) {
-    var _cache = typeof Map === "function" ? new Map() : undefined;
-
-    _wrapNativeSuper = function _wrapNativeSuper(Class) {
-      if (Class === null || !_isNativeFunction(Class)) return Class;
-
-      if (typeof Class !== "function") {
-        throw new TypeError("Super expression must either be null or a function");
-      }
-
-      if (typeof _cache !== "undefined") {
-        if (_cache.has(Class)) return _cache.get(Class);
-
-        _cache.set(Class, Wrapper);
-      }
-
-      function Wrapper() {
-        return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-      }
-
-      Wrapper.prototype = Object.create(Class.prototype, {
-        constructor: {
-          value: Wrapper,
-          enumerable: false,
-          writable: true,
-          configurable: true
-        }
-      });
-      return _setPrototypeOf(Wrapper, Class);
-    };
-
-    return _wrapNativeSuper(Class);
+    return arr2;
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-        arr2[i] = arr[i];
-      }
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
   }
 
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _defineProperties(target, props) {
@@ -455,8 +400,10 @@ var Typeahead = (function () {
 
     if (options.target) {
       if (options.hydrate) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        $$.fragment && $$.fragment.l(children(options.target));
+        var nodes = children(options.target); // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
+        $$.fragment && $$.fragment.l(nodes);
+        nodes.forEach(detach);
       } else {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         $$.fragment && $$.fragment.c();
@@ -470,72 +417,7 @@ var Typeahead = (function () {
     set_current_component(parent_component);
   }
 
-  var SvelteElement;
-
-  if (typeof HTMLElement === 'function') {
-    SvelteElement =
-    /*#__PURE__*/
-    function (_HTMLElement) {
-      _inherits(SvelteElement, _HTMLElement);
-
-      function SvelteElement() {
-        var _this;
-
-        _classCallCheck(this, SvelteElement);
-
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(SvelteElement).call(this));
-
-        _this.attachShadow({
-          mode: 'open'
-        });
-
-        return _this;
-      }
-
-      _createClass(SvelteElement, [{
-        key: "connectedCallback",
-        value: function connectedCallback() {
-          // @ts-ignore todo: improve typings
-          for (var key in this.$$.slotted) {
-            // @ts-ignore todo: improve typings
-            this.appendChild(this.$$.slotted[key]);
-          }
-        }
-      }, {
-        key: "attributeChangedCallback",
-        value: function attributeChangedCallback(attr, _oldValue, newValue) {
-          this[attr] = newValue;
-        }
-      }, {
-        key: "$destroy",
-        value: function $destroy() {
-          destroy_component(this, 1);
-          this.$destroy = noop;
-        }
-      }, {
-        key: "$on",
-        value: function $on(type, callback) {
-          // TODO should this delegate to addEventListener?
-          var callbacks = this.$$.callbacks[type] || (this.$$.callbacks[type] = []);
-          callbacks.push(callback);
-          return function () {
-            var index = callbacks.indexOf(callback);
-            if (index !== -1) callbacks.splice(index, 1);
-          };
-        }
-      }, {
-        key: "$set",
-        value: function $set() {// overridden by instance, if it has props
-        }
-      }]);
-
-      return SvelteElement;
-    }(_wrapNativeSuper(HTMLElement));
-  }
-
-  var SvelteComponent =
-  /*#__PURE__*/
-  function () {
+  var SvelteComponent = /*#__PURE__*/function () {
     function SvelteComponent() {
       _classCallCheck(this, SvelteComponent);
     }
@@ -565,12 +447,16 @@ var Typeahead = (function () {
     return SvelteComponent;
   }();
 
+  function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+  function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
     child_ctx[64] = list[i];
     child_ctx[66] = i;
     return child_ctx;
-  } // (675:4) {:else}
+  } // (679:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -635,7 +521,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (667:32) 
+  } // (671:32) 
 
 
   function create_if_block_2(ctx) {
@@ -679,7 +565,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (663:43) 
+  } // (667:43) 
 
 
   function create_if_block_1(ctx) {
@@ -701,7 +587,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (659:4) {#if fetchError}
+  } // (663:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -731,7 +617,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (695:8) {:else}
+  } // (699:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -765,13 +651,14 @@ var Typeahead = (function () {
         /*index*/
         ctx[66]);
       },
-      m: function m(target, anchor) {
+      m: function m(target, anchor, remount) {
         insert(target, div1, anchor);
         append(div1, div0);
         append(div0, t0);
         append(div1, t1);
         if (if_block) if_block.m(div1, null);
         append(div1, t2);
+        if (remount) run_all(dispose);
         dispose = [listen(div1, "blur",
         /*handleBlur*/
         ctx[19]), listen(div1, "click",
@@ -812,7 +699,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (683:52) 
+  } // (687:52) 
 
 
   function create_if_block_5(ctx) {
@@ -842,13 +729,14 @@ var Typeahead = (function () {
         attr(div1, "tabindex", "-1");
         attr(div1, "class", "dropdown-item ts-item-disabled ts-js-dead");
       },
-      m: function m(target, anchor) {
+      m: function m(target, anchor, remount) {
         insert(target, div1, anchor);
         append(div1, div0);
         append(div0, t0);
         append(div1, t1);
         if (if_block) if_block.m(div1, null);
         append(div1, t2);
+        if (remount) dispose();
         dispose = listen(div1, "keydown",
         /*handleItemKeydown*/
         ctx[25]);
@@ -883,7 +771,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (677:8) {#if item.separator}
+  } // (681:8) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -899,8 +787,9 @@ var Typeahead = (function () {
         /*index*/
         ctx[66]);
       },
-      m: function m(target, anchor) {
+      m: function m(target, anchor, remount) {
         insert(target, div, anchor);
+        if (remount) dispose();
         dispose = listen(div, "keydown",
         /*handleItemKeydown*/
         ctx[25]);
@@ -911,7 +800,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (705:12) {#if item.desc}
+  } // (709:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -941,7 +830,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (689:12) {#if item.desc}
+  } // (693:12) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -971,7 +860,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (676:6) {#each items as item, index}
+  } // (680:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -1018,7 +907,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (671:8) {:else}
+  } // (675:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -1038,7 +927,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (669:8) {#if tooShort }
+  } // (673:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1110,10 +999,10 @@ var Typeahead = (function () {
         attr(input, "spellcheck", "off");
         attr(input, "data-target", input_data_target_value =
         /*real*/
-        ctx[2].id);
+        ctx[0].id);
         attr(input, "placeholder", input_placeholder_value =
         /*real*/
-        ctx[2].placeholder);
+        ctx[0].placeholder);
         attr(button, "class", "btn btn-outline-secondary");
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
@@ -1132,7 +1021,7 @@ var Typeahead = (function () {
         ctx[16]);
         attr(div3, "class", div3_class_value = "form-control ts-container " +
         /*styles*/
-        ctx[1].container_class);
+        ctx[2].container_class);
         attr(div3, "id",
         /*containerId*/
         ctx[7]);
@@ -1140,7 +1029,7 @@ var Typeahead = (function () {
         /*containerName*/
         ctx[8]);
       },
-      m: function m(target, anchor) {
+      m: function m(target, anchor, remount) {
         insert(target, div3, anchor);
         append(div3, div1);
         append(div1, input);
@@ -1149,7 +1038,7 @@ var Typeahead = (function () {
         ctx[59](input);
         set_input_value(input,
         /*query*/
-        ctx[0]);
+        ctx[1]);
         append(div1, t0);
         append(div1, div0);
         append(div0, button);
@@ -1165,6 +1054,7 @@ var Typeahead = (function () {
         /*div3_binding*/
 
         ctx[63](div3);
+        if (remount) run_all(dispose);
         dispose = [listen(input, "input",
         /*input_input_handler*/
         ctx[60]), listen(input, "blur",
@@ -1188,28 +1078,28 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*real*/
-        4 && input_data_target_value !== (input_data_target_value =
+        1 && input_data_target_value !== (input_data_target_value =
         /*real*/
-        ctx[2].id)) {
+        ctx[0].id)) {
           attr(input, "data-target", input_data_target_value);
         }
 
         if (dirty[0] &
         /*real*/
-        4 && input_placeholder_value !== (input_placeholder_value =
+        1 && input_placeholder_value !== (input_placeholder_value =
         /*real*/
-        ctx[2].placeholder)) {
+        ctx[0].placeholder)) {
           attr(input, "placeholder", input_placeholder_value);
         }
 
         if (dirty[0] &
         /*query*/
-        1 && input.value !==
+        2 && input.value !==
         /*query*/
-        ctx[0]) {
+        ctx[1]) {
           set_input_value(input,
           /*query*/
-          ctx[0]);
+          ctx[1]);
         }
 
         if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
@@ -1250,9 +1140,9 @@ var Typeahead = (function () {
 
         if (dirty[0] &
         /*styles*/
-        2 && div3_class_value !== (div3_class_value = "form-control ts-container " +
+        4 && div3_class_value !== (div3_class_value = "form-control ts-container " +
         /*styles*/
-        ctx[1].container_class)) {
+        ctx[2].container_class)) {
           attr(div3, "class", div3_class_value);
         }
 
@@ -1528,7 +1418,7 @@ var Typeahead = (function () {
       if (item) {
         $$invalidate(38, selectedItem = item);
         var changed = item.text !== query;
-        $$invalidate(0, query = item.text);
+        $$invalidate(1, query = item.text);
         previousQuery = query.trim();
 
         if (previousQuery.length > 0) {
@@ -1562,15 +1452,16 @@ var Typeahead = (function () {
       var realValue = real.value;
 
       if (realValue !== query) {
-        $$invalidate(0, query = realValue);
+        $$invalidate(1, query = realValue);
       }
     }
 
     function syncToReal(query, selectedItem) {
+
       if (real.value !== query) {
         try {
           isSyncToReal = true;
-          real.setAttribute("value", query);
+          $$invalidate(0, real.value = query, real);
           real.dispatchEvent(new Event("change"));
         } finally {
           isSyncToReal = false;
@@ -1579,7 +1470,7 @@ var Typeahead = (function () {
     }
 
     onMount(function () {
-      $$invalidate(0, query = real.value || "");
+      $$invalidate(1, query = real.value || "");
       Object.keys(eventListeners).forEach(function (ev) {
         real.addEventListener(ev, eventListeners[ev]);
       });
@@ -1597,7 +1488,7 @@ var Typeahead = (function () {
       $$invalidate(7, containerId = real.id ? "ts_container_".concat(real.id) : null);
       $$invalidate(8, containerName = real.name ? "ts_container_".concat(real.name) : null);
       $$invalidate(29, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
-      $$invalidate(1, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
+      $$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
     }
 
     var eventListeners = {
@@ -1879,7 +1770,7 @@ var Typeahead = (function () {
 
     function input_input_handler() {
       query = this.value;
-      $$invalidate(0, query);
+      $$invalidate(1, query);
     }
 
     function button_binding($$value) {
@@ -1901,25 +1792,26 @@ var Typeahead = (function () {
     }
 
     $$self.$set = function ($$props) {
-      if ("real" in $$props) $$invalidate(2, real = $$props.real);
+      if ("real" in $$props) $$invalidate(0, real = $$props.real);
       if ("fetcher" in $$props) $$invalidate(30, fetcher = $$props.fetcher);
       if ("queryMinLen" in $$props) $$invalidate(31, queryMinLen = $$props.queryMinLen);
-      if ("query" in $$props) $$invalidate(0, query = $$props.query);
+      if ("query" in $$props) $$invalidate(1, query = $$props.query);
       if ("delay" in $$props) $$invalidate(32, delay = $$props.delay);
       if ("translations" in $$props) $$invalidate(29, translations = $$props.translations);
-      if ("styles" in $$props) $$invalidate(1, styles = $$props.styles);
+      if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
     };
 
     $$self.$$.update = function () {
       if ($$self.$$.dirty[0] &
       /*query*/
-      1 | $$self.$$.dirty[1] &
+      2 | $$self.$$.dirty[1] &
       /*selectedItem*/
       128) {
         ////////////////////////////////////////////////////////////
         // HANDLERS
         //
          {
+
           if (syncToReal) {
             syncToReal(query);
           }
@@ -1927,28 +1819,28 @@ var Typeahead = (function () {
       }
     };
 
-    return [query, styles, real, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, translations, fetcher, queryMinLen, delay, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div2_binding, div3_binding];
+    return [real, query, styles, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, translations, fetcher, queryMinLen, delay, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div2_binding, div3_binding];
   }
 
-  var Typeahead =
-  /*#__PURE__*/
-  function (_SvelteComponent) {
+  var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
     _inherits(Typeahead, _SvelteComponent);
+
+    var _super = _createSuper(Typeahead);
 
     function Typeahead(options) {
       var _this;
 
       _classCallCheck(this, Typeahead);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Typeahead).call(this));
+      _this = _super.call(this);
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
-        real: 2,
+        real: 0,
         fetcher: 30,
         queryMinLen: 31,
-        query: 0,
+        query: 1,
         delay: 32,
         translations: 29,
-        styles: 1
+        styles: 2
       }, [-1, -1, -1]);
       return _this;
     }

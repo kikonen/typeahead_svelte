@@ -285,6 +285,7 @@
  // HANDLERS
  //
  $: {
+     if (DEBUG) console.debug("change: " + query);
      if (syncToReal) {
          syncToReal(query, selectedItem);
      }
@@ -302,14 +303,17 @@
  }
 
  function syncToReal(query, selectedItem) {
+     if (DEBUG) console.debug("TO_REAL query=[" + query + "]" + "real.value=[" + real.value + "]");
+
      if (real.value !== query) {
          try {
              isSyncToReal = true;
-             real.setAttribute('value', query);
+             real.value = query;
              real.dispatchEvent(new Event('change'));
          } finally {
              isSyncToReal = false;
          }
+         if (DEBUG) console.debug("UPDATED_REAL query=[" + query + "]" + "real.value=[" + real.value + "]");
      }
  }
 
