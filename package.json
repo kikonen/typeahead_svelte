@@ -9,7 +9,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/runtime": "^7.7.2",
     "core-js": "^3.4.7",
-    "rollup": "2.3.3",
+    "rollup": "2.6.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-svelte": "^5.1.1",
