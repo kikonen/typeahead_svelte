@@ -372,6 +372,12 @@
      base: function(event) {
          wasDown = true;
      },
+     Enter: function(event) {
+         if (popupVisible) {
+             closePopup(false);
+             event.preventDefault();
+         }
+     },
      ArrowDown: function(event) {
          let item = popupVisible ? popupEl.querySelectorAll('.ts-js-item')[0] : null;
          if (item) {
@@ -403,6 +409,7 @@
              openPopup();
              fetchItems();
          }
+         wasDown = false;
      },
      Enter: nop,
      Escape: nop,
