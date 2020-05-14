@@ -28,6 +28,7 @@
  export let delay = 200;
  export let translations = {};
  export let styles = {};
+ export let showToggle = true;
 
  let containerEl;
  let inputEl;
@@ -336,8 +337,15 @@
      real.classList.add('ts-real-hidden');
      real.setAttribute('tabindex', '-1');
 
+     let ds = real.dataset;
+
      containerId = real.id ? `ts_container_${real.id}` : null;
      containerName = real.name ? `ts_container_${real.name}` : null;
+
+     queryMinLen = ds.tsQueryMinLen != undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen;
+     query = ds.tsQuery != undefined ? ds.tsQuery : query;
+     delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay;
+     showToggle = ds.tsShowToggle != undefined ? ds.tsShowToggle !== 'false' : showToggle;
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
@@ -642,15 +650,17 @@
            on:keydown={handleInputKeydown}
            on:keyup={handleInputKeyup}>
 
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button" tabindex="-1"
-              bind:this={toggleEl}
-              on:blur={handleBlur}
-              on:keydown={handleToggleKeydown}
-              on:click={handleToggleClick}>
-        <i class="text-dark fas fa-caret-down"></i>
-      </button>
-    </div>
+    {#if showToggle}
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" tabindex="-1"
+                bind:this={toggleEl}
+                on:blur={handleBlur}
+                on:keydown={handleToggleKeydown}
+                on:click={handleToggleClick}>
+          <i class="text-dark fas fa-caret-down"></i>
+        </button>
+      </div>
+    {/if}
   </div>
 
   <div class="dropdown-menu ts-popup"
