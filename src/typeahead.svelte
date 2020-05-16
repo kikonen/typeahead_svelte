@@ -375,7 +375,7 @@
      Enter: function(event) {
          if (popupVisible) {
              closePopup(false);
-             event.preventDefault();
+//             event.preventDefault();
          }
      },
      ArrowDown: function(event) {
