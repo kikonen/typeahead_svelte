@@ -277,7 +277,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (660:4) {#if showToggle}
+// (661:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -314,7 +314,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (696:4) {:else}
+// (697:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = /*items*/ ctx[10];
@@ -370,7 +370,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (688:32) 
+// (689:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -413,7 +413,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (684:43) 
+// (685:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -434,7 +434,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (680:4) {#if fetchError}
+// (681:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -459,7 +459,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (716:8) {:else}
+// (717:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -524,7 +524,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (704:52) 
+// (705:52) 
 function create_if_block_5(ctx) {
 	let div1;
 	let div0;
@@ -581,7 +581,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (698:8) {#if item.separator}
+// (699:8) {#if item.separator}
 function create_if_block_4(ctx) {
 	let div;
 	let div_data_index_value;
@@ -607,7 +607,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (726:12) {#if item.desc}
+// (727:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[65].desc + "";
@@ -632,7 +632,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (710:12) {#if item.desc}
+// (711:12) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[65].desc + "";
@@ -657,7 +657,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (697:6) {#each items as item, index}
+// (698:6) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -699,7 +699,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (692:8) {:else}
+// (693:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[19]("no_results") + "";
 	let t;
@@ -718,7 +718,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (690:8) {#if tooShort }
+// (691:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[19]("too_short") + "";
 	let t;
@@ -1244,8 +1244,7 @@ function instance($$self, $$props, $$invalidate) {
 		Enter(event) {
 			if (popupVisible) {
 				closePopup(false);
-				event.preventDefault();
-			}
+			} //             event.preventDefault();
 		},
 		ArrowDown(event) {
 			let item = popupVisible
@@ -1324,6 +1323,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	let itemKeydownHandlers = {
 		base(event) {
+			wasDown = true;
 			inputEl.focus();
 		},
 		ArrowDown(event) {

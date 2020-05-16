@@ -449,6 +449,7 @@
 
  let itemKeydownHandlers = {
      base: function(event) {
+         wasDown = true;
          inputEl.focus();
      },
      ArrowDown: function(event) {
