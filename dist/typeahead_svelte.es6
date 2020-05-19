@@ -272,12 +272,12 @@ class SvelteComponent {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[65] = list[i];
-	child_ctx[67] = i;
+	child_ctx[66] = list[i];
+	child_ctx[68] = i;
 	return child_ctx;
 }
 
-// (661:4) {#if showToggle}
+// (667:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -296,7 +296,7 @@ function create_if_block_8(ctx) {
 		m(target, anchor, remount) {
 			insert(target, div, anchor);
 			append(div, button);
-			/*button_binding*/ ctx[62](button);
+			/*button_binding*/ ctx[63](button);
 			if (remount) run_all(dispose);
 
 			dispose = [
@@ -308,13 +308,13 @@ function create_if_block_8(ctx) {
 		p: noop,
 		d(detaching) {
 			if (detaching) detach(div);
-			/*button_binding*/ ctx[62](null);
+			/*button_binding*/ ctx[63](null);
 			run_all(dispose);
 		}
 	};
 }
 
-// (697:4) {:else}
+// (703:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = /*items*/ ctx[10];
@@ -370,7 +370,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (689:32) 
+// (695:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -413,7 +413,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (685:43) 
+// (691:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -434,7 +434,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (681:4) {#if fetchError}
+// (687:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -459,17 +459,17 @@ function create_if_block(ctx) {
 	};
 }
 
-// (717:8) {:else}
+// (723:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
-	let t0_value = (/*item*/ ctx[65].display_text || /*item*/ ctx[65].text) + "";
+	let t0_value = (/*item*/ ctx[66].display_text || /*item*/ ctx[66].text) + "";
 	let t0;
 	let t1;
 	let t2;
 	let div1_data_index_value;
 	let dispose;
-	let if_block = /*item*/ ctx[65].desc && create_if_block_7(ctx);
+	let if_block = /*item*/ ctx[66].desc && create_if_block_7(ctx);
 
 	return {
 		c() {
@@ -482,7 +482,7 @@ function create_else_block_2(ctx) {
 			attr(div0, "class", "ts-item-text");
 			attr(div1, "tabindex", "1");
 			attr(div1, "class", "dropdown-item ts-item ts-js-item");
-			attr(div1, "data-index", div1_data_index_value = /*index*/ ctx[67]);
+			attr(div1, "data-index", div1_data_index_value = /*index*/ ctx[68]);
 		},
 		m(target, anchor, remount) {
 			insert(target, div1, anchor);
@@ -501,9 +501,9 @@ function create_else_block_2(ctx) {
 			];
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*items*/ 1024 && t0_value !== (t0_value = (/*item*/ ctx[65].display_text || /*item*/ ctx[65].text) + "")) set_data(t0, t0_value);
+			if (dirty[0] & /*items*/ 1024 && t0_value !== (t0_value = (/*item*/ ctx[66].display_text || /*item*/ ctx[66].text) + "")) set_data(t0, t0_value);
 
-			if (/*item*/ ctx[65].desc) {
+			if (/*item*/ ctx[66].desc) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
@@ -524,16 +524,16 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (705:52) 
+// (711:52) 
 function create_if_block_5(ctx) {
 	let div1;
 	let div0;
-	let t0_value = (/*item*/ ctx[65].display_text || /*item*/ ctx[65].text) + "";
+	let t0_value = (/*item*/ ctx[66].display_text || /*item*/ ctx[66].text) + "";
 	let t0;
 	let t1;
 	let t2;
 	let dispose;
-	let if_block = /*item*/ ctx[65].desc && create_if_block_6(ctx);
+	let if_block = /*item*/ ctx[66].desc && create_if_block_6(ctx);
 
 	return {
 		c() {
@@ -558,9 +558,9 @@ function create_if_block_5(ctx) {
 			dispose = listen(div1, "keydown", /*handleItemKeydown*/ ctx[26]);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*items*/ 1024 && t0_value !== (t0_value = (/*item*/ ctx[65].display_text || /*item*/ ctx[65].text) + "")) set_data(t0, t0_value);
+			if (dirty[0] & /*items*/ 1024 && t0_value !== (t0_value = (/*item*/ ctx[66].display_text || /*item*/ ctx[66].text) + "")) set_data(t0, t0_value);
 
-			if (/*item*/ ctx[65].desc) {
+			if (/*item*/ ctx[66].desc) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
@@ -581,7 +581,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (699:8) {#if item.separator}
+// (705:8) {#if item.separator}
 function create_if_block_4(ctx) {
 	let div;
 	let div_data_index_value;
@@ -592,7 +592,7 @@ function create_if_block_4(ctx) {
 			div = element("div");
 			attr(div, "tabindex", "-1");
 			attr(div, "class", "dropdown-divider ts-js-dead");
-			attr(div, "data-index", div_data_index_value = /*index*/ ctx[67]);
+			attr(div, "data-index", div_data_index_value = /*index*/ ctx[68]);
 		},
 		m(target, anchor, remount) {
 			insert(target, div, anchor);
@@ -607,10 +607,10 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (727:12) {#if item.desc}
+// (733:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
-	let t_value = /*item*/ ctx[65].desc + "";
+	let t_value = /*item*/ ctx[66].desc + "";
 	let t;
 
 	return {
@@ -624,7 +624,7 @@ function create_if_block_7(ctx) {
 			append(div, t);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*items*/ 1024 && t_value !== (t_value = /*item*/ ctx[65].desc + "")) set_data(t, t_value);
+			if (dirty[0] & /*items*/ 1024 && t_value !== (t_value = /*item*/ ctx[66].desc + "")) set_data(t, t_value);
 		},
 		d(detaching) {
 			if (detaching) detach(div);
@@ -632,10 +632,10 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (711:12) {#if item.desc}
+// (717:12) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
-	let t_value = /*item*/ ctx[65].desc + "";
+	let t_value = /*item*/ ctx[66].desc + "";
 	let t;
 
 	return {
@@ -649,7 +649,7 @@ function create_if_block_6(ctx) {
 			append(div, t);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*items*/ 1024 && t_value !== (t_value = /*item*/ ctx[65].desc + "")) set_data(t, t_value);
+			if (dirty[0] & /*items*/ 1024 && t_value !== (t_value = /*item*/ ctx[66].desc + "")) set_data(t, t_value);
 		},
 		d(detaching) {
 			if (detaching) detach(div);
@@ -657,13 +657,13 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (698:6) {#each items as item, index}
+// (704:6) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
 	function select_block_type_2(ctx, dirty) {
-		if (/*item*/ ctx[65].separator) return create_if_block_4;
-		if (/*item*/ ctx[65].disabled || /*item*/ ctx[65].placeholder) return create_if_block_5;
+		if (/*item*/ ctx[66].separator) return create_if_block_4;
+		if (/*item*/ ctx[66].disabled || /*item*/ ctx[66].placeholder) return create_if_block_5;
 		return create_else_block_2;
 	}
 
@@ -699,7 +699,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (693:8) {:else}
+// (699:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[19]("no_results") + "";
 	let t;
@@ -718,7 +718,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (691:8) {#if tooShort }
+// (697:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[19]("too_short") + "";
 	let t;
@@ -791,19 +791,19 @@ function create_fragment(ctx) {
 			insert(target, div2, anchor);
 			append(div2, div0);
 			append(div0, input);
-			/*input_binding*/ ctx[60](input);
+			/*input_binding*/ ctx[61](input);
 			set_input_value(input, /*query*/ ctx[1]);
 			append(div0, t0);
 			if (if_block0) if_block0.m(div0, null);
 			append(div2, t1);
 			append(div2, div1);
 			if_block1.m(div1, null);
-			/*div1_binding*/ ctx[63](div1);
-			/*div2_binding*/ ctx[64](div2);
+			/*div1_binding*/ ctx[64](div1);
+			/*div2_binding*/ ctx[65](div2);
 			if (remount) run_all(dispose);
 
 			dispose = [
-				listen(input, "input", /*input_input_handler*/ ctx[61]),
+				listen(input, "input", /*input_input_handler*/ ctx[62]),
 				listen(input, "blur", /*handleBlur*/ ctx[20]),
 				listen(input, "keypress", /*handleInputKeypress*/ ctx[21]),
 				listen(input, "keydown", /*handleInputKeydown*/ ctx[22]),
@@ -877,11 +877,11 @@ function create_fragment(ctx) {
 		o: noop,
 		d(detaching) {
 			if (detaching) detach(div2);
-			/*input_binding*/ ctx[60](null);
+			/*input_binding*/ ctx[61](null);
 			if (if_block0) if_block0.d();
 			if_block1.d();
-			/*div1_binding*/ ctx[63](null);
-			/*div2_binding*/ ctx[64](null);
+			/*div1_binding*/ ctx[64](null);
+			/*div2_binding*/ ctx[65](null);
 			run_all(dispose);
 		}
 	};
@@ -919,6 +919,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { translations = {} } = $$props;
 	let { styles = {} } = $$props;
 	let { showToggle = true } = $$props;
+	let { passEnter = true } = $$props;
 	let containerEl;
 	let inputEl;
 	let toggleEl;
@@ -1130,7 +1131,7 @@ function instance($$self, $$props, $$invalidate) {
 		let item = items[el.dataset.index];
 
 		if (item) {
-			$$invalidate(39, selectedItem = item);
+			$$invalidate(40, selectedItem = item);
 			let changed = item.text !== query;
 			$$invalidate(1, query = item.text);
 			previousQuery = query.trim();
@@ -1216,6 +1217,10 @@ function instance($$self, $$props, $$invalidate) {
 		? ds.tsShowToggle !== "false"
 		: showToggle);
 
+		$$invalidate(33, passEnter = ds.tsPassEnter != undefined
+		? ds.tsPassEnter !== "false"
+		: passEnter);
+
 		$$invalidate(32, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
 		$$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
 	}
@@ -1233,7 +1238,7 @@ function instance($$self, $$props, $$invalidate) {
 	//
 	let inputKeypressHandlers = {
 		base(event) {
-			$$invalidate(39, selectedItem = null);
+			$$invalidate(40, selectedItem = null);
 		}
 	};
 
@@ -1244,7 +1249,11 @@ function instance($$self, $$props, $$invalidate) {
 		Enter(event) {
 			if (popupVisible) {
 				closePopup(false);
-			} //             event.preventDefault();
+
+				if (!passEnter) {
+					event.preventDefault();
+				}
+			}
 		},
 		ArrowDown(event) {
 			let item = popupVisible
@@ -1367,8 +1376,12 @@ function instance($$self, $$props, $$invalidate) {
 			event.preventDefault();
 		},
 		Enter(event) {
-			selectItem(event.target); //         event.preventDefault();
-		}, //         event.preventDefault();
+			selectItem(event.target);
+
+			if (!passEnter) {
+				event.preventDefault();
+			}
+		},
 		Escape(event) {
 			cancelFetch();
 			closePopup(true);
@@ -1537,17 +1550,18 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$set = $$props => {
 		if ("real" in $$props) $$invalidate(0, real = $$props.real);
-		if ("fetcher" in $$props) $$invalidate(33, fetcher = $$props.fetcher);
+		if ("fetcher" in $$props) $$invalidate(34, fetcher = $$props.fetcher);
 		if ("queryMinLen" in $$props) $$invalidate(30, queryMinLen = $$props.queryMinLen);
 		if ("query" in $$props) $$invalidate(1, query = $$props.query);
 		if ("delay" in $$props) $$invalidate(31, delay = $$props.delay);
 		if ("translations" in $$props) $$invalidate(32, translations = $$props.translations);
 		if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
 		if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
+		if ("passEnter" in $$props) $$invalidate(33, passEnter = $$props.passEnter);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty[0] & /*query*/ 2 | $$self.$$.dirty[1] & /*selectedItem*/ 256) {
+		if ($$self.$$.dirty[0] & /*query*/ 2 | $$self.$$.dirty[1] & /*selectedItem*/ 512) {
 			////////////////////////////////////////////////////////////
 			// HANDLERS
 			//
@@ -1594,6 +1608,7 @@ function instance($$self, $$props, $$invalidate) {
 		queryMinLen,
 		delay,
 		translations,
+		passEnter,
 		fetcher,
 		setupDone,
 		offsetCount,
@@ -1641,13 +1656,14 @@ class Typeahead extends SvelteComponent {
 			safe_not_equal,
 			{
 				real: 0,
-				fetcher: 33,
+				fetcher: 34,
 				queryMinLen: 30,
 				query: 1,
 				delay: 31,
 				translations: 32,
 				styles: 2,
-				showToggle: 3
+				showToggle: 3,
+				passEnter: 33
 			},
 			[-1, -1, -1]
 		);

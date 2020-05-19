@@ -453,10 +453,10 @@ var Typeahead = (function () {
 
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
-    child_ctx[65] = list[i];
-    child_ctx[67] = i;
+    child_ctx[66] = list[i];
+    child_ctx[68] = i;
     return child_ctx;
-  } // (661:4) {#if showToggle}
+  } // (667:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -478,7 +478,7 @@ var Typeahead = (function () {
         append(div, button);
         /*button_binding*/
 
-        ctx[62](button);
+        ctx[63](button);
         if (remount) run_all(dispose);
         dispose = [listen(button, "blur",
         /*handleBlur*/
@@ -493,11 +493,11 @@ var Typeahead = (function () {
         if (detaching) detach(div);
         /*button_binding*/
 
-        ctx[62](null);
+        ctx[63](null);
         run_all(dispose);
       }
     };
-  } // (697:4) {:else}
+  } // (703:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -562,7 +562,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (689:32) 
+  } // (695:32) 
 
 
   function create_if_block_2(ctx) {
@@ -606,7 +606,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (685:43) 
+  } // (691:43) 
 
 
   function create_if_block_1(ctx) {
@@ -628,7 +628,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (681:4) {#if fetchError}
+  } // (687:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -658,7 +658,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (717:8) {:else}
+  } // (723:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -666,9 +666,9 @@ var Typeahead = (function () {
     var div0;
     var t0_value = (
     /*item*/
-    ctx[65].display_text ||
+    ctx[66].display_text ||
     /*item*/
-    ctx[65].text) + "";
+    ctx[66].text) + "";
     var t0;
     var t1;
     var t2;
@@ -676,7 +676,7 @@ var Typeahead = (function () {
     var dispose;
     var if_block =
     /*item*/
-    ctx[65].desc && create_if_block_7(ctx);
+    ctx[66].desc && create_if_block_7(ctx);
     return {
       c: function c() {
         div1 = element("div");
@@ -690,7 +690,7 @@ var Typeahead = (function () {
         attr(div1, "class", "dropdown-item ts-item ts-js-item");
         attr(div1, "data-index", div1_data_index_value =
         /*index*/
-        ctx[67]);
+        ctx[68]);
       },
       m: function m(target, anchor, remount) {
         insert(target, div1, anchor);
@@ -715,13 +715,13 @@ var Typeahead = (function () {
         /*items*/
         1024 && t0_value !== (t0_value = (
         /*item*/
-        ctx[65].display_text ||
+        ctx[66].display_text ||
         /*item*/
-        ctx[65].text) + "")) set_data(t0, t0_value);
+        ctx[66].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[65].desc) {
+        ctx[66].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -740,7 +740,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (705:52) 
+  } // (711:52) 
 
 
   function create_if_block_5(ctx) {
@@ -748,16 +748,16 @@ var Typeahead = (function () {
     var div0;
     var t0_value = (
     /*item*/
-    ctx[65].display_text ||
+    ctx[66].display_text ||
     /*item*/
-    ctx[65].text) + "";
+    ctx[66].text) + "";
     var t0;
     var t1;
     var t2;
     var dispose;
     var if_block =
     /*item*/
-    ctx[65].desc && create_if_block_6(ctx);
+    ctx[66].desc && create_if_block_6(ctx);
     return {
       c: function c() {
         div1 = element("div");
@@ -787,13 +787,13 @@ var Typeahead = (function () {
         /*items*/
         1024 && t0_value !== (t0_value = (
         /*item*/
-        ctx[65].display_text ||
+        ctx[66].display_text ||
         /*item*/
-        ctx[65].text) + "")) set_data(t0, t0_value);
+        ctx[66].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[65].desc) {
+        ctx[66].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -812,7 +812,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (699:8) {#if item.separator}
+  } // (705:8) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -826,7 +826,7 @@ var Typeahead = (function () {
         attr(div, "class", "dropdown-divider ts-js-dead");
         attr(div, "data-index", div_data_index_value =
         /*index*/
-        ctx[67]);
+        ctx[68]);
       },
       m: function m(target, anchor, remount) {
         insert(target, div, anchor);
@@ -841,14 +841,14 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (727:12) {#if item.desc}
+  } // (733:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[65].desc + "";
+    ctx[66].desc + "";
     var t;
     return {
       c: function c() {
@@ -865,20 +865,20 @@ var Typeahead = (function () {
         /*items*/
         1024 && t_value !== (t_value =
         /*item*/
-        ctx[65].desc + "")) set_data(t, t_value);
+        ctx[66].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (711:12) {#if item.desc}
+  } // (717:12) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[65].desc + "";
+    ctx[66].desc + "";
     var t;
     return {
       c: function c() {
@@ -895,13 +895,13 @@ var Typeahead = (function () {
         /*items*/
         1024 && t_value !== (t_value =
         /*item*/
-        ctx[65].desc + "")) set_data(t, t_value);
+        ctx[66].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (698:6) {#each items as item, index}
+  } // (704:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -910,12 +910,12 @@ var Typeahead = (function () {
     function select_block_type_2(ctx, dirty) {
       if (
       /*item*/
-      ctx[65].separator) return create_if_block_4;
+      ctx[66].separator) return create_if_block_4;
       if (
       /*item*/
-      ctx[65].disabled ||
+      ctx[66].disabled ||
       /*item*/
-      ctx[65].placeholder) return create_if_block_5;
+      ctx[66].placeholder) return create_if_block_5;
       return create_else_block_2;
     }
 
@@ -948,7 +948,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (693:8) {:else}
+  } // (699:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -968,7 +968,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (691:8) {#if tooShort }
+  } // (697:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1071,7 +1071,7 @@ var Typeahead = (function () {
         append(div0, input);
         /*input_binding*/
 
-        ctx[60](input);
+        ctx[61](input);
         set_input_value(input,
         /*query*/
         ctx[1]);
@@ -1082,14 +1082,14 @@ var Typeahead = (function () {
         if_block1.m(div1, null);
         /*div1_binding*/
 
-        ctx[63](div1);
+        ctx[64](div1);
         /*div2_binding*/
 
-        ctx[64](div2);
+        ctx[65](div2);
         if (remount) run_all(dispose);
         dispose = [listen(input, "input",
         /*input_input_handler*/
-        ctx[61]), listen(input, "blur",
+        ctx[62]), listen(input, "blur",
         /*handleBlur*/
         ctx[20]), listen(input, "keypress",
         /*handleInputKeypress*/
@@ -1209,15 +1209,15 @@ var Typeahead = (function () {
         if (detaching) detach(div2);
         /*input_binding*/
 
-        ctx[60](null);
+        ctx[61](null);
         if (if_block0) if_block0.d();
         if_block1.d();
         /*div1_binding*/
 
-        ctx[63](null);
+        ctx[64](null);
         /*div2_binding*/
 
-        ctx[64](null);
+        ctx[65](null);
         run_all(dispose);
       }
     };
@@ -1258,6 +1258,8 @@ var Typeahead = (function () {
         styles = _$$props$styles === void 0 ? {} : _$$props$styles;
     var _$$props$showToggle = $$props.showToggle,
         showToggle = _$$props$showToggle === void 0 ? true : _$$props$showToggle;
+    var _$$props$passEnter = $$props.passEnter,
+        passEnter = _$$props$passEnter === void 0 ? true : _$$props$passEnter;
     var containerEl;
     var inputEl;
     var toggleEl;
@@ -1457,7 +1459,7 @@ var Typeahead = (function () {
       var item = items[el.dataset.index];
 
       if (item) {
-        $$invalidate(39, selectedItem = item);
+        $$invalidate(40, selectedItem = item);
         var changed = item.text !== query;
         $$invalidate(1, query = item.text);
         previousQuery = query.trim();
@@ -1533,6 +1535,7 @@ var Typeahead = (function () {
       $$invalidate(1, query = ds.tsQuery != undefined ? ds.tsQuery : query);
       $$invalidate(31, delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay);
       $$invalidate(3, showToggle = ds.tsShowToggle != undefined ? ds.tsShowToggle !== "false" : showToggle);
+      $$invalidate(33, passEnter = ds.tsPassEnter != undefined ? ds.tsPassEnter !== "false" : passEnter);
       $$invalidate(32, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
       $$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
     }
@@ -1549,7 +1552,7 @@ var Typeahead = (function () {
 
     var inputKeypressHandlers = {
       base: function base(event) {
-        $$invalidate(39, selectedItem = null);
+        $$invalidate(40, selectedItem = null);
       }
     };
     var inputKeydownHandlers = {
@@ -1559,8 +1562,11 @@ var Typeahead = (function () {
       Enter: function Enter(event) {
         if (popupVisible) {
           closePopup(false);
-        } //             event.preventDefault();
 
+          if (!passEnter) {
+            event.preventDefault();
+          }
+        }
       },
       ArrowDown: function ArrowDown(event) {
         var item = popupVisible ? popupEl.querySelectorAll(".ts-js-item")[0] : null;
@@ -1678,9 +1684,12 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       Enter: function Enter(event) {
-        selectItem(event.target); //         event.preventDefault();
+        selectItem(event.target);
+
+        if (!passEnter) {
+          event.preventDefault();
+        }
       },
-      //         event.preventDefault();
       Escape: function Escape(event) {
         cancelFetch();
         closePopup(true);
@@ -1848,13 +1857,14 @@ var Typeahead = (function () {
 
     $$self.$set = function ($$props) {
       if ("real" in $$props) $$invalidate(0, real = $$props.real);
-      if ("fetcher" in $$props) $$invalidate(33, fetcher = $$props.fetcher);
+      if ("fetcher" in $$props) $$invalidate(34, fetcher = $$props.fetcher);
       if ("queryMinLen" in $$props) $$invalidate(30, queryMinLen = $$props.queryMinLen);
       if ("query" in $$props) $$invalidate(1, query = $$props.query);
       if ("delay" in $$props) $$invalidate(31, delay = $$props.delay);
       if ("translations" in $$props) $$invalidate(32, translations = $$props.translations);
       if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
       if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
+      if ("passEnter" in $$props) $$invalidate(33, passEnter = $$props.passEnter);
     };
 
     $$self.$$.update = function () {
@@ -1862,7 +1872,7 @@ var Typeahead = (function () {
       /*query*/
       2 | $$self.$$.dirty[1] &
       /*selectedItem*/
-      256) {
+      512) {
         ////////////////////////////////////////////////////////////
         // HANDLERS
         //
@@ -1875,7 +1885,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
+    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, passEnter, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
@@ -1891,13 +1901,14 @@ var Typeahead = (function () {
       _this = _super.call(this);
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
         real: 0,
-        fetcher: 33,
+        fetcher: 34,
         queryMinLen: 30,
         query: 1,
         delay: 31,
         translations: 32,
         styles: 2,
-        showToggle: 3
+        showToggle: 3,
+        passEnter: 33
       }, [-1, -1, -1]);
       return _this;
     }

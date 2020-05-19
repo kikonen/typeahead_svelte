@@ -29,6 +29,7 @@
  export let translations = {};
  export let styles = {};
  export let showToggle = true;
+ export let passEnter = true;
 
  let containerEl;
  let inputEl;
@@ -346,6 +347,7 @@
      query = ds.tsQuery != undefined ? ds.tsQuery : query;
      delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay;
      showToggle = ds.tsShowToggle != undefined ? ds.tsShowToggle !== 'false' : showToggle;
+     passEnter = ds.tsPassEnter != undefined ? ds.tsPassEnter !== 'false' : passEnter;
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
@@ -375,7 +377,9 @@
      Enter: function(event) {
          if (popupVisible) {
              closePopup(false);
-//             event.preventDefault();
+             if (!passEnter) {
+                 event.preventDefault();
+             }
          }
      },
      ArrowDown: function(event) {
@@ -491,7 +495,9 @@
      },
      Enter: function(event) {
          selectItem(event.target)
-//         event.preventDefault();
+         if (!passEnter) {
+             event.preventDefault();
+         }
      },
      Escape: function(event) {
          cancelFetch();
