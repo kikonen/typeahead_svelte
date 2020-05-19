@@ -1367,9 +1367,8 @@ function instance($$self, $$props, $$invalidate) {
 			event.preventDefault();
 		},
 		Enter(event) {
-			selectItem(event.target);
-			event.preventDefault();
-		},
+			selectItem(event.target); //         event.preventDefault();
+		}, //         event.preventDefault();
 		Escape(event) {
 			cancelFetch();
 			closePopup(true);

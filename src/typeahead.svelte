@@ -491,7 +491,7 @@
      },
      Enter: function(event) {
          selectItem(event.target)
-         event.preventDefault();
+//         event.preventDefault();
      },
      Escape: function(event) {
          cancelFetch();

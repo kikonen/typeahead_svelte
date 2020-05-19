@@ -1678,9 +1678,9 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       Enter: function Enter(event) {
-        selectItem(event.target);
-        event.preventDefault();
+        selectItem(event.target); //         event.preventDefault();
       },
+      //         event.preventDefault();
       Escape: function Escape(event) {
         cancelFetch();
         closePopup(true);
