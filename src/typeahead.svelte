@@ -29,7 +29,7 @@
  export let translations = {};
  export let styles = {};
  export let showToggle = true;
- export let passEnter = true;
+ export let passEnter = false;
 
  let containerEl;
  let inputEl;

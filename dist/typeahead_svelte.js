@@ -1259,7 +1259,7 @@ var Typeahead = (function () {
     var _$$props$showToggle = $$props.showToggle,
         showToggle = _$$props$showToggle === void 0 ? true : _$$props$showToggle;
     var _$$props$passEnter = $$props.passEnter,
-        passEnter = _$$props$passEnter === void 0 ? true : _$$props$passEnter;
+        passEnter = _$$props$passEnter === void 0 ? false : _$$props$passEnter;
     var containerEl;
     var inputEl;
     var toggleEl;

@@ -919,7 +919,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { translations = {} } = $$props;
 	let { styles = {} } = $$props;
 	let { showToggle = true } = $$props;
-	let { passEnter = true } = $$props;
+	let { passEnter = false } = $$props;
 	let containerEl;
 	let inputEl;
 	let toggleEl;
