@@ -275,7 +275,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (684:4) {#if showToggle}
+// (738:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -328,7 +328,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (721:4) {:else}
+// (775:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = /*items*/ ctx[11];
@@ -384,7 +384,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (713:32) 
+// (767:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -427,7 +427,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (709:43) 
+// (763:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -448,7 +448,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (705:4) {#if fetchError}
+// (759:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -473,7 +473,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (741:8) {:else}
+// (795:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -543,7 +543,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (729:52) 
+// (783:52) 
 function create_if_block_5(ctx) {
 	let div1;
 	let div0;
@@ -605,7 +605,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (723:8) {#if item.separator}
+// (777:8) {#if item.separator}
 function create_if_block_4(ctx) {
 	let div;
 	let div_data_index_value;
@@ -636,7 +636,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (751:12) {#if item.desc}
+// (805:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[68].desc + "";
@@ -661,7 +661,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (735:12) {#if item.desc}
+// (789:12) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[68].desc + "";
@@ -686,7 +686,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (722:6) {#each items as item, index}
+// (776:6) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -728,7 +728,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (717:8) {:else}
+// (771:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[20]("no_results") + "";
 	let t;
@@ -747,7 +747,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (715:8) {#if tooShort }
+// (769:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[20]("too_short") + "";
 	let t;
@@ -955,8 +955,52 @@ const I18N_DEFAULTS = {
 
 const STYLE_DEFAULTS = { container_class: "" };
 
+const META_KEYS = {
+	// Modifiers
+	Control: true,
+	Shift: true,
+	Alt: true,
+	AltGraph: true,
+	Meta: true,
+	// Special keys
+	ContextMenu: true,
+	PrintScreen: true,
+	ScrollLock: true,
+	Pause: true,
+	CapsLock: true,
+	Numlock: true,
+	// Nav keys
+	Escape: true,
+	Tab: true,
+	ArrowDown: true,
+	ArrowUp: true,
+	ArrowLeft: true,
+	ArrowRight: true,
+	PageDown: true,
+	PageUp: true,
+	Home: true,
+	End: true,
+	// Ignore function keys
+	F1: true,
+	F2: true,
+	F3: true,
+	F4: true,
+	F5: true,
+	F6: true,
+	F7: true,
+	F8: true,
+	F9: true,
+	F10: true,
+	F11: true,
+	F12: true
+};
+
 function hasModifier(event) {
 	return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+}
+
+function isMetaKey(event) {
+	return META_KEYS[event.key] || META_KEYS[event.code];
 }
 
 function nop() {
@@ -1317,6 +1361,10 @@ function instance($$self, $$props, $$invalidate) {
 
 	let inputKeydownHandlers = {
 		base(event) {
+			if (isMetaKey(event)) {
+				return;
+			}
+
 			wasDown = true;
 		},
 		Enter(event) {
@@ -1360,7 +1408,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	let inputKeyupHandlers = {
 		base(event) {
-			if (wasDown) {
+			if (wasDown && !isMetaKey(event)) {
 				openPopup();
 				fetchItems();
 			}
@@ -1389,6 +1437,10 @@ function instance($$self, $$props, $$invalidate) {
 
 	let toggleKeydownHandlers = {
 		base(event) {
+			if (isMetaKey(event)) {
+				return;
+			}
+
 			inputEl.focus();
 		},
 		ArrowDown: inputKeydownHandlers.ArrowDown,
@@ -1405,6 +1457,10 @@ function instance($$self, $$props, $$invalidate) {
 
 	let itemKeydownHandlers = {
 		base(event) {
+			if (isMetaKey(event)) {
+				return;
+			}
+
 			wasDown = true;
 			inputEl.focus();
 		},

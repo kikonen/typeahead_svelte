@@ -13,8 +13,52 @@
      container_class: '',
  };
 
+ const META_KEYS = {
+     // Modifiers
+     Control: true,
+     Shift: true,
+     Alt: true,
+     AltGraph: true,
+     Meta: true,
+     // Special keys
+     ContextMenu: true,
+     PrintScreen: true,
+     ScrollLock: true,
+     Pause: true,
+     CapsLock: true,
+     Numlock: true,
+     // Nav keys
+     Escape: true,
+     Tab: true,
+     ArrowDown: true,
+     ArrowUp: true,
+     ArrowLeft: true,
+     ArrowRight: true,
+     PageDown: true,
+     PageUp: true,
+     Home: true,
+     End: true,
+     // Ignore function keys
+     F1: true,
+     F2: true,
+     F3: true,
+     F4: true,
+     F5: true,
+     F6: true,
+     F7: true,
+     F8: true,
+     F9: true,
+     F10: true,
+     F11: true,
+     F12: true,
+ }
+
  function hasModifier(event) {
      return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+ }
+
+ function isMetaKey(event) {
+     return META_KEYS[event.key] || META_KEYS[event.code]
  }
 </script>
 <script>
@@ -387,6 +431,9 @@
 
  let inputKeydownHandlers = {
      base: function(event) {
+         if (isMetaKey(event)) {
+             return;
+         }
          wasDown = true;
      },
      Enter: function(event) {
@@ -424,7 +471,7 @@
 
  let inputKeyupHandlers = {
      base: function(event) {
-         if (wasDown) {
+         if (wasDown && !isMetaKey(event)) {
              openPopup();
              fetchItems();
          }
@@ -452,6 +499,9 @@
 
  let toggleKeydownHandlers = {
      base: function(event) {
+         if (isMetaKey(event)) {
+             return;
+         }
          inputEl.focus();
      },
      ArrowDown: inputKeydownHandlers.ArrowDown,
@@ -468,6 +518,10 @@
 
  let itemKeydownHandlers = {
      base: function(event) {
+         if (isMetaKey(event)) {
+             return;
+         }
+
          wasDown = true;
          inputEl.focus();
      },

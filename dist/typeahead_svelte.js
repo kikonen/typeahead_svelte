@@ -454,7 +454,7 @@ var Typeahead = (function () {
     child_ctx[68] = list[i];
     child_ctx[70] = i;
     return child_ctx;
-  } // (684:4) {#if showToggle}
+  } // (738:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -513,7 +513,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (721:4) {:else}
+  } // (775:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -578,7 +578,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (713:32) 
+  } // (767:32) 
 
 
   function create_if_block_2(ctx) {
@@ -622,7 +622,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (709:43) 
+  } // (763:43) 
 
 
   function create_if_block_1(ctx) {
@@ -644,7 +644,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (705:4) {#if fetchError}
+  } // (759:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -674,7 +674,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (741:8) {:else}
+  } // (795:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -761,7 +761,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (729:52) 
+  } // (783:52) 
 
 
   function create_if_block_5(ctx) {
@@ -838,7 +838,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (723:8) {#if item.separator}
+  } // (777:8) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -872,7 +872,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (751:12) {#if item.desc}
+  } // (805:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -902,7 +902,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (735:12) {#if item.desc}
+  } // (789:12) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -932,7 +932,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (722:6) {#each items as item, index}
+  } // (776:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -979,7 +979,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (717:8) {:else}
+  } // (771:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -999,7 +999,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (715:8) {#if tooShort }
+  } // (769:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1310,9 +1310,52 @@ var Typeahead = (function () {
   var STYLE_DEFAULTS = {
     container_class: ""
   };
+  var META_KEYS = {
+    // Modifiers
+    Control: true,
+    Shift: true,
+    Alt: true,
+    AltGraph: true,
+    Meta: true,
+    // Special keys
+    ContextMenu: true,
+    PrintScreen: true,
+    ScrollLock: true,
+    Pause: true,
+    CapsLock: true,
+    Numlock: true,
+    // Nav keys
+    Escape: true,
+    Tab: true,
+    ArrowDown: true,
+    ArrowUp: true,
+    ArrowLeft: true,
+    ArrowRight: true,
+    PageDown: true,
+    PageUp: true,
+    Home: true,
+    End: true,
+    // Ignore function keys
+    F1: true,
+    F2: true,
+    F3: true,
+    F4: true,
+    F5: true,
+    F6: true,
+    F7: true,
+    F8: true,
+    F9: true,
+    F10: true,
+    F11: true,
+    F12: true
+  };
 
   function hasModifier(event) {
     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+  }
+
+  function isMetaKey(event) {
+    return META_KEYS[event.key] || META_KEYS[event.code];
   }
 
   function nop() {} ////////////////////////////////////////////////////////////
@@ -1650,6 +1693,10 @@ var Typeahead = (function () {
     };
     var inputKeydownHandlers = {
       base: function base(event) {
+        if (isMetaKey(event)) {
+          return;
+        }
+
         wasDown = true;
       },
       Enter: function Enter(event) {
@@ -1690,7 +1737,7 @@ var Typeahead = (function () {
     };
     var inputKeyupHandlers = {
       base: function base(event) {
-        if (wasDown) {
+        if (wasDown && !isMetaKey(event)) {
           openPopup();
           fetchItems();
         }
@@ -1718,6 +1765,10 @@ var Typeahead = (function () {
     };
     var toggleKeydownHandlers = {
       base: function base(event) {
+        if (isMetaKey(event)) {
+          return;
+        }
+
         inputEl.focus();
       },
       ArrowDown: inputKeydownHandlers.ArrowDown,
@@ -1733,6 +1784,10 @@ var Typeahead = (function () {
     };
     var itemKeydownHandlers = {
       base: function base(event) {
+        if (isMetaKey(event)) {
+          return;
+        }
+
         wasDown = true;
         inputEl.focus();
       },
