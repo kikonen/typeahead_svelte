@@ -84,7 +84,7 @@
  let containerId = null;
  let containerName = null;
 
- let inputLabelHTML = null;
+ let labelId = null;
 
  let setupDone = false;
 
@@ -408,7 +408,8 @@
      }
      let label = document.querySelector(`[for="${real.id}"]`);
      if (label) {
-         inputLabelHTML = label.innerHTML;
+         label.id = label.id || `ts_label_${real.id}`;
+         labelId = label.id;
      }
  }
 
@@ -718,13 +719,13 @@
      bind:this={containerEl}>
 
   <div class="input-group">
-    <label for="ts_input_{containerId}" class="sr-only">{inputLabelHTML}</label>
-    <input id="ts_input_{containerId}"
-           class="form-control ts-input"
+    <input class="form-control ts-input"
            autocomplete=new-password
            autocorrect=off
            autocapitalize=off
            spellcheck=off
+
+           aria-labelledby={labelId}
 
            data-target="{real.id}"
            placeholder="{real.placeholder}"

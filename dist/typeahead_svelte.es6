@@ -275,7 +275,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (738:4) {#if showToggle}
+// (739:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -328,7 +328,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (775:4) {:else}
+// (776:4) {:else}
 function create_else_block_1(ctx) {
 	let each_1_anchor;
 	let each_value = /*items*/ ctx[11];
@@ -384,7 +384,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (767:32) 
+// (768:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -427,7 +427,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (763:43) 
+// (764:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -448,7 +448,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (759:4) {#if fetchError}
+// (760:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -473,7 +473,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (795:8) {:else}
+// (796:8) {:else}
 function create_else_block_2(ctx) {
 	let div1;
 	let div0;
@@ -543,7 +543,7 @@ function create_else_block_2(ctx) {
 	};
 }
 
-// (783:52) 
+// (784:52) 
 function create_if_block_5(ctx) {
 	let div1;
 	let div0;
@@ -605,7 +605,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (777:8) {#if item.separator}
+// (778:8) {#if item.separator}
 function create_if_block_4(ctx) {
 	let div;
 	let div_data_index_value;
@@ -636,7 +636,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (805:12) {#if item.desc}
+// (806:12) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[68].desc + "";
@@ -661,7 +661,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (789:12) {#if item.desc}
+// (790:12) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[68].desc + "";
@@ -686,7 +686,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (776:6) {#each items as item, index}
+// (777:6) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -728,7 +728,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (771:8) {:else}
+// (772:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[20]("no_results") + "";
 	let t;
@@ -747,7 +747,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (769:8) {#if tooShort }
+// (770:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[20]("too_short") + "";
 	let t;
@@ -769,16 +769,11 @@ function create_if_block_3(ctx) {
 function create_fragment(ctx) {
 	let div2;
 	let div0;
-	let label;
-	let t0;
-	let label_for_value;
-	let t1;
 	let input;
-	let input_id_value;
 	let input_data_target_value;
 	let input_placeholder_value;
-	let t2;
-	let t3;
+	let t0;
+	let t1;
 	let div1;
 	let div2_class_value;
 	let mounted;
@@ -799,23 +794,18 @@ function create_fragment(ctx) {
 		c() {
 			div2 = element("div");
 			div0 = element("div");
-			label = element("label");
-			t0 = text(/*inputLabelHTML*/ ctx[10]);
-			t1 = space();
 			input = element("input");
-			t2 = space();
+			t0 = space();
 			if (if_block0) if_block0.c();
-			t3 = space();
+			t1 = space();
 			div1 = element("div");
 			if_block1.c();
-			attr(label, "for", label_for_value = "ts_input_" + /*containerId*/ ctx[8]);
-			attr(label, "class", "sr-only");
-			attr(input, "id", input_id_value = "ts_input_" + /*containerId*/ ctx[8]);
 			attr(input, "class", "form-control ts-input");
 			attr(input, "autocomplete", "new-password");
 			attr(input, "autocorrect", "off");
 			attr(input, "autocapitalize", "off");
 			attr(input, "spellcheck", "off");
+			attr(input, "aria-labelledby", /*labelId*/ ctx[10]);
 			attr(input, "data-target", input_data_target_value = /*real*/ ctx[0].id);
 			attr(input, "placeholder", input_placeholder_value = /*real*/ ctx[0].placeholder);
 			attr(div0, "class", "input-group");
@@ -831,15 +821,12 @@ function create_fragment(ctx) {
 		m(target, anchor) {
 			insert(target, div2, anchor);
 			append(div2, div0);
-			append(div0, label);
-			append(label, t0);
-			append(div0, t1);
 			append(div0, input);
 			/*input_binding*/ ctx[63](input);
 			set_input_value(input, /*query*/ ctx[1]);
-			append(div0, t2);
+			append(div0, t0);
 			if (if_block0) if_block0.m(div0, null);
-			append(div2, t3);
+			append(div2, t1);
 			append(div2, div1);
 			if_block1.m(div1, null);
 			/*div1_binding*/ ctx[66](div1);
@@ -859,14 +846,8 @@ function create_fragment(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*inputLabelHTML*/ 1024) set_data(t0, /*inputLabelHTML*/ ctx[10]);
-
-			if (dirty[0] & /*containerId*/ 256 && label_for_value !== (label_for_value = "ts_input_" + /*containerId*/ ctx[8])) {
-				attr(label, "for", label_for_value);
-			}
-
-			if (dirty[0] & /*containerId*/ 256 && input_id_value !== (input_id_value = "ts_input_" + /*containerId*/ ctx[8])) {
-				attr(input, "id", input_id_value);
+			if (dirty[0] & /*labelId*/ 1024) {
+				attr(input, "aria-labelledby", /*labelId*/ ctx[10]);
 			}
 
 			if (dirty[0] & /*real*/ 1 && input_data_target_value !== (input_data_target_value = /*real*/ ctx[0].id)) {
@@ -1029,7 +1010,7 @@ function instance($$self, $$props, $$invalidate) {
 	let popupEl;
 	let containerId = null;
 	let containerName = null;
-	let inputLabelHTML = null;
+	let labelId = null;
 	let setupDone = false;
 	let items = [];
 	let offsetCount = 0;
@@ -1338,7 +1319,8 @@ function instance($$self, $$props, $$invalidate) {
 		let label = document.querySelector(`[for="${real.id}"]`);
 
 		if (label) {
-			$$invalidate(10, inputLabelHTML = label.innerHTML);
+			label.id = label.id || `ts_label_${real.id}`;
+			$$invalidate(10, labelId = label.id);
 		}
 	}
 
@@ -1714,7 +1696,7 @@ function instance($$self, $$props, $$invalidate) {
 		popupEl,
 		containerId,
 		containerName,
-		inputLabelHTML,
+		labelId,
 		items,
 		actualCount,
 		tooShort,

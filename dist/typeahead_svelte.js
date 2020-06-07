@@ -454,7 +454,7 @@ var Typeahead = (function () {
     child_ctx[68] = list[i];
     child_ctx[70] = i;
     return child_ctx;
-  } // (738:4) {#if showToggle}
+  } // (739:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -513,7 +513,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (775:4) {:else}
+  } // (776:4) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -578,7 +578,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (767:32) 
+  } // (768:32) 
 
 
   function create_if_block_2(ctx) {
@@ -622,7 +622,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (763:43) 
+  } // (764:43) 
 
 
   function create_if_block_1(ctx) {
@@ -644,7 +644,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (759:4) {#if fetchError}
+  } // (760:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -674,7 +674,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (795:8) {:else}
+  } // (796:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -761,7 +761,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (783:52) 
+  } // (784:52) 
 
 
   function create_if_block_5(ctx) {
@@ -838,7 +838,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (777:8) {#if item.separator}
+  } // (778:8) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -872,7 +872,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (805:12) {#if item.desc}
+  } // (806:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -902,7 +902,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (789:12) {#if item.desc}
+  } // (790:12) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -932,7 +932,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (776:6) {#each items as item, index}
+  } // (777:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -979,7 +979,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (771:8) {:else}
+  } // (772:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -999,7 +999,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (769:8) {#if tooShort }
+  } // (770:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1024,16 +1024,11 @@ var Typeahead = (function () {
   function create_fragment(ctx) {
     var div2;
     var div0;
-    var label;
-    var t0;
-    var label_for_value;
-    var t1;
     var input;
-    var input_id_value;
     var input_data_target_value;
     var input_placeholder_value;
-    var t2;
-    var t3;
+    var t0;
+    var t1;
     var div1;
     var div2_class_value;
     var mounted;
@@ -1063,29 +1058,20 @@ var Typeahead = (function () {
       c: function c() {
         div2 = element("div");
         div0 = element("div");
-        label = element("label");
-        t0 = text(
-        /*inputLabelHTML*/
-        ctx[10]);
-        t1 = space();
         input = element("input");
-        t2 = space();
+        t0 = space();
         if (if_block0) if_block0.c();
-        t3 = space();
+        t1 = space();
         div1 = element("div");
         if_block1.c();
-        attr(label, "for", label_for_value = "ts_input_" +
-        /*containerId*/
-        ctx[8]);
-        attr(label, "class", "sr-only");
-        attr(input, "id", input_id_value = "ts_input_" +
-        /*containerId*/
-        ctx[8]);
         attr(input, "class", "form-control ts-input");
         attr(input, "autocomplete", "new-password");
         attr(input, "autocorrect", "off");
         attr(input, "autocapitalize", "off");
         attr(input, "spellcheck", "off");
+        attr(input, "aria-labelledby",
+        /*labelId*/
+        ctx[10]);
         attr(input, "data-target", input_data_target_value =
         /*real*/
         ctx[0].id);
@@ -1117,9 +1103,6 @@ var Typeahead = (function () {
       m: function m(target, anchor) {
         insert(target, div2, anchor);
         append(div2, div0);
-        append(div0, label);
-        append(label, t0);
-        append(div0, t1);
         append(div0, input);
         /*input_binding*/
 
@@ -1127,9 +1110,9 @@ var Typeahead = (function () {
         set_input_value(input,
         /*query*/
         ctx[1]);
-        append(div0, t2);
+        append(div0, t0);
         if (if_block0) if_block0.m(div0, null);
-        append(div2, t3);
+        append(div2, t1);
         append(div2, div1);
         if_block1.m(div1, null);
         /*div1_binding*/
@@ -1158,25 +1141,11 @@ var Typeahead = (function () {
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
-        /*inputLabelHTML*/
-        1024) set_data(t0,
-        /*inputLabelHTML*/
-        ctx[10]);
-
-        if (dirty[0] &
-        /*containerId*/
-        256 && label_for_value !== (label_for_value = "ts_input_" +
-        /*containerId*/
-        ctx[8])) {
-          attr(label, "for", label_for_value);
-        }
-
-        if (dirty[0] &
-        /*containerId*/
-        256 && input_id_value !== (input_id_value = "ts_input_" +
-        /*containerId*/
-        ctx[8])) {
-          attr(input, "id", input_id_value);
+        /*labelId*/
+        1024) {
+          attr(input, "aria-labelledby",
+          /*labelId*/
+          ctx[10]);
         }
 
         if (dirty[0] &
@@ -1388,7 +1357,7 @@ var Typeahead = (function () {
     var popupEl;
     var containerId = null;
     var containerName = null;
-    var inputLabelHTML = null;
+    var labelId = null;
     var setupDone = false;
     var items = [];
     var offsetCount = 0;
@@ -1672,7 +1641,8 @@ var Typeahead = (function () {
       var label = document.querySelector("[for=\"".concat(real.id, "\"]"));
 
       if (label) {
-        $$invalidate(10, inputLabelHTML = label.innerHTML);
+        label.id = label.id || "ts_label_".concat(real.id);
+        $$invalidate(10, labelId = label.id);
       }
     }
 
@@ -2033,7 +2003,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, inputLabelHTML, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, passEnter, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, bindLabel, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
+    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, labelId, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, passEnter, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, bindLabel, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
