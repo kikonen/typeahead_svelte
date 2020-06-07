@@ -1348,7 +1348,7 @@ var Typeahead = (function () {
     var _$$props$styles = $$props.styles,
         styles = _$$props$styles === void 0 ? {} : _$$props$styles;
     var _$$props$showToggle = $$props.showToggle,
-        showToggle = _$$props$showToggle === void 0 ? true : _$$props$showToggle;
+        showToggle = _$$props$showToggle === void 0 ? false : _$$props$showToggle;
     var _$$props$passEnter = $$props.passEnter,
         passEnter = _$$props$passEnter === void 0 ? false : _$$props$passEnter;
     var containerEl;
@@ -1624,11 +1624,11 @@ var Typeahead = (function () {
       $$invalidate(8, containerId = real.id ? "ts_container_".concat(real.id) : null);
       $$invalidate(9, containerName = real.name ? "ts_container_".concat(real.name) : null);
       bindLabel();
-      $$invalidate(31, queryMinLen = ds.tsQueryMinLen != undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
-      $$invalidate(1, query = ds.tsQuery != undefined ? ds.tsQuery : query);
-      $$invalidate(32, delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay);
-      $$invalidate(3, showToggle = ds.tsShowToggle != undefined ? ds.tsShowToggle !== "false" : showToggle);
-      $$invalidate(34, passEnter = ds.tsPassEnter != undefined ? ds.tsPassEnter !== "false" : passEnter);
+      $$invalidate(31, queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
+      $$invalidate(1, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
+      $$invalidate(32, delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay);
+      $$invalidate(3, showToggle = ds.tsShowToggle !== undefined ? true : showToggle);
+      $$invalidate(34, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
       $$invalidate(33, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
       $$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
     }

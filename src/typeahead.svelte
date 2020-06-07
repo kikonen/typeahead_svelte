@@ -73,7 +73,7 @@
  export let delay = 200;
  export let translations = {};
  export let styles = {};
- export let showToggle = true;
+ export let showToggle = false;
  export let passEnter = false;
 
  let containerEl;
@@ -392,11 +392,11 @@
 
      bindLabel();
 
-     queryMinLen = ds.tsQueryMinLen != undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen;
-     query = ds.tsQuery != undefined ? ds.tsQuery : query;
-     delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay;
-     showToggle = ds.tsShowToggle != undefined ? ds.tsShowToggle !== 'false' : showToggle;
-     passEnter = ds.tsPassEnter != undefined ? ds.tsPassEnter !== 'false' : passEnter;
+     queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen;
+     query = ds.tsQuery !== undefined ? ds.tsQuery : query;
+     delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay;
+     showToggle = ds.tsShowToggle !== undefined ? true : showToggle;
+     passEnter = ds.tsPassEnter !== undefined ? true : passEnter;
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});

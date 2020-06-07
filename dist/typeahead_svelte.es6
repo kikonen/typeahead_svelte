@@ -1002,7 +1002,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { delay = 200 } = $$props;
 	let { translations = {} } = $$props;
 	let { styles = {} } = $$props;
-	let { showToggle = true } = $$props;
+	let { showToggle = false } = $$props;
 	let { passEnter = false } = $$props;
 	let containerEl;
 	let inputEl;
@@ -1289,24 +1289,18 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate(9, containerName = real.name ? `ts_container_${real.name}` : null);
 		bindLabel();
 
-		$$invalidate(31, queryMinLen = ds.tsQueryMinLen != undefined
+		$$invalidate(31, queryMinLen = ds.tsQueryMinLen !== undefined
 		? parseInt(ds.tsQueryMinLen, 10)
 		: queryMinLen);
 
-		$$invalidate(1, query = ds.tsQuery != undefined ? ds.tsQuery : query);
+		$$invalidate(1, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
 
-		$$invalidate(32, delay = ds.tsDelay != undefined
+		$$invalidate(32, delay = ds.tsDelay !== undefined
 		? parseInt(ds.tsDelay, 10)
 		: delay);
 
-		$$invalidate(3, showToggle = ds.tsShowToggle != undefined
-		? ds.tsShowToggle !== "false"
-		: showToggle);
-
-		$$invalidate(34, passEnter = ds.tsPassEnter != undefined
-		? ds.tsPassEnter !== "false"
-		: passEnter);
-
+		$$invalidate(3, showToggle = ds.tsShowToggle !== undefined ? true : showToggle);
+		$$invalidate(34, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
 		$$invalidate(33, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
 		$$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
 	}
