@@ -1,6 +1,6 @@
 {
   "license": "SEE LICENSE IN LICENSE",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "name": "@kikonen/typeahead_svelte",
   "devDependencies": {
     "@babel/core": "^7.7.2",
