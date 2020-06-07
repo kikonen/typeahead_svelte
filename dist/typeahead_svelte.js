@@ -198,9 +198,7 @@ var Typeahead = (function () {
   }
 
   function set_input_value(input, value) {
-    if (value != null || input.value) {
-      input.value = value;
-    }
+    input.value = value == null ? '' : value;
   }
 
   function toggle_class(element, name, toggle) {
@@ -447,64 +445,82 @@ var Typeahead = (function () {
     return SvelteComponent;
   }();
 
-  function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+  function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
   function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
-    child_ctx[66] = list[i];
-    child_ctx[68] = i;
+    child_ctx[68] = list[i];
+    child_ctx[70] = i;
     return child_ctx;
-  } // (667:4) {#if showToggle}
+  } // (684:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
     var div;
     var button;
+    var span;
+    var t1;
+    var i;
+    var mounted;
     var dispose;
     return {
       c: function c() {
         div = element("div");
         button = element("button");
-        button.innerHTML = "<i class=\"text-dark fas fa-caret-down\"></i>";
+        span = element("span");
+        span.textContent = "".concat(
+        /*translate*/
+        ctx[20]("toggle"));
+        t1 = space();
+        i = element("i");
+        attr(span, "class", "sr-only");
+        attr(i, "class", "text-dark fas fa-caret-down");
         attr(button, "class", "btn btn-outline-secondary");
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
         attr(div, "class", "input-group-append");
       },
-      m: function m(target, anchor, remount) {
+      m: function m(target, anchor) {
         insert(target, div, anchor);
         append(div, button);
+        append(button, span);
+        append(button, t1);
+        append(button, i);
         /*button_binding*/
 
-        ctx[63](button);
-        if (remount) run_all(dispose);
-        dispose = [listen(button, "blur",
-        /*handleBlur*/
-        ctx[20]), listen(button, "keydown",
-        /*handleToggleKeydown*/
-        ctx[24]), listen(button, "click",
-        /*handleToggleClick*/
-        ctx[25])];
+        ctx[65](button);
+
+        if (!mounted) {
+          dispose = [listen(button, "blur",
+          /*handleBlur*/
+          ctx[21]), listen(button, "keydown",
+          /*handleToggleKeydown*/
+          ctx[25]), listen(button, "click",
+          /*handleToggleClick*/
+          ctx[26])];
+          mounted = true;
+        }
       },
       p: noop,
       d: function d(detaching) {
         if (detaching) detach(div);
         /*button_binding*/
 
-        ctx[63](null);
+        ctx[65](null);
+        mounted = false;
         run_all(dispose);
       }
     };
-  } // (703:4) {:else}
+  } // (721:4) {:else}
 
 
   function create_else_block_1(ctx) {
     var each_1_anchor;
     var each_value =
     /*items*/
-    ctx[10];
+    ctx[11];
     var each_blocks = [];
 
     for (var i = 0; i < each_value.length; i += 1) {
@@ -529,10 +545,10 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*handleItemKeydown, items, handleBlur, handleItemClick, handleItemKeyup*/
-        470811648) {
+        941623296) {
           each_value =
           /*items*/
-          ctx[10];
+          ctx[11];
 
           var _i3;
 
@@ -562,7 +578,7 @@ var Typeahead = (function () {
         if (detaching) detach(each_1_anchor);
       }
     };
-  } // (695:32) 
+  } // (713:32) 
 
 
   function create_if_block_2(ctx) {
@@ -571,7 +587,7 @@ var Typeahead = (function () {
     function select_block_type_1(ctx, dirty) {
       if (
       /*tooShort*/
-      ctx[12]) return create_if_block_3;
+      ctx[13]) return create_if_block_3;
       return create_else_block;
     }
 
@@ -606,7 +622,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (691:43) 
+  } // (709:43) 
 
 
   function create_if_block_1(ctx) {
@@ -616,7 +632,7 @@ var Typeahead = (function () {
         div = element("div");
         div.textContent = "".concat(
         /*translate*/
-        ctx[19]("fetching"));
+        ctx[20]("fetching"));
         attr(div, "tabindex", "-1");
         attr(div, "class", "dropdown-item ts-item-info");
       },
@@ -628,7 +644,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (687:4) {#if fetchError}
+  } // (705:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -639,7 +655,7 @@ var Typeahead = (function () {
         div = element("div");
         t = text(
         /*fetchError*/
-        ctx[14]);
+        ctx[15]);
         attr(div, "tabindex", "-1");
         attr(div, "class", "dropdown-item text-danger");
       },
@@ -650,15 +666,15 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*fetchError*/
-        16384) set_data(t,
+        32768) set_data(t,
         /*fetchError*/
-        ctx[14]);
+        ctx[15]);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (723:8) {:else}
+  } // (741:8) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -666,17 +682,18 @@ var Typeahead = (function () {
     var div0;
     var t0_value = (
     /*item*/
-    ctx[66].display_text ||
+    ctx[68].display_text ||
     /*item*/
-    ctx[66].text) + "";
+    ctx[68].text) + "";
     var t0;
     var t1;
     var t2;
     var div1_data_index_value;
+    var mounted;
     var dispose;
     var if_block =
     /*item*/
-    ctx[66].desc && create_if_block_7(ctx);
+    ctx[68].desc && create_if_block_7(ctx);
     return {
       c: function c() {
         div1 = element("div");
@@ -690,38 +707,41 @@ var Typeahead = (function () {
         attr(div1, "class", "dropdown-item ts-item ts-js-item");
         attr(div1, "data-index", div1_data_index_value =
         /*index*/
-        ctx[68]);
+        ctx[70]);
       },
-      m: function m(target, anchor, remount) {
+      m: function m(target, anchor) {
         insert(target, div1, anchor);
         append(div1, div0);
         append(div0, t0);
         append(div1, t1);
         if (if_block) if_block.m(div1, null);
         append(div1, t2);
-        if (remount) run_all(dispose);
-        dispose = [listen(div1, "blur",
-        /*handleBlur*/
-        ctx[20]), listen(div1, "click",
-        /*handleItemClick*/
-        ctx[28]), listen(div1, "keydown",
-        /*handleItemKeydown*/
-        ctx[26]), listen(div1, "keyup",
-        /*handleItemKeyup*/
-        ctx[27])];
+
+        if (!mounted) {
+          dispose = [listen(div1, "blur",
+          /*handleBlur*/
+          ctx[21]), listen(div1, "click",
+          /*handleItemClick*/
+          ctx[29]), listen(div1, "keydown",
+          /*handleItemKeydown*/
+          ctx[27]), listen(div1, "keyup",
+          /*handleItemKeyup*/
+          ctx[28])];
+          mounted = true;
+        }
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        1024 && t0_value !== (t0_value = (
+        2048 && t0_value !== (t0_value = (
         /*item*/
-        ctx[66].display_text ||
+        ctx[68].display_text ||
         /*item*/
-        ctx[66].text) + "")) set_data(t0, t0_value);
+        ctx[68].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[66].desc) {
+        ctx[68].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -737,10 +757,11 @@ var Typeahead = (function () {
       d: function d(detaching) {
         if (detaching) detach(div1);
         if (if_block) if_block.d();
+        mounted = false;
         run_all(dispose);
       }
     };
-  } // (711:52) 
+  } // (729:52) 
 
 
   function create_if_block_5(ctx) {
@@ -748,16 +769,17 @@ var Typeahead = (function () {
     var div0;
     var t0_value = (
     /*item*/
-    ctx[66].display_text ||
+    ctx[68].display_text ||
     /*item*/
-    ctx[66].text) + "";
+    ctx[68].text) + "";
     var t0;
     var t1;
     var t2;
+    var mounted;
     var dispose;
     var if_block =
     /*item*/
-    ctx[66].desc && create_if_block_6(ctx);
+    ctx[68].desc && create_if_block_6(ctx);
     return {
       c: function c() {
         div1 = element("div");
@@ -770,30 +792,33 @@ var Typeahead = (function () {
         attr(div1, "tabindex", "-1");
         attr(div1, "class", "dropdown-item ts-item-disabled ts-js-dead");
       },
-      m: function m(target, anchor, remount) {
+      m: function m(target, anchor) {
         insert(target, div1, anchor);
         append(div1, div0);
         append(div0, t0);
         append(div1, t1);
         if (if_block) if_block.m(div1, null);
         append(div1, t2);
-        if (remount) dispose();
-        dispose = listen(div1, "keydown",
-        /*handleItemKeydown*/
-        ctx[26]);
+
+        if (!mounted) {
+          dispose = listen(div1, "keydown",
+          /*handleItemKeydown*/
+          ctx[27]);
+          mounted = true;
+        }
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        1024 && t0_value !== (t0_value = (
+        2048 && t0_value !== (t0_value = (
         /*item*/
-        ctx[66].display_text ||
+        ctx[68].display_text ||
         /*item*/
-        ctx[66].text) + "")) set_data(t0, t0_value);
+        ctx[68].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[66].desc) {
+        ctx[68].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -809,15 +834,17 @@ var Typeahead = (function () {
       d: function d(detaching) {
         if (detaching) detach(div1);
         if (if_block) if_block.d();
+        mounted = false;
         dispose();
       }
     };
-  } // (705:8) {#if item.separator}
+  } // (723:8) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
     var div;
     var div_data_index_value;
+    var mounted;
     var dispose;
     return {
       c: function c() {
@@ -826,29 +853,33 @@ var Typeahead = (function () {
         attr(div, "class", "dropdown-divider ts-js-dead");
         attr(div, "data-index", div_data_index_value =
         /*index*/
-        ctx[68]);
+        ctx[70]);
       },
-      m: function m(target, anchor, remount) {
+      m: function m(target, anchor) {
         insert(target, div, anchor);
-        if (remount) dispose();
-        dispose = listen(div, "keydown",
-        /*handleItemKeydown*/
-        ctx[26]);
+
+        if (!mounted) {
+          dispose = listen(div, "keydown",
+          /*handleItemKeydown*/
+          ctx[27]);
+          mounted = true;
+        }
       },
       p: noop,
       d: function d(detaching) {
         if (detaching) detach(div);
+        mounted = false;
         dispose();
       }
     };
-  } // (733:12) {#if item.desc}
+  } // (751:12) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[66].desc + "";
+    ctx[68].desc + "";
     var t;
     return {
       c: function c() {
@@ -863,22 +894,22 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        1024 && t_value !== (t_value =
+        2048 && t_value !== (t_value =
         /*item*/
-        ctx[66].desc + "")) set_data(t, t_value);
+        ctx[68].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (717:12) {#if item.desc}
+  } // (735:12) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[66].desc + "";
+    ctx[68].desc + "";
     var t;
     return {
       c: function c() {
@@ -893,15 +924,15 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        1024 && t_value !== (t_value =
+        2048 && t_value !== (t_value =
         /*item*/
-        ctx[66].desc + "")) set_data(t, t_value);
+        ctx[68].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (704:6) {#each items as item, index}
+  } // (722:6) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -910,12 +941,12 @@ var Typeahead = (function () {
     function select_block_type_2(ctx, dirty) {
       if (
       /*item*/
-      ctx[66].separator) return create_if_block_4;
+      ctx[68].separator) return create_if_block_4;
       if (
       /*item*/
-      ctx[66].disabled ||
+      ctx[68].disabled ||
       /*item*/
-      ctx[66].placeholder) return create_if_block_5;
+      ctx[68].placeholder) return create_if_block_5;
       return create_else_block_2;
     }
 
@@ -948,13 +979,13 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (699:8) {:else}
+  } // (717:8) {:else}
 
 
   function create_else_block(ctx) {
     var t_value =
     /*translate*/
-    ctx[19]("no_results") + "";
+    ctx[20]("no_results") + "";
     var t;
     return {
       c: function c() {
@@ -968,13 +999,13 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (697:8) {#if tooShort }
+  } // (715:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
     var t_value =
     /*translate*/
-    ctx[19]("too_short") + "";
+    ctx[20]("too_short") + "";
     var t;
     return {
       c: function c() {
@@ -993,13 +1024,19 @@ var Typeahead = (function () {
   function create_fragment(ctx) {
     var div2;
     var div0;
+    var label;
+    var t0;
+    var label_for_value;
+    var t1;
     var input;
+    var input_id_value;
     var input_data_target_value;
     var input_placeholder_value;
-    var t0;
-    var t1;
+    var t2;
+    var t3;
     var div1;
     var div2_class_value;
+    var mounted;
     var dispose;
     var if_block0 =
     /*showToggle*/
@@ -1008,15 +1045,15 @@ var Typeahead = (function () {
     function select_block_type(ctx, dirty) {
       if (
       /*fetchError*/
-      ctx[14]) return create_if_block;
+      ctx[15]) return create_if_block;
       if (
       /*activeFetch*/
-      ctx[18] && !
+      ctx[19] && !
       /*fetchingMore*/
-      ctx[13]) return create_if_block_1;
+      ctx[14]) return create_if_block_1;
       if (
       /*actualCount*/
-      ctx[11] === 0) return create_if_block_2;
+      ctx[12] === 0) return create_if_block_2;
       return create_else_block_1;
     }
 
@@ -1026,12 +1063,24 @@ var Typeahead = (function () {
       c: function c() {
         div2 = element("div");
         div0 = element("div");
-        input = element("input");
-        t0 = space();
-        if (if_block0) if_block0.c();
+        label = element("label");
+        t0 = text(
+        /*inputLabelHTML*/
+        ctx[10]);
         t1 = space();
+        input = element("input");
+        t2 = space();
+        if (if_block0) if_block0.c();
+        t3 = space();
         div1 = element("div");
         if_block1.c();
+        attr(label, "for", label_for_value = "ts_input_" +
+        /*containerId*/
+        ctx[8]);
+        attr(label, "class", "sr-only");
+        attr(input, "id", input_id_value = "ts_input_" +
+        /*containerId*/
+        ctx[8]);
         attr(input, "class", "form-control ts-input");
         attr(input, "autocomplete", "new-password");
         attr(input, "autocorrect", "off");
@@ -1048,13 +1097,13 @@ var Typeahead = (function () {
         attr(div1, "tabindex", "-1");
         toggle_class(div1, "show",
         /*popupVisible*/
-        ctx[15]);
+        ctx[16]);
         toggle_class(div1, "ss-popup-top",
         /*popupTop*/
-        ctx[16]);
+        ctx[17]);
         toggle_class(div1, "ss-popup-left",
         /*popupLeft*/
-        ctx[17]);
+        ctx[18]);
         attr(div2, "class", div2_class_value = "form-control ts-container " +
         /*styles*/
         ctx[2].container_class);
@@ -1065,43 +1114,71 @@ var Typeahead = (function () {
         /*containerName*/
         ctx[9]);
       },
-      m: function m(target, anchor, remount) {
+      m: function m(target, anchor) {
         insert(target, div2, anchor);
         append(div2, div0);
+        append(div0, label);
+        append(label, t0);
+        append(div0, t1);
         append(div0, input);
         /*input_binding*/
 
-        ctx[61](input);
+        ctx[63](input);
         set_input_value(input,
         /*query*/
         ctx[1]);
-        append(div0, t0);
+        append(div0, t2);
         if (if_block0) if_block0.m(div0, null);
-        append(div2, t1);
+        append(div2, t3);
         append(div2, div1);
         if_block1.m(div1, null);
         /*div1_binding*/
 
-        ctx[64](div1);
+        ctx[66](div1);
         /*div2_binding*/
 
-        ctx[65](div2);
-        if (remount) run_all(dispose);
-        dispose = [listen(input, "input",
-        /*input_input_handler*/
-        ctx[62]), listen(input, "blur",
-        /*handleBlur*/
-        ctx[20]), listen(input, "keypress",
-        /*handleInputKeypress*/
-        ctx[21]), listen(input, "keydown",
-        /*handleInputKeydown*/
-        ctx[22]), listen(input, "keyup",
-        /*handleInputKeyup*/
-        ctx[23]), listen(div1, "scroll",
-        /*handlePopupScroll*/
-        ctx[29])];
+        ctx[67](div2);
+
+        if (!mounted) {
+          dispose = [listen(input, "input",
+          /*input_input_handler*/
+          ctx[64]), listen(input, "blur",
+          /*handleBlur*/
+          ctx[21]), listen(input, "keypress",
+          /*handleInputKeypress*/
+          ctx[22]), listen(input, "keydown",
+          /*handleInputKeydown*/
+          ctx[23]), listen(input, "keyup",
+          /*handleInputKeyup*/
+          ctx[24]), listen(div1, "scroll",
+          /*handlePopupScroll*/
+          ctx[30])];
+          mounted = true;
+        }
       },
       p: function p(ctx, dirty) {
+        if (dirty[0] &
+        /*inputLabelHTML*/
+        1024) set_data(t0,
+        /*inputLabelHTML*/
+        ctx[10]);
+
+        if (dirty[0] &
+        /*containerId*/
+        256 && label_for_value !== (label_for_value = "ts_input_" +
+        /*containerId*/
+        ctx[8])) {
+          attr(label, "for", label_for_value);
+        }
+
+        if (dirty[0] &
+        /*containerId*/
+        256 && input_id_value !== (input_id_value = "ts_input_" +
+        /*containerId*/
+        ctx[8])) {
+          attr(input, "id", input_id_value);
+        }
+
         if (dirty[0] &
         /*real*/
         1 && input_data_target_value !== (input_data_target_value =
@@ -1157,26 +1234,26 @@ var Typeahead = (function () {
 
         if (dirty[0] &
         /*popupVisible*/
-        32768) {
+        65536) {
           toggle_class(div1, "show",
           /*popupVisible*/
-          ctx[15]);
-        }
-
-        if (dirty[0] &
-        /*popupTop*/
-        65536) {
-          toggle_class(div1, "ss-popup-top",
-          /*popupTop*/
           ctx[16]);
         }
 
         if (dirty[0] &
-        /*popupLeft*/
+        /*popupTop*/
         131072) {
+          toggle_class(div1, "ss-popup-top",
+          /*popupTop*/
+          ctx[17]);
+        }
+
+        if (dirty[0] &
+        /*popupLeft*/
+        262144) {
           toggle_class(div1, "ss-popup-left",
           /*popupLeft*/
-          ctx[17]);
+          ctx[18]);
         }
 
         if (dirty[0] &
@@ -1209,15 +1286,16 @@ var Typeahead = (function () {
         if (detaching) detach(div2);
         /*input_binding*/
 
-        ctx[61](null);
+        ctx[63](null);
         if (if_block0) if_block0.d();
         if_block1.d();
         /*div1_binding*/
 
-        ctx[64](null);
+        ctx[66](null);
         /*div2_binding*/
 
-        ctx[65](null);
+        ctx[67](null);
+        mounted = false;
         run_all(dispose);
       }
     };
@@ -1226,6 +1304,7 @@ var Typeahead = (function () {
     fetching: "Searching..",
     no_results: "No results",
     too_short: "Too short",
+    toggle: "Toggle popup",
     fetching_more: "Searching more..."
   };
   var STYLE_DEFAULTS = {
@@ -1266,6 +1345,7 @@ var Typeahead = (function () {
     var popupEl;
     var containerId = null;
     var containerName = null;
+    var inputLabelHTML = null;
     var setupDone = false;
     var items = [];
     var offsetCount = 0;
@@ -1308,17 +1388,17 @@ var Typeahead = (function () {
 
       if (fetchMore) {
         fetchOffset = offsetCount;
-        $$invalidate(13, fetchingMore = true);
+        $$invalidate(14, fetchingMore = true);
       } else {
-        $$invalidate(10, items = []);
+        $$invalidate(11, items = []);
         offsetCount = 0;
-        $$invalidate(11, actualCount = 0);
+        $$invalidate(12, actualCount = 0);
         hasMore = false;
         fetched = false;
-        $$invalidate(13, fetchingMore = false);
+        $$invalidate(14, fetchingMore = false);
       }
 
-      $$invalidate(14, fetchError = null);
+      $$invalidate(15, fetchError = null);
       var currentFetchOffset = fetchOffset;
       var currentFetchingMore = fetchingMore;
       var currentFetch = new Promise(function (resolve, reject) {
@@ -1365,35 +1445,35 @@ var Typeahead = (function () {
             newItems = fetchedtems;
           }
 
-          $$invalidate(10, items = newItems);
+          $$invalidate(11, items = newItems);
           resolveItems(items);
           hasMore = info.more && offsetCount > 0;
-          $$invalidate(12, tooShort = info.too_short === true);
+          $$invalidate(13, tooShort = info.too_short === true);
           previousQuery = currentQuery;
-          $$invalidate(18, activeFetch = null);
+          $$invalidate(19, activeFetch = null);
           fetched = true;
-          $$invalidate(13, fetchingMore = false);
+          $$invalidate(14, fetchingMore = false);
         } //         } else {
         //             console.debug("ABORT fetch: " + currentQuery);
 
       })["catch"](function (err) {
         if (currentFetch === activeFetch) {
           console.error(err);
-          $$invalidate(14, fetchError = err);
-          $$invalidate(10, items = []);
+          $$invalidate(15, fetchError = err);
+          $$invalidate(11, items = []);
           offsetCount = 0;
-          $$invalidate(11, actualCount = 0);
+          $$invalidate(12, actualCount = 0);
           hasMore = false;
-          $$invalidate(12, tooShort = false);
+          $$invalidate(13, tooShort = false);
           previousQuery = null;
-          $$invalidate(18, activeFetch = null);
+          $$invalidate(19, activeFetch = null);
           fetched = false;
-          $$invalidate(13, fetchingMore = false);
+          $$invalidate(14, fetchingMore = false);
           inputEl.focus();
           openPopup();
         }
       });
-      $$invalidate(18, activeFetch = currentFetch);
+      $$invalidate(19, activeFetch = currentFetch);
     }
 
     function resolveItems(items) {
@@ -1414,12 +1494,12 @@ var Typeahead = (function () {
         }
       });
       offsetCount = off;
-      $$invalidate(11, actualCount = act);
+      $$invalidate(12, actualCount = act);
     }
 
     function cancelFetch() {
       if (activeFetch !== null) {
-        $$invalidate(18, activeFetch = null); // no result fetched; since it doesn't match input any longer
+        $$invalidate(19, activeFetch = null); // no result fetched; since it doesn't match input any longer
 
         fetched = false;
         previousQuery = null;
@@ -1435,7 +1515,7 @@ var Typeahead = (function () {
     }
 
     function closePopup(focusInput) {
-      $$invalidate(15, popupVisible = false);
+      $$invalidate(16, popupVisible = false);
 
       if (focusInput) {
         inputEl.focus();
@@ -1444,14 +1524,14 @@ var Typeahead = (function () {
 
     function openPopup() {
       if (!popupVisible) {
-        $$invalidate(15, popupVisible = true);
+        $$invalidate(16, popupVisible = true);
         var w = containerEl.offsetWidth;
         $$invalidate(7, popupEl.style.minWidth = w + "px", popupEl);
         var bounds = containerEl.getBoundingClientRect();
         var middleY = window.innerHeight / 2;
         var middleX = window.innerWidth / 2;
-        $$invalidate(16, popupTop = bounds.y > middleY);
-        $$invalidate(17, popupLeft = bounds.x + bounds.width > middleX);
+        $$invalidate(17, popupTop = bounds.y > middleY);
+        $$invalidate(18, popupLeft = bounds.x + bounds.width > middleX);
       }
     }
 
@@ -1459,7 +1539,7 @@ var Typeahead = (function () {
       var item = items[el.dataset.index];
 
       if (item) {
-        $$invalidate(40, selectedItem = item);
+        $$invalidate(41, selectedItem = item);
         var changed = item.text !== query;
         $$invalidate(1, query = item.text);
         previousQuery = query.trim();
@@ -1531,13 +1611,26 @@ var Typeahead = (function () {
       var ds = real.dataset;
       $$invalidate(8, containerId = real.id ? "ts_container_".concat(real.id) : null);
       $$invalidate(9, containerName = real.name ? "ts_container_".concat(real.name) : null);
-      $$invalidate(30, queryMinLen = ds.tsQueryMinLen != undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
+      bindLabel();
+      $$invalidate(31, queryMinLen = ds.tsQueryMinLen != undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
       $$invalidate(1, query = ds.tsQuery != undefined ? ds.tsQuery : query);
-      $$invalidate(31, delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay);
+      $$invalidate(32, delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay);
       $$invalidate(3, showToggle = ds.tsShowToggle != undefined ? ds.tsShowToggle !== "false" : showToggle);
-      $$invalidate(33, passEnter = ds.tsPassEnter != undefined ? ds.tsPassEnter !== "false" : passEnter);
-      $$invalidate(32, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
+      $$invalidate(34, passEnter = ds.tsPassEnter != undefined ? ds.tsPassEnter !== "false" : passEnter);
+      $$invalidate(33, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
       $$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
+    }
+
+    function bindLabel() {
+      if (!real.id) {
+        return;
+      }
+
+      var label = document.querySelector("[for=\"".concat(real.id, "\"]"));
+
+      if (label) {
+        $$invalidate(10, inputLabelHTML = label.innerHTML);
+      }
     }
 
     var eventListeners = {
@@ -1552,7 +1645,7 @@ var Typeahead = (function () {
 
     var inputKeypressHandlers = {
       base: function base(event) {
-        $$invalidate(40, selectedItem = null);
+        $$invalidate(41, selectedItem = null);
       }
     };
     var inputKeydownHandlers = {
@@ -1857,14 +1950,14 @@ var Typeahead = (function () {
 
     $$self.$set = function ($$props) {
       if ("real" in $$props) $$invalidate(0, real = $$props.real);
-      if ("fetcher" in $$props) $$invalidate(34, fetcher = $$props.fetcher);
-      if ("queryMinLen" in $$props) $$invalidate(30, queryMinLen = $$props.queryMinLen);
+      if ("fetcher" in $$props) $$invalidate(35, fetcher = $$props.fetcher);
+      if ("queryMinLen" in $$props) $$invalidate(31, queryMinLen = $$props.queryMinLen);
       if ("query" in $$props) $$invalidate(1, query = $$props.query);
-      if ("delay" in $$props) $$invalidate(31, delay = $$props.delay);
-      if ("translations" in $$props) $$invalidate(32, translations = $$props.translations);
+      if ("delay" in $$props) $$invalidate(32, delay = $$props.delay);
+      if ("translations" in $$props) $$invalidate(33, translations = $$props.translations);
       if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
       if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
-      if ("passEnter" in $$props) $$invalidate(33, passEnter = $$props.passEnter);
+      if ("passEnter" in $$props) $$invalidate(34, passEnter = $$props.passEnter);
     };
 
     $$self.$$.update = function () {
@@ -1872,7 +1965,7 @@ var Typeahead = (function () {
       /*query*/
       2 | $$self.$$.dirty[1] &
       /*selectedItem*/
-      512) {
+      1024) {
         ////////////////////////////////////////////////////////////
         // HANDLERS
         //
@@ -1885,7 +1978,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, passEnter, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
+    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, inputLabelHTML, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, passEnter, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, bindLabel, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
@@ -1901,14 +1994,14 @@ var Typeahead = (function () {
       _this = _super.call(this);
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
         real: 0,
-        fetcher: 34,
-        queryMinLen: 30,
+        fetcher: 35,
+        queryMinLen: 31,
         query: 1,
-        delay: 31,
-        translations: 32,
+        delay: 32,
+        translations: 33,
         styles: 2,
         showToggle: 3,
-        passEnter: 33
+        passEnter: 34
       }, [-1, -1, -1]);
       return _this;
     }

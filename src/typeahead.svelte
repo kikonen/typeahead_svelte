@@ -5,6 +5,7 @@
      fetching: 'Searching..',
      no_results: 'No results',
      too_short: 'Too short',
+     toggle: 'Toggle popup',
      fetching_more: 'Searching more...',
  };
 
@@ -38,6 +39,8 @@
 
  let containerId = null;
  let containerName = null;
+
+ let inputLabelHTML = null;
 
  let setupDone = false;
 
@@ -343,6 +346,8 @@
      containerId = real.id ? `ts_container_${real.id}` : null;
      containerName = real.name ? `ts_container_${real.name}` : null;
 
+     bindLabel();
+
      queryMinLen = ds.tsQueryMinLen != undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen;
      query = ds.tsQuery != undefined ? ds.tsQuery : query;
      delay = ds.tsDelay != undefined ? parseInt(ds.tsDelay, 10) : delay;
@@ -351,6 +356,16 @@
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
+ }
+
+ function bindLabel() {
+     if (!real.id) {
+         return;
+     }
+     let label = document.querySelector(`[for="${real.id}"]`);
+     if (label) {
+         inputLabelHTML = label.innerHTML;
+     }
  }
 
  let eventListeners = {
@@ -649,7 +664,9 @@
      bind:this={containerEl}>
 
   <div class="input-group">
-    <input class="form-control ts-input"
+    <label for="ts_input_{containerId}" class="sr-only">{inputLabelHTML}</label>
+    <input id="ts_input_{containerId}"
+           class="form-control ts-input"
            autocomplete=new-password
            autocorrect=off
            autocapitalize=off
@@ -671,6 +688,7 @@
                 on:blur={handleBlur}
                 on:keydown={handleToggleKeydown}
                 on:click={handleToggleClick}>
+          <span class="sr-only">{translate('toggle')}</span>
           <i class="text-dark fas fa-caret-down"></i>
         </button>
       </div>
