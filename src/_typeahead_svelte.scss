@@ -28,10 +28,14 @@
 .ts-popup {
   padding-top: 0;
   padding-bottom: 0;
-  max-height: 45vh;
   max-width: 90vw;
+
+  max-height: 45vh;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+.ts-popup-fixed {
+  position: fixed;
 }
 .ts-popup-left {
   right: 0;
@@ -40,6 +44,12 @@
 .ts-popup-top {
   top: unset;
   bottom: 100%;
+}
+.ts-popup-fixed-left {
+  left: unset;
+}
+.ts-popup-fixed-top {
+  top: unset;
 }
 .ts-item {
   padding-left: 0.5rem;

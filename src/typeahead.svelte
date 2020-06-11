@@ -64,6 +64,7 @@
 <script>
  import {onMount} from 'svelte';
  import {beforeUpdate} from 'svelte';
+ import {afterUpdate} from 'svelte';
 
  export let real;
 
@@ -76,6 +77,7 @@
  export let styles = {};
  export let showToggle = false;
  export let passEnter = false;
+ export let popupFixed = false;
 
  let containerEl;
  let inputEl;
@@ -87,6 +89,8 @@
 
  let labelId = null;
  let labelText = null;
+
+ let resizeObserver = null;
 
  let setupDone = false;
 
@@ -295,12 +299,7 @@
          let w = containerEl.offsetWidth;
          popupEl.style.minWidth = w + "px";
 
-         let bounds = containerEl.getBoundingClientRect();
-         let middleY = window.innerHeight / 2;
-         let middleX = window.innerWidth / 2;
-
-         popupTop = bounds.y > middleY;
-         popupLeft = bounds.x + bounds.width > middleX;
+         updatePopupPosition();
      }
  }
 
@@ -383,6 +382,14 @@
      }
  });
 
+ afterUpdate(function() {
+     if (popupFixed && !resizeObserver) {
+         resizeObserver = new ResizeObserver(handleResize);
+         resizeObserver.observe(containerEl, {});
+     }
+     updatePopupPosition();
+ });
+
  function setupComponent() {
      real.classList.add('ts-real-hidden');
      real.setAttribute('tabindex', '-1');
@@ -414,6 +421,39 @@
      }
      if (!labelId) {
          labelText = real.getAttribute('aria-label') || null;
+     }
+ }
+
+ function handleResize(resizeList, observer) {
+     updatePopupPosition();
+ }
+
+ function updatePopupPosition() {
+     if (!popupVisible) {
+         return;
+     }
+
+     let bounds = containerEl.getBoundingClientRect();
+
+     let middleY = window.innerHeight / 2;
+     let middleX = window.innerWidth / 2;
+
+     popupTop = bounds.y > middleY;
+     popupLeft = bounds.x + bounds.width > middleX;
+
+     if (popupFixed) {
+         let popupBounds = popupEl.getBoundingClientRect();
+
+         if (popupTop) {
+             popupEl.style.top = `${bounds.y - popupBounds.height}px`;
+         } else {
+             popupEl.style.top = `${bounds.y + bounds.height}px`;
+         }
+         if (popupLeft) {
+             popupEl.style.left = `${bounds.x + bounds.width - popupBounds.width}px`;
+         } else {
+             popupEl.style.left = `${bounds.x}px`;
+         }
      }
  }
 
@@ -712,6 +752,10 @@
  function handlePopupScroll(event) {
      fetchMoreIfneeded();
  }
+
+ function handleWindowScroll(event) {
+     updatePopupPosition();
+ }
 </script>
 
 <!-- ------------------------------------------------------------ -->
@@ -721,6 +765,7 @@
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
+<svelte:window on:scroll={handleWindowScroll}/>
 <div class="form-control ts-container {styles.container_class}"
      id={containerId}
      name={containerName}
@@ -761,9 +806,15 @@
 
   <div class="dropdown-menu ts-popup"
        class:show={popupVisible}
-       class:ss-popup-top={popupTop}
-       class:ss-popup-left={popupLeft}
+
+       class:ss-popup-fixed={popupFixed}
+       class:ss-popup-top={popupTop && !popupFixed}
+       class:ss-popup-left={popupLeft && !popupFixed}
+       class:ss-popup-fixed-top={popupTop && popupFixed}
+       class:ss-popup-fixed-left={popupLeft && popupFixed}
+
        bind:this={popupEl}
+
        tabindex="-1"
        on:scroll={handlePopupScroll}>
     {#if fetchError}
