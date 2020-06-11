@@ -224,6 +224,10 @@ var Typeahead = (function () {
     get_current_component().$$.on_mount.push(fn);
   }
 
+  function afterUpdate(fn) {
+    get_current_component().$$.after_update.push(fn);
+  }
+
   var dirty_components = [];
   var binding_callbacks = [];
   var render_callbacks = [];
@@ -308,6 +312,8 @@ var Typeahead = (function () {
       block.i(local);
     }
   }
+
+  var globals = typeof window !== 'undefined' ? window : typeof globalThis !== 'undefined' ? globalThis : global;
 
   function mount_component(component, target, anchor) {
     var _component$$$ = component.$$,
@@ -448,13 +454,14 @@ var Typeahead = (function () {
   function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
   function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+  var window_1 = globals.window;
 
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
-    child_ctx[68] = list[i];
-    child_ctx[70] = i;
+    child_ctx[81] = list[i];
+    child_ctx[83] = i;
     return child_ctx;
-  } // (739:4) {#if showToggle}
+  } // (832:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -472,7 +479,7 @@ var Typeahead = (function () {
         span = element("span");
         span.textContent = "".concat(
         /*translate*/
-        ctx[20]("toggle"));
+        ctx[24]("toggle"));
         t1 = space();
         i = element("i");
         attr(span, "class", "sr-only");
@@ -490,16 +497,16 @@ var Typeahead = (function () {
         append(button, i);
         /*button_binding*/
 
-        ctx[65](button);
+        ctx[76](button);
 
         if (!mounted) {
           dispose = [listen(button, "blur",
           /*handleBlur*/
-          ctx[21]), listen(button, "keydown",
+          ctx[25]), listen(button, "keydown",
           /*handleToggleKeydown*/
-          ctx[25]), listen(button, "click",
+          ctx[29]), listen(button, "click",
           /*handleToggleClick*/
-          ctx[26])];
+          ctx[30])];
           mounted = true;
         }
       },
@@ -508,246 +515,85 @@ var Typeahead = (function () {
         if (detaching) detach(div);
         /*button_binding*/
 
-        ctx[65](null);
+        ctx[76](null);
         mounted = false;
         run_all(dispose);
       }
     };
-  } // (776:4) {:else}
+  } // (892:10) {:else}
 
 
   function create_else_block_1(ctx) {
-    var each_1_anchor;
-    var each_value =
-    /*items*/
-    ctx[11];
-    var each_blocks = [];
-
-    for (var i = 0; i < each_value.length; i += 1) {
-      each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
-    }
-
-    return {
-      c: function c() {
-        for (var _i = 0; _i < each_blocks.length; _i += 1) {
-          each_blocks[_i].c();
-        }
-
-        each_1_anchor = empty();
-      },
-      m: function m(target, anchor) {
-        for (var _i2 = 0; _i2 < each_blocks.length; _i2 += 1) {
-          each_blocks[_i2].m(target, anchor);
-        }
-
-        insert(target, each_1_anchor, anchor);
-      },
-      p: function p(ctx, dirty) {
-        if (dirty[0] &
-        /*handleItemKeydown, items, handleBlur, handleItemClick, handleItemKeyup*/
-        941623296) {
-          each_value =
-          /*items*/
-          ctx[11];
-
-          var _i3;
-
-          for (_i3 = 0; _i3 < each_value.length; _i3 += 1) {
-            var child_ctx = get_each_context(ctx, each_value, _i3);
-
-            if (each_blocks[_i3]) {
-              each_blocks[_i3].p(child_ctx, dirty);
-            } else {
-              each_blocks[_i3] = create_each_block(child_ctx);
-
-              each_blocks[_i3].c();
-
-              each_blocks[_i3].m(each_1_anchor.parentNode, each_1_anchor);
-            }
-          }
-
-          for (; _i3 < each_blocks.length; _i3 += 1) {
-            each_blocks[_i3].d(1);
-          }
-
-          each_blocks.length = each_value.length;
-        }
-      },
-      d: function d(detaching) {
-        destroy_each(each_blocks, detaching);
-        if (detaching) detach(each_1_anchor);
-      }
-    };
-  } // (768:32) 
-
-
-  function create_if_block_2(ctx) {
+    var li;
     var div;
-
-    function select_block_type_1(ctx, dirty) {
-      if (
-      /*tooShort*/
-      ctx[13]) return create_if_block_3;
-      return create_else_block;
-    }
-
-    var current_block_type = select_block_type_1(ctx);
-    var if_block = current_block_type(ctx);
-    return {
-      c: function c() {
-        div = element("div");
-        if_block.c();
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-item ts-item-info");
-      },
-      m: function m(target, anchor) {
-        insert(target, div, anchor);
-        if_block.m(div, null);
-      },
-      p: function p(ctx, dirty) {
-        if (current_block_type === (current_block_type = select_block_type_1(ctx)) && if_block) {
-          if_block.p(ctx, dirty);
-        } else {
-          if_block.d(1);
-          if_block = current_block_type(ctx);
-
-          if (if_block) {
-            if_block.c();
-            if_block.m(div, null);
-          }
-        }
-      },
-      d: function d(detaching) {
-        if (detaching) detach(div);
-        if_block.d();
-      }
-    };
-  } // (764:43) 
-
-
-  function create_if_block_1(ctx) {
-    var div;
-    return {
-      c: function c() {
-        div = element("div");
-        div.textContent = "".concat(
-        /*translate*/
-        ctx[20]("fetching"));
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-item ts-item-info");
-      },
-      m: function m(target, anchor) {
-        insert(target, div, anchor);
-      },
-      p: noop,
-      d: function d(detaching) {
-        if (detaching) detach(div);
-      }
-    };
-  } // (760:4) {#if fetchError}
-
-
-  function create_if_block(ctx) {
-    var div;
-    var t;
-    return {
-      c: function c() {
-        div = element("div");
-        t = text(
-        /*fetchError*/
-        ctx[15]);
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-item text-danger");
-      },
-      m: function m(target, anchor) {
-        insert(target, div, anchor);
-        append(div, t);
-      },
-      p: function p(ctx, dirty) {
-        if (dirty[0] &
-        /*fetchError*/
-        32768) set_data(t,
-        /*fetchError*/
-        ctx[15]);
-      },
-      d: function d(detaching) {
-        if (detaching) detach(div);
-      }
-    };
-  } // (796:8) {:else}
-
-
-  function create_else_block_2(ctx) {
-    var div1;
-    var div0;
     var t0_value = (
     /*item*/
-    ctx[68].display_text ||
+    ctx[81].display_text ||
     /*item*/
-    ctx[68].text) + "";
+    ctx[81].text) + "";
     var t0;
     var t1;
     var t2;
-    var div1_data_index_value;
+    var li_data_index_value;
     var mounted;
     var dispose;
     var if_block =
     /*item*/
-    ctx[68].desc && create_if_block_7(ctx);
+    ctx[81].desc && create_if_block_7(ctx);
     return {
       c: function c() {
-        div1 = element("div");
-        div0 = element("div");
+        li = element("li");
+        div = element("div");
         t0 = text(t0_value);
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "ts-item-text");
-        attr(div1, "tabindex", "1");
-        attr(div1, "class", "dropdown-item ts-item ts-js-item");
-        attr(div1, "data-index", div1_data_index_value =
+        attr(div, "class", "ts-item-text");
+        attr(li, "tabindex", "1");
+        attr(li, "class", "dropdown-item ts-item ts-js-item");
+        attr(li, "data-index", li_data_index_value =
         /*index*/
-        ctx[70]);
+        ctx[83]);
       },
       m: function m(target, anchor) {
-        insert(target, div1, anchor);
-        append(div1, div0);
-        append(div0, t0);
-        append(div1, t1);
-        if (if_block) if_block.m(div1, null);
-        append(div1, t2);
+        insert(target, li, anchor);
+        append(li, div);
+        append(div, t0);
+        append(li, t1);
+        if (if_block) if_block.m(li, null);
+        append(li, t2);
 
         if (!mounted) {
-          dispose = [listen(div1, "blur",
+          dispose = [listen(li, "blur",
           /*handleBlur*/
-          ctx[21]), listen(div1, "click",
+          ctx[25]), listen(li, "click",
           /*handleItemClick*/
-          ctx[29]), listen(div1, "keydown",
+          ctx[33]), listen(li, "keydown",
           /*handleItemKeydown*/
-          ctx[27]), listen(div1, "keyup",
+          ctx[31]), listen(li, "keyup",
           /*handleItemKeyup*/
-          ctx[28])];
+          ctx[32])];
           mounted = true;
         }
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        2048 && t0_value !== (t0_value = (
+        32768 && t0_value !== (t0_value = (
         /*item*/
-        ctx[68].display_text ||
+        ctx[81].display_text ||
         /*item*/
-        ctx[68].text) + "")) set_data(t0, t0_value);
+        ctx[81].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[68].desc) {
+        ctx[81].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
             if_block = create_if_block_7(ctx);
             if_block.c();
-            if_block.m(div1, t2);
+            if_block.m(li, t2);
           }
         } else if (if_block) {
           if_block.d(1);
@@ -755,23 +601,23 @@ var Typeahead = (function () {
         }
       },
       d: function d(detaching) {
-        if (detaching) detach(div1);
+        if (detaching) detach(li);
         if (if_block) if_block.d();
         mounted = false;
         run_all(dispose);
       }
     };
-  } // (784:52) 
+  } // (880:54) 
 
 
   function create_if_block_5(ctx) {
-    var div1;
-    var div0;
+    var li;
+    var div;
     var t0_value = (
     /*item*/
-    ctx[68].display_text ||
+    ctx[81].display_text ||
     /*item*/
-    ctx[68].text) + "";
+    ctx[81].text) + "";
     var t0;
     var t1;
     var t2;
@@ -779,52 +625,52 @@ var Typeahead = (function () {
     var dispose;
     var if_block =
     /*item*/
-    ctx[68].desc && create_if_block_6(ctx);
+    ctx[81].desc && create_if_block_6(ctx);
     return {
       c: function c() {
-        div1 = element("div");
-        div0 = element("div");
+        li = element("li");
+        div = element("div");
         t0 = text(t0_value);
         t1 = space();
         if (if_block) if_block.c();
         t2 = space();
-        attr(div0, "class", "ts-item-text");
-        attr(div1, "tabindex", "-1");
-        attr(div1, "class", "dropdown-item ts-item-disabled ts-js-dead");
+        attr(div, "class", "ts-item-text");
+        attr(li, "tabindex", "-1");
+        attr(li, "class", "dropdown-item ts-item-disabled ts-js-dead");
       },
       m: function m(target, anchor) {
-        insert(target, div1, anchor);
-        append(div1, div0);
-        append(div0, t0);
-        append(div1, t1);
-        if (if_block) if_block.m(div1, null);
-        append(div1, t2);
+        insert(target, li, anchor);
+        append(li, div);
+        append(div, t0);
+        append(li, t1);
+        if (if_block) if_block.m(li, null);
+        append(li, t2);
 
         if (!mounted) {
-          dispose = listen(div1, "keydown",
+          dispose = listen(li, "keydown",
           /*handleItemKeydown*/
-          ctx[27]);
+          ctx[31]);
           mounted = true;
         }
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        2048 && t0_value !== (t0_value = (
+        32768 && t0_value !== (t0_value = (
         /*item*/
-        ctx[68].display_text ||
+        ctx[81].display_text ||
         /*item*/
-        ctx[68].text) + "")) set_data(t0, t0_value);
+        ctx[81].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[68].desc) {
+        ctx[81].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
             if_block = create_if_block_6(ctx);
             if_block.c();
-            if_block.m(div1, t2);
+            if_block.m(li, t2);
           }
         } else if (if_block) {
           if_block.d(1);
@@ -832,54 +678,54 @@ var Typeahead = (function () {
         }
       },
       d: function d(detaching) {
-        if (detaching) detach(div1);
+        if (detaching) detach(li);
         if (if_block) if_block.d();
         mounted = false;
         dispose();
       }
     };
-  } // (778:8) {#if item.separator}
+  } // (874:10) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
-    var div;
-    var div_data_index_value;
+    var li;
+    var li_data_index_value;
     var mounted;
     var dispose;
     return {
       c: function c() {
-        div = element("div");
-        attr(div, "tabindex", "-1");
-        attr(div, "class", "dropdown-divider ts-js-dead");
-        attr(div, "data-index", div_data_index_value =
+        li = element("li");
+        attr(li, "tabindex", "-1");
+        attr(li, "class", "dropdown-divider ts-js-dead");
+        attr(li, "data-index", li_data_index_value =
         /*index*/
-        ctx[70]);
+        ctx[83]);
       },
       m: function m(target, anchor) {
-        insert(target, div, anchor);
+        insert(target, li, anchor);
 
         if (!mounted) {
-          dispose = listen(div, "keydown",
+          dispose = listen(li, "keydown",
           /*handleItemKeydown*/
-          ctx[27]);
+          ctx[31]);
           mounted = true;
         }
       },
       p: noop,
       d: function d(detaching) {
-        if (detaching) detach(div);
+        if (detaching) detach(li);
         mounted = false;
         dispose();
       }
     };
-  } // (806:12) {#if item.desc}
+  } // (902:14) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[68].desc + "";
+    ctx[81].desc + "";
     var t;
     return {
       c: function c() {
@@ -894,22 +740,22 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        2048 && t_value !== (t_value =
+        32768 && t_value !== (t_value =
         /*item*/
-        ctx[68].desc + "")) set_data(t, t_value);
+        ctx[81].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (790:12) {#if item.desc}
+  } // (886:14) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[68].desc + "";
+    ctx[81].desc + "";
     var t;
     return {
       c: function c() {
@@ -924,33 +770,33 @@ var Typeahead = (function () {
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*items*/
-        2048 && t_value !== (t_value =
+        32768 && t_value !== (t_value =
         /*item*/
-        ctx[68].desc + "")) set_data(t, t_value);
+        ctx[81].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (777:6) {#each items as item, index}
+  } // (873:8) {#each items as item, index}
 
 
   function create_each_block(ctx) {
     var if_block_anchor;
 
-    function select_block_type_2(ctx, dirty) {
+    function select_block_type(ctx, dirty) {
       if (
       /*item*/
-      ctx[68].separator) return create_if_block_4;
+      ctx[81].separator) return create_if_block_4;
       if (
       /*item*/
-      ctx[68].disabled ||
+      ctx[81].disabled ||
       /*item*/
-      ctx[68].placeholder) return create_if_block_5;
-      return create_else_block_2;
+      ctx[81].placeholder) return create_if_block_5;
+      return create_else_block_1;
     }
 
-    var current_block_type = select_block_type_2(ctx);
+    var current_block_type = select_block_type(ctx);
     var if_block = current_block_type(ctx);
     return {
       c: function c() {
@@ -962,7 +808,7 @@ var Typeahead = (function () {
         insert(target, if_block_anchor, anchor);
       },
       p: function p(ctx, dirty) {
-        if (current_block_type === (current_block_type = select_block_type_2(ctx)) && if_block) {
+        if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
           if_block.p(ctx, dirty);
         } else {
           if_block.d(1);
@@ -979,13 +825,109 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (772:8) {:else}
+  } // (921:32) 
+
+
+  function create_if_block_2(ctx) {
+    var div;
+
+    function select_block_type_2(ctx, dirty) {
+      if (
+      /*tooShort*/
+      ctx[17]) return create_if_block_3;
+      return create_else_block;
+    }
+
+    var current_block_type = select_block_type_2(ctx);
+    var if_block = current_block_type(ctx);
+    return {
+      c: function c() {
+        div = element("div");
+        if_block.c();
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-item ts-item-muted ts-message-item");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+        if_block.m(div, null);
+      },
+      p: function p(ctx, dirty) {
+        if (current_block_type === (current_block_type = select_block_type_2(ctx)) && if_block) {
+          if_block.p(ctx, dirty);
+        } else {
+          if_block.d(1);
+          if_block = current_block_type(ctx);
+
+          if (if_block) {
+            if_block.c();
+            if_block.m(div, null);
+          }
+        }
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div);
+        if_block.d();
+      }
+    };
+  } // (917:43) 
+
+
+  function create_if_block_1(ctx) {
+    var div;
+    return {
+      c: function c() {
+        div = element("div");
+        div.textContent = "".concat(
+        /*translate*/
+        ctx[24]("fetching"));
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-item ts-item-muted ts-message-item");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+      },
+      p: noop,
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (913:4) {#if fetchError}
+
+
+  function create_if_block(ctx) {
+    var div;
+    var t;
+    return {
+      c: function c() {
+        div = element("div");
+        t = text(
+        /*fetchError*/
+        ctx[19]);
+        attr(div, "tabindex", "-1");
+        attr(div, "class", "dropdown-item text-danger ts-message-item");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+        append(div, t);
+      },
+      p: function p(ctx, dirty) {
+        if (dirty[0] &
+        /*fetchError*/
+        524288) set_data(t,
+        /*fetchError*/
+        ctx[19]);
+      },
+      d: function d(detaching) {
+        if (detaching) detach(div);
+      }
+    };
+  } // (925:8) {:else}
 
 
   function create_else_block(ctx) {
     var t_value =
     /*translate*/
-    ctx[20]("no_results") + "";
+    ctx[24]("no_results") + "";
     var t;
     return {
       c: function c() {
@@ -999,13 +941,13 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (770:8) {#if tooShort }
+  } // (923:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
     var t_value =
     /*translate*/
-    ctx[20]("too_short") + "";
+    ctx[24]("too_short") + "";
     var t;
     return {
       c: function c() {
@@ -1022,48 +964,67 @@ var Typeahead = (function () {
   }
 
   function create_fragment(ctx) {
-    var div2;
+    var div3;
     var div0;
     var input;
     var input_data_target_value;
     var input_placeholder_value;
     var t0;
     var t1;
+    var div2;
     var div1;
-    var div2_class_value;
+    var ul;
+    var ul_id_value;
+    var t2;
+    var div3_class_value;
     var mounted;
     var dispose;
     var if_block0 =
     /*showToggle*/
     ctx[3] && create_if_block_8(ctx);
+    var each_value =
+    /*items*/
+    ctx[15];
+    var each_blocks = [];
 
-    function select_block_type(ctx, dirty) {
-      if (
-      /*fetchError*/
-      ctx[15]) return create_if_block;
-      if (
-      /*activeFetch*/
-      ctx[19] && !
-      /*fetchingMore*/
-      ctx[14]) return create_if_block_1;
-      if (
-      /*actualCount*/
-      ctx[12] === 0) return create_if_block_2;
-      return create_else_block_1;
+    for (var i = 0; i < each_value.length; i += 1) {
+      each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     }
 
-    var current_block_type = select_block_type(ctx);
-    var if_block1 = current_block_type(ctx);
+    function select_block_type_1(ctx, dirty) {
+      if (
+      /*fetchError*/
+      ctx[19]) return create_if_block;
+      if (
+      /*activeFetch*/
+      ctx[23] && !
+      /*fetchingMore*/
+      ctx[18]) return create_if_block_1;
+      if (
+      /*actualCount*/
+      ctx[16] === 0) return create_if_block_2;
+    }
+
+    var current_block_type = select_block_type_1(ctx);
+    var if_block1 = current_block_type && current_block_type(ctx);
     return {
       c: function c() {
-        div2 = element("div");
+        div3 = element("div");
         div0 = element("div");
         input = element("input");
         t0 = space();
         if (if_block0) if_block0.c();
         t1 = space();
+        div2 = element("div");
         div1 = element("div");
-        if_block1.c();
+        ul = element("ul");
+
+        for (var _i = 0; _i < each_blocks.length; _i += 1) {
+          each_blocks[_i].c();
+        }
+
+        t2 = space();
+        if (if_block1) if_block1.c();
         attr(input, "class", "form-control ts-input");
         attr(input, "autocomplete", "new-password");
         attr(input, "autocorrect", "off");
@@ -1071,7 +1032,10 @@ var Typeahead = (function () {
         attr(input, "spellcheck", "off");
         attr(input, "aria-labelledby",
         /*labelId*/
-        ctx[10]);
+        ctx[13]);
+        attr(input, "aria-label",
+        /*labelText*/
+        ctx[14]);
         attr(input, "data-target", input_data_target_value =
         /*real*/
         ctx[0].id);
@@ -1079,73 +1043,124 @@ var Typeahead = (function () {
         /*real*/
         ctx[0].placeholder);
         attr(div0, "class", "input-group");
-        attr(div1, "class", "dropdown-menu ts-popup");
-        attr(div1, "tabindex", "-1");
-        toggle_class(div1, "show",
+        attr(ul, "class", "ts-item-list");
+        attr(ul, "id", ul_id_value = "" + (
+        /*containerId*/
+        ctx[11] + "_items"));
+        attr(ul, "role", "listbox");
+        attr(ul, "aria-expanded",
         /*popupVisible*/
-        ctx[16]);
-        toggle_class(div1, "ss-popup-top",
+        ctx[20]);
+        attr(ul, "aria-hidden", "false");
+        attr(div1, "class", "ts-result");
+        attr(div2, "class", "dropdown-menu ts-popup");
+        attr(div2, "tabindex", "-1");
+        toggle_class(div2, "show",
+        /*popupVisible*/
+        ctx[20]);
+        toggle_class(div2, "ss-popup-fixed",
+        /*popupFixed*/
+        ctx[4]);
+        toggle_class(div2, "ss-popup-top",
         /*popupTop*/
-        ctx[17]);
-        toggle_class(div1, "ss-popup-left",
+        ctx[21] && !
+        /*popupFixed*/
+        ctx[4]);
+        toggle_class(div2, "ss-popup-left",
         /*popupLeft*/
-        ctx[18]);
-        attr(div2, "class", div2_class_value = "form-control ts-container " +
+        ctx[22] && !
+        /*popupFixed*/
+        ctx[4]);
+        toggle_class(div2, "ss-popup-fixed-top",
+        /*popupTop*/
+        ctx[21] &&
+        /*popupFixed*/
+        ctx[4]);
+        toggle_class(div2, "ss-popup-fixed-left",
+        /*popupLeft*/
+        ctx[22] &&
+        /*popupFixed*/
+        ctx[4]);
+        attr(div3, "class", div3_class_value = "form-control ts-container " +
         /*styles*/
         ctx[2].container_class);
-        attr(div2, "id",
+        attr(div3, "id",
         /*containerId*/
-        ctx[8]);
-        attr(div2, "name",
+        ctx[11]);
+        attr(div3, "name",
         /*containerName*/
-        ctx[9]);
+        ctx[12]);
       },
       m: function m(target, anchor) {
-        insert(target, div2, anchor);
-        append(div2, div0);
+        insert(target, div3, anchor);
+        append(div3, div0);
         append(div0, input);
         /*input_binding*/
 
-        ctx[63](input);
+        ctx[74](input);
         set_input_value(input,
         /*query*/
         ctx[1]);
         append(div0, t0);
         if (if_block0) if_block0.m(div0, null);
-        append(div2, t1);
+        append(div3, t1);
+        append(div3, div2);
         append(div2, div1);
-        if_block1.m(div1, null);
+        append(div1, ul);
+
+        for (var _i2 = 0; _i2 < each_blocks.length; _i2 += 1) {
+          each_blocks[_i2].m(ul, null);
+        }
+        /*ul_binding*/
+
+
+        ctx[77](ul);
         /*div1_binding*/
 
-        ctx[66](div1);
+        ctx[78](div1);
+        append(div2, t2);
+        if (if_block1) if_block1.m(div2, null);
         /*div2_binding*/
 
-        ctx[67](div2);
+        ctx[79](div2);
+        /*div3_binding*/
+
+        ctx[80](div3);
 
         if (!mounted) {
-          dispose = [listen(input, "input",
+          dispose = [listen(window_1, "scroll",
+          /*handleWindowScroll*/
+          ctx[35]), listen(input, "input",
           /*input_input_handler*/
-          ctx[64]), listen(input, "blur",
+          ctx[75]), listen(input, "blur",
           /*handleBlur*/
-          ctx[21]), listen(input, "keypress",
+          ctx[25]), listen(input, "keypress",
           /*handleInputKeypress*/
-          ctx[22]), listen(input, "keydown",
+          ctx[26]), listen(input, "keydown",
           /*handleInputKeydown*/
-          ctx[23]), listen(input, "keyup",
+          ctx[27]), listen(input, "keyup",
           /*handleInputKeyup*/
-          ctx[24]), listen(div1, "scroll",
-          /*handlePopupScroll*/
-          ctx[30])];
+          ctx[28]), listen(div1, "scroll",
+          /*handleResultScroll*/
+          ctx[34])];
           mounted = true;
         }
       },
       p: function p(ctx, dirty) {
         if (dirty[0] &
         /*labelId*/
-        1024) {
+        8192) {
           attr(input, "aria-labelledby",
           /*labelId*/
-          ctx[10]);
+          ctx[13]);
+        }
+
+        if (dirty[0] &
+        /*labelText*/
+        16384) {
+          attr(input, "aria-label",
+          /*labelText*/
+          ctx[14]);
         }
 
         if (dirty[0] &
@@ -1189,81 +1204,172 @@ var Typeahead = (function () {
           if_block0 = null;
         }
 
-        if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
+        if (dirty[0] &
+        /*items, handleBlur*/
+        33587200 | dirty[1] &
+        /*handleItemKeydown, handleItemClick, handleItemKeyup*/
+        7) {
+          each_value =
+          /*items*/
+          ctx[15];
+
+          var _i3;
+
+          for (_i3 = 0; _i3 < each_value.length; _i3 += 1) {
+            var child_ctx = get_each_context(ctx, each_value, _i3);
+
+            if (each_blocks[_i3]) {
+              each_blocks[_i3].p(child_ctx, dirty);
+            } else {
+              each_blocks[_i3] = create_each_block(child_ctx);
+
+              each_blocks[_i3].c();
+
+              each_blocks[_i3].m(ul, null);
+            }
+          }
+
+          for (; _i3 < each_blocks.length; _i3 += 1) {
+            each_blocks[_i3].d(1);
+          }
+
+          each_blocks.length = each_value.length;
+        }
+
+        if (dirty[0] &
+        /*containerId*/
+        2048 && ul_id_value !== (ul_id_value = "" + (
+        /*containerId*/
+        ctx[11] + "_items"))) {
+          attr(ul, "id", ul_id_value);
+        }
+
+        if (dirty[0] &
+        /*popupVisible*/
+        1048576) {
+          attr(ul, "aria-expanded",
+          /*popupVisible*/
+          ctx[20]);
+        }
+
+        if (current_block_type === (current_block_type = select_block_type_1(ctx)) && if_block1) {
           if_block1.p(ctx, dirty);
         } else {
-          if_block1.d(1);
-          if_block1 = current_block_type(ctx);
+          if (if_block1) if_block1.d(1);
+          if_block1 = current_block_type && current_block_type(ctx);
 
           if (if_block1) {
             if_block1.c();
-            if_block1.m(div1, null);
+            if_block1.m(div2, null);
           }
         }
 
         if (dirty[0] &
         /*popupVisible*/
-        65536) {
-          toggle_class(div1, "show",
+        1048576) {
+          toggle_class(div2, "show",
           /*popupVisible*/
-          ctx[16]);
+          ctx[20]);
         }
 
         if (dirty[0] &
-        /*popupTop*/
-        131072) {
-          toggle_class(div1, "ss-popup-top",
+        /*popupFixed*/
+        16) {
+          toggle_class(div2, "ss-popup-fixed",
+          /*popupFixed*/
+          ctx[4]);
+        }
+
+        if (dirty[0] &
+        /*popupTop, popupFixed*/
+        2097168) {
+          toggle_class(div2, "ss-popup-top",
           /*popupTop*/
-          ctx[17]);
+          ctx[21] && !
+          /*popupFixed*/
+          ctx[4]);
         }
 
         if (dirty[0] &
-        /*popupLeft*/
-        262144) {
-          toggle_class(div1, "ss-popup-left",
+        /*popupLeft, popupFixed*/
+        4194320) {
+          toggle_class(div2, "ss-popup-left",
           /*popupLeft*/
-          ctx[18]);
+          ctx[22] && !
+          /*popupFixed*/
+          ctx[4]);
+        }
+
+        if (dirty[0] &
+        /*popupTop, popupFixed*/
+        2097168) {
+          toggle_class(div2, "ss-popup-fixed-top",
+          /*popupTop*/
+          ctx[21] &&
+          /*popupFixed*/
+          ctx[4]);
+        }
+
+        if (dirty[0] &
+        /*popupLeft, popupFixed*/
+        4194320) {
+          toggle_class(div2, "ss-popup-fixed-left",
+          /*popupLeft*/
+          ctx[22] &&
+          /*popupFixed*/
+          ctx[4]);
         }
 
         if (dirty[0] &
         /*styles*/
-        4 && div2_class_value !== (div2_class_value = "form-control ts-container " +
+        4 && div3_class_value !== (div3_class_value = "form-control ts-container " +
         /*styles*/
         ctx[2].container_class)) {
-          attr(div2, "class", div2_class_value);
+          attr(div3, "class", div3_class_value);
         }
 
         if (dirty[0] &
         /*containerId*/
-        256) {
-          attr(div2, "id",
+        2048) {
+          attr(div3, "id",
           /*containerId*/
-          ctx[8]);
+          ctx[11]);
         }
 
         if (dirty[0] &
         /*containerName*/
-        512) {
-          attr(div2, "name",
+        4096) {
+          attr(div3, "name",
           /*containerName*/
-          ctx[9]);
+          ctx[12]);
         }
       },
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) detach(div2);
+        if (detaching) detach(div3);
         /*input_binding*/
 
-        ctx[63](null);
+        ctx[74](null);
         if (if_block0) if_block0.d();
-        if_block1.d();
+        destroy_each(each_blocks, detaching);
+        /*ul_binding*/
+
+        ctx[77](null);
         /*div1_binding*/
 
-        ctx[66](null);
+        ctx[78](null);
+
+        if (if_block1) {
+          if_block1.d();
+        }
         /*div2_binding*/
 
-        ctx[67](null);
+
+        ctx[79](null);
+        /*div3_binding*/
+
+        ctx[80](null);
         mounted = false;
         run_all(dispose);
       }
@@ -1318,6 +1424,14 @@ var Typeahead = (function () {
     F11: true,
     F12: true
   };
+  var uidBase = 0;
+
+  function nop() {}
+
+  function nextUID() {
+    uidBase++;
+    return uidBase;
+  }
 
   function hasModifier(event) {
     return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
@@ -1326,10 +1440,7 @@ var Typeahead = (function () {
   function isMetaKey(event) {
     return META_KEYS[event.key] || META_KEYS[event.code];
   }
-
-  function nop() {} ////////////////////////////////////////////////////////////
   //
-
 
   function handleEvent(code, handlers, event) {
     (handlers[code] || handlers.base)(event);
@@ -1337,6 +1448,8 @@ var Typeahead = (function () {
 
   function instance($$self, $$props, $$invalidate) {
     var real = $$props.real;
+    var _$$props$debugMode = $$props.debugMode,
+        debugMode = _$$props$debugMode === void 0 ? false : _$$props$debugMode;
     var fetcher = $$props.fetcher;
     var _$$props$queryMinLen = $$props.queryMinLen,
         queryMinLen = _$$props$queryMinLen === void 0 ? 1 : _$$props$queryMinLen;
@@ -1351,13 +1464,19 @@ var Typeahead = (function () {
         showToggle = _$$props$showToggle === void 0 ? false : _$$props$showToggle;
     var _$$props$passEnter = $$props.passEnter,
         passEnter = _$$props$passEnter === void 0 ? false : _$$props$passEnter;
+    var _$$props$popupFixed = $$props.popupFixed,
+        popupFixed = _$$props$popupFixed === void 0 ? false : _$$props$popupFixed;
     var containerEl;
     var inputEl;
     var toggleEl;
     var popupEl;
+    var resultEl;
+    var itemsEl;
     var containerId = null;
     var containerName = null;
     var labelId = null;
+    var labelText = null;
+    var resizeObserver = null;
     var setupDone = false;
     var items = [];
     var offsetCount = 0;
@@ -1400,17 +1519,17 @@ var Typeahead = (function () {
 
       if (fetchMore) {
         fetchOffset = offsetCount;
-        $$invalidate(14, fetchingMore = true);
+        $$invalidate(18, fetchingMore = true);
       } else {
-        $$invalidate(11, items = []);
+        $$invalidate(15, items = []);
         offsetCount = 0;
-        $$invalidate(12, actualCount = 0);
+        $$invalidate(16, actualCount = 0);
         hasMore = false;
         fetched = false;
-        $$invalidate(14, fetchingMore = false);
+        $$invalidate(18, fetchingMore = false);
       }
 
-      $$invalidate(15, fetchError = null);
+      $$invalidate(19, fetchError = null);
       var currentFetchOffset = fetchOffset;
       var currentFetchingMore = fetchingMore;
       var currentFetch = new Promise(function (resolve, reject) {
@@ -1457,35 +1576,35 @@ var Typeahead = (function () {
             newItems = fetchedtems;
           }
 
-          $$invalidate(11, items = newItems);
+          $$invalidate(15, items = newItems);
           resolveItems(items);
           hasMore = info.more && offsetCount > 0;
-          $$invalidate(13, tooShort = info.too_short === true);
+          $$invalidate(17, tooShort = info.too_short === true);
           previousQuery = currentQuery;
-          $$invalidate(19, activeFetch = null);
+          $$invalidate(23, activeFetch = null);
           fetched = true;
-          $$invalidate(14, fetchingMore = false);
+          $$invalidate(18, fetchingMore = false);
         } //         } else {
         //             console.debug("ABORT fetch: " + currentQuery);
 
       })["catch"](function (err) {
         if (currentFetch === activeFetch) {
           console.error(err);
-          $$invalidate(15, fetchError = err);
-          $$invalidate(11, items = []);
+          $$invalidate(19, fetchError = err);
+          $$invalidate(15, items = []);
           offsetCount = 0;
-          $$invalidate(12, actualCount = 0);
+          $$invalidate(16, actualCount = 0);
           hasMore = false;
-          $$invalidate(13, tooShort = false);
+          $$invalidate(17, tooShort = false);
           previousQuery = null;
-          $$invalidate(19, activeFetch = null);
+          $$invalidate(23, activeFetch = null);
           fetched = false;
-          $$invalidate(14, fetchingMore = false);
+          $$invalidate(18, fetchingMore = false);
           inputEl.focus();
           openPopup();
         }
       });
-      $$invalidate(19, activeFetch = currentFetch);
+      $$invalidate(23, activeFetch = currentFetch);
     }
 
     function resolveItems(items) {
@@ -1506,12 +1625,12 @@ var Typeahead = (function () {
         }
       });
       offsetCount = off;
-      $$invalidate(12, actualCount = act);
+      $$invalidate(16, actualCount = act);
     }
 
     function cancelFetch() {
       if (activeFetch !== null) {
-        $$invalidate(19, activeFetch = null); // no result fetched; since it doesn't match input any longer
+        $$invalidate(23, activeFetch = null); // no result fetched; since it doesn't match input any longer
 
         fetched = false;
         previousQuery = null;
@@ -1520,14 +1639,16 @@ var Typeahead = (function () {
 
     function fetchMoreIfneeded() {
       if (hasMore && !fetchingMore && popupVisible) {
-        if (popupEl.scrollTop + popupEl.clientHeight >= popupEl.scrollHeight - popupEl.lastElementChild.clientHeight * 2 - 2) {
+        var lastItem = itemsEl.querySelector(".ts-item:last-child");
+
+        if (resultEl.scrollTop + resultEl.clientHeight >= resultEl.scrollHeight - lastItem.clientHeight * 2 - 2) {
           fetchItems(true);
         }
       }
     }
 
     function closePopup(focusInput) {
-      $$invalidate(16, popupVisible = false);
+      $$invalidate(20, popupVisible = false);
 
       if (focusInput) {
         inputEl.focus();
@@ -1536,14 +1657,10 @@ var Typeahead = (function () {
 
     function openPopup() {
       if (!popupVisible) {
-        $$invalidate(16, popupVisible = true);
+        $$invalidate(20, popupVisible = true);
         var w = containerEl.offsetWidth;
-        $$invalidate(7, popupEl.style.minWidth = w + "px", popupEl);
-        var bounds = containerEl.getBoundingClientRect();
-        var middleY = window.innerHeight / 2;
-        var middleX = window.innerWidth / 2;
-        $$invalidate(17, popupTop = bounds.y > middleY);
-        $$invalidate(18, popupLeft = bounds.x + bounds.width > middleX);
+        $$invalidate(8, popupEl.style.minWidth = w + "px", popupEl);
+        updatePopupPosition();
       }
     }
 
@@ -1551,7 +1668,7 @@ var Typeahead = (function () {
       var item = items[el.dataset.index];
 
       if (item) {
-        $$invalidate(41, selectedItem = item);
+        $$invalidate(48, selectedItem = item);
         var changed = item.text !== query;
         $$invalidate(1, query = item.text);
         previousQuery = query.trim();
@@ -1616,33 +1733,77 @@ var Typeahead = (function () {
         setupDone = true;
       }
     });
+    afterUpdate(function () {
+      if (popupFixed && !resizeObserver) {
+        resizeObserver = new ResizeObserver(handleResize);
+        resizeObserver.observe(containerEl, {});
+      }
+
+      updatePopupPosition();
+    });
 
     function setupComponent() {
       real.classList.add("ts-real-hidden");
       real.setAttribute("tabindex", "-1");
       var ds = real.dataset;
-      $$invalidate(8, containerId = real.id ? "ts_container_".concat(real.id) : null);
-      $$invalidate(9, containerName = real.name ? "ts_container_".concat(real.name) : null);
+      var baseId = real.id || nextUID();
+      $$invalidate(11, containerId = "ts_container_".concat(baseId));
+      $$invalidate(12, containerName = real.name ? "ts_container_".concat(real.name) : null);
       bindLabel();
-      $$invalidate(31, queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
+      $$invalidate(36, queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
       $$invalidate(1, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
-      $$invalidate(32, delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay);
+      $$invalidate(37, delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay);
       $$invalidate(3, showToggle = ds.tsShowToggle !== undefined ? true : showToggle);
-      $$invalidate(34, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
-      $$invalidate(33, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
+      $$invalidate(39, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
+      $$invalidate(4, popupFixed = ds.tsPopupFixed !== undefined ? true : popupFixed);
+      $$invalidate(38, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
       $$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
     }
 
     function bindLabel() {
-      if (!real.id) {
+      if (real.id) {
+        var label = document.querySelector("[for=\"".concat(real.id, "\"]"));
+
+        if (label) {
+          label.id = label.id || "ts_label_".concat(real.id);
+          $$invalidate(13, labelId = label.id);
+        }
+      }
+
+      if (!labelId) {
+        $$invalidate(14, labelText = real.getAttribute("aria-label") || null);
+      }
+    }
+
+    function handleResize(resizeList, observer) {
+      updatePopupPosition();
+    }
+
+    function updatePopupPosition() {
+      if (!popupVisible) {
         return;
       }
 
-      var label = document.querySelector("[for=\"".concat(real.id, "\"]"));
+      var bounds = containerEl.getBoundingClientRect();
+      var middleY = window.innerHeight / 2;
+      var middleX = window.innerWidth / 2;
+      $$invalidate(21, popupTop = bounds.y > middleY);
+      $$invalidate(22, popupLeft = bounds.x + bounds.width > middleX);
 
-      if (label) {
-        label.id = label.id || "ts_label_".concat(real.id);
-        $$invalidate(10, labelId = label.id);
+      if (popupFixed) {
+        var popupBounds = popupEl.getBoundingClientRect();
+
+        if (popupTop) {
+          $$invalidate(8, popupEl.style.top = "".concat(bounds.y - popupBounds.height, "px"), popupEl);
+        } else {
+          $$invalidate(8, popupEl.style.top = "".concat(bounds.y + bounds.height, "px"), popupEl);
+        }
+
+        if (popupLeft) {
+          $$invalidate(8, popupEl.style.left = "".concat(bounds.x + bounds.width - popupBounds.width, "px"), popupEl);
+        } else {
+          $$invalidate(8, popupEl.style.left = "".concat(bounds.x, "px"), popupEl);
+        }
       }
     }
 
@@ -1658,7 +1819,7 @@ var Typeahead = (function () {
 
     var inputKeypressHandlers = {
       base: function base(event) {
-        $$invalidate(41, selectedItem = null);
+        $$invalidate(48, selectedItem = null);
       }
     };
     var inputKeydownHandlers = {
@@ -1679,7 +1840,7 @@ var Typeahead = (function () {
         }
       },
       ArrowDown: function ArrowDown(event) {
-        var item = popupVisible ? popupEl.querySelectorAll(".ts-js-item")[0] : null;
+        var item = popupVisible ? itemsEl.querySelectorAll(".ts-js-item")[0] : null;
 
         if (item) {
           while (item && item.classList.contains("ts-js-dead")) {
@@ -1752,6 +1913,26 @@ var Typeahead = (function () {
         inputEl.focus();
       }
     };
+
+    function blockScrollUpIfNeeded(event) {
+      if (resultEl.scrollTop === 0) {
+        event.preventDefault();
+      }
+    }
+
+    function blockScrollDownIfNeeded(event) {
+      if (fetchingMore) {
+        event.preventDefault();
+        return;
+      }
+
+      var resultRect = resultEl.getBoundingClientRect();
+
+      if (Math.ceil(resultEl.scrollTop + resultRect.height) >= resultEl.scrollHeight) {
+        event.preventDefault();
+      }
+    }
+
     var itemKeydownHandlers = {
       base: function base(event) {
         if (isMetaKey(event)) {
@@ -1817,10 +1998,18 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       // allow "meta" keys to navigate in items
-      PageUp: nop,
-      PageDown: nop,
-      Home: nop,
-      End: nop,
+      PageUp: function PageUp(event) {
+        blockScrollUpIfNeeded(event);
+      },
+      PageDown: function PageDown(event) {
+        blockScrollDownIfNeeded(event);
+      },
+      Home: function Home(event) {
+        blockScrollUpIfNeeded(event);
+      },
+      End: function End(event) {
+        blockScrollDownIfNeeded(event);
+      },
       // disallow modifier keys to trigger search
       Control: nop,
       Shift: nop,
@@ -1834,14 +2023,14 @@ var Typeahead = (function () {
       PageUp: function PageUp(event) {
         var scrollLeft = document.body.scrollLeft;
         var scrollTop = document.body.scrollTop;
-        var rect = popupEl.getBoundingClientRect();
+        var rect = resultEl.getBoundingClientRect();
         var item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
 
         if (!item) {
-          item = popupEl.querySelector(".ts-js-item:first-child");
+          item = itemsEl.querySelector(".ts-js-item:first-child");
         } else {
           if (!item.classList.contains("ts-js-item")) {
-            item = popupEl.querySelector(".ts-js-item:first-child");
+            item = itemsEl.querySelector(".ts-js-item:first-child");
           }
         }
 
@@ -1854,15 +2043,15 @@ var Typeahead = (function () {
       PageDown: function PageDown(event) {
         var scrollLeft = document.body.scrollLeft;
         var scrollTop = document.body.scrollTop;
-        var h = popupEl.offsetHeight;
-        var rect = popupEl.getBoundingClientRect();
+        var h = resultEl.offsetHeight;
+        var rect = resultEl.getBoundingClientRect();
         var item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
 
         if (!item) {
-          item = popupEl.querySelector(".ts-js-item:last-child");
+          item = itemsEl.querySelector(".ts-js-item:last-child");
         } else {
           if (!item.classList.contains("ts-js-item")) {
-            item = popupEl.querySelector(".ts-js-item:last-child");
+            item = itemsEl.querySelector(".ts-js-item:last-child");
           }
         }
 
@@ -1873,7 +2062,7 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       Home: function Home(event) {
-        var item = popupEl.querySelector(".ts-js-item:first-child");
+        var item = itemsEl.querySelector(".ts-js-item:first-child");
 
         if (item) {
           item.focus();
@@ -1882,7 +2071,7 @@ var Typeahead = (function () {
         event.preventDefault();
       },
       End: function End(event) {
-        var item = popupEl.querySelector(".ts-js-item:last-child");
+        var item = itemsEl.querySelector(".ts-js-item:last-child");
 
         if (item) {
           item.focus();
@@ -1893,6 +2082,10 @@ var Typeahead = (function () {
     };
 
     function handleBlur(event) {
+      if (debugMode) {
+        return;
+      }
+
       if (!containsElement(event.relatedTarget)) {
         cancelFetch();
         closePopup(false);
@@ -1940,13 +2133,17 @@ var Typeahead = (function () {
       }
     }
 
-    function handlePopupScroll(event) {
+    function handleResultScroll(event) {
       fetchMoreIfneeded();
+    }
+
+    function handleWindowScroll(event) {
+      updatePopupPosition();
     }
 
     function input_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(5, inputEl = $$value);
+        $$invalidate(6, inputEl = $$value);
       });
     }
 
@@ -1957,32 +2154,46 @@ var Typeahead = (function () {
 
     function button_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(6, toggleEl = $$value);
+        $$invalidate(7, toggleEl = $$value);
+      });
+    }
+
+    function ul_binding($$value) {
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate(10, itemsEl = $$value);
       });
     }
 
     function div1_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(7, popupEl = $$value);
+        $$invalidate(9, resultEl = $$value);
       });
     }
 
     function div2_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(4, containerEl = $$value);
+        $$invalidate(8, popupEl = $$value);
+      });
+    }
+
+    function div3_binding($$value) {
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate(5, containerEl = $$value);
       });
     }
 
     $$self.$set = function ($$props) {
       if ("real" in $$props) $$invalidate(0, real = $$props.real);
-      if ("fetcher" in $$props) $$invalidate(35, fetcher = $$props.fetcher);
-      if ("queryMinLen" in $$props) $$invalidate(31, queryMinLen = $$props.queryMinLen);
+      if ("debugMode" in $$props) $$invalidate(40, debugMode = $$props.debugMode);
+      if ("fetcher" in $$props) $$invalidate(41, fetcher = $$props.fetcher);
+      if ("queryMinLen" in $$props) $$invalidate(36, queryMinLen = $$props.queryMinLen);
       if ("query" in $$props) $$invalidate(1, query = $$props.query);
-      if ("delay" in $$props) $$invalidate(32, delay = $$props.delay);
-      if ("translations" in $$props) $$invalidate(33, translations = $$props.translations);
+      if ("delay" in $$props) $$invalidate(37, delay = $$props.delay);
+      if ("translations" in $$props) $$invalidate(38, translations = $$props.translations);
       if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
       if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
-      if ("passEnter" in $$props) $$invalidate(34, passEnter = $$props.passEnter);
+      if ("passEnter" in $$props) $$invalidate(39, passEnter = $$props.passEnter);
+      if ("popupFixed" in $$props) $$invalidate(4, popupFixed = $$props.popupFixed);
     };
 
     $$self.$$.update = function () {
@@ -1990,7 +2201,7 @@ var Typeahead = (function () {
       /*query*/
       2 | $$self.$$.dirty[1] &
       /*selectedItem*/
-      1024) {
+      131072) {
         ////////////////////////////////////////////////////////////
         // HANDLERS
         //
@@ -2003,7 +2214,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, containerEl, inputEl, toggleEl, popupEl, containerId, containerName, labelId, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handlePopupScroll, queryMinLen, delay, translations, passEnter, fetcher, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, bindLabel, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, div1_binding, div2_binding];
+    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, itemsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handleResultScroll, handleWindowScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, resizeObserver, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, bindLabel, handleResize, updatePopupPosition, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, blockScrollUpIfNeeded, blockScrollDownIfNeeded, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
@@ -2019,14 +2230,16 @@ var Typeahead = (function () {
       _this = _super.call(this);
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
         real: 0,
-        fetcher: 35,
-        queryMinLen: 31,
+        debugMode: 40,
+        fetcher: 41,
+        queryMinLen: 36,
         query: 1,
-        delay: 32,
-        translations: 33,
+        delay: 37,
+        translations: 38,
         styles: 2,
         showToggle: 3,
-        passEnter: 34
+        passEnter: 39,
+        popupFixed: 4
       }, [-1, -1, -1]);
       return _this;
     }
