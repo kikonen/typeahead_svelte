@@ -406,6 +406,7 @@
      delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay;
      showToggle = ds.tsShowToggle !== undefined ? true : showToggle;
      passEnter = ds.tsPassEnter !== undefined ? true : passEnter;
+     popupFixed = ds.tsPopupFixed !== undefined ? true : popupFixed;
 
      translations = Object.assign({}, I18N_DEFAULTS, translations || {});
      styles = Object.assign({}, STYLE_DEFAULTS, styles || {});
