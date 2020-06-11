@@ -53,6 +53,15 @@
      F12: true,
  }
 
+ let uidBase = 0;
+
+ function nop() {};
+
+ function nextUID() {
+     uidBase++;
+     return uidBase;
+ };
+
  function hasModifier(event) {
      return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
  }
@@ -60,6 +69,7 @@
  function isMetaKey(event) {
      return META_KEYS[event.key] || META_KEYS[event.code]
  }
+
 </script>
 <script>
  import {onMount} from 'svelte';
@@ -83,6 +93,8 @@
  let inputEl;
  let toggleEl;
  let popupEl;
+ let resultEl;
+ let itemsEl;
 
  let containerId = null;
  let containerName = null;
@@ -120,15 +132,12 @@
 
  let isSyncToReal = false;
 
-
  ////////////////////////////////////////////////////////////
  // Utils
 
  function translate(key) {
      return translations[key];
  }
-
- function nop() {};
 
  ////////////////////////////////////////////////////////////
  //
@@ -280,7 +289,8 @@
 
  function fetchMoreIfneeded() {
      if (hasMore && !fetchingMore && popupVisible) {
-         if (popupEl.scrollTop + popupEl.clientHeight >= popupEl.scrollHeight - popupEl.lastElementChild.clientHeight * 2 - 2) {
+         let lastItem = itemsEl.querySelector('.ts-item:last-child');
+         if (resultEl.scrollTop + resultEl.clientHeight >= resultEl.scrollHeight - lastItem.clientHeight * 2 - 2) {
              fetchItems(true);
          }
      }
@@ -396,7 +406,8 @@
 
      let ds = real.dataset;
 
-     containerId = real.id ? `ts_container_${real.id}` : null;
+     let baseId = real.id || nextUID();
+     containerId = `ts_container_${baseId}`;
      containerName = real.name ? `ts_container_${real.name}` : null;
 
      bindLabel();
@@ -491,7 +502,7 @@
          }
      },
      ArrowDown: function(event) {
-         let item = popupVisible ? popupEl.querySelectorAll('.ts-js-item')[0] : null;
+         let item = popupVisible ? itemsEl.querySelectorAll('.ts-js-item')[0] : null;
          if (item) {
              while (item && item.classList.contains('ts-js-dead')) {
                  item = item.nextElementSibling;
@@ -563,7 +574,7 @@
  };
 
  function blockScrollUpIfNeeded(event) {
-     if (popupEl.scrollTop === 0) {
+     if (resultEl.scrollTop === 0) {
          event.preventDefault();
      }
  }
@@ -574,9 +585,9 @@
          return;
      }
 
-     let popupRect = popupEl.getBoundingClientRect();
+     let resultRect = resultEl.getBoundingClientRect();
 
-     if (Math.ceil(popupEl.scrollTop + popupRect.height) >= popupEl.scrollHeight) {
+     if (Math.ceil(resultEl.scrollTop + resultRect.height) >= resultEl.scrollHeight) {
          event.preventDefault();
      }
  }
@@ -669,13 +680,13 @@
          let scrollLeft = document.body.scrollLeft;
          let scrollTop = document.body.scrollTop;
 
-         let rect = popupEl.getBoundingClientRect();
+         let rect = resultEl.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
          if (!item) {
-             item = popupEl.querySelector('.ts-js-item:first-child');
+             item = itemsEl.querySelector('.ts-js-item:first-child');
          } else {
              if (!item.classList.contains('ts-js-item')) {
-                 item = popupEl.querySelector('.ts-js-item:first-child');
+                 item = itemsEl.querySelector('.ts-js-item:first-child');
              }
          }
          if (item) {
@@ -686,15 +697,15 @@
      PageDown: function(event) {
          let scrollLeft = document.body.scrollLeft;
          let scrollTop = document.body.scrollTop;
-         let h = popupEl.offsetHeight;
+         let h = resultEl.offsetHeight;
 
-         let rect = popupEl.getBoundingClientRect();
+         let rect = resultEl.getBoundingClientRect();
          let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
          if (!item) {
-             item = popupEl.querySelector('.ts-js-item:last-child');
+             item = itemsEl.querySelector('.ts-js-item:last-child');
          } else {
              if (!item.classList.contains('ts-js-item')) {
-                 item = popupEl.querySelector('.ts-js-item:last-child');
+                 item = itemsEl.querySelector('.ts-js-item:last-child');
              }
          }
          if (item) {
@@ -704,14 +715,14 @@
          event.preventDefault();
      },
      Home: function(event) {
-         let item = popupEl.querySelector('.ts-js-item:first-child');
+         let item = itemsEl.querySelector('.ts-js-item:first-child');
          if (item) {
              item.focus();
          }
          event.preventDefault();
      },
      End: function(event) {
-         let item = popupEl.querySelector('.ts-js-item:last-child');
+         let item = itemsEl.querySelector('.ts-js-item:last-child');
          if (item) {
              item.focus();
          }
@@ -777,7 +788,7 @@
      }
  }
 
- function handlePopupScroll(event) {
+ function handleResultScroll(event) {
      fetchMoreIfneeded();
  }
 
@@ -844,61 +855,77 @@
        bind:this={popupEl}
 
        tabindex="-1"
-       on:scroll={handlePopupScroll}>
+    >
+
+    <div class="ts-result"
+         bind:this={resultEl}
+         on:scroll={handleResultScroll}
+    >
+      <ul
+        class="ts-item-list"
+        id="{containerId}_items"
+        role=listbox
+        aria-expanded={popupVisible}
+        aria-hidden=false
+
+        bind:this={itemsEl}
+        >
+        {#each items as item, index}
+          {#if item.separator}
+            <li tabindex="-1"
+              class="dropdown-divider ts-js-dead"
+              data-index="{index}"
+              on:keydown={handleItemKeydown}>
+            </li>
+          {:else if item.disabled || item.placeholder}
+            <li tabindex="-1" class="dropdown-item ts-item-disabled ts-js-dead"
+                 on:keydown={handleItemKeydown}>
+              <div class="ts-item-text">
+                {item.display_text || item.text}
+              </div>
+              {#if item.desc}
+                <div class="ts-item-desc">
+                  {item.desc}
+                </div>
+              {/if}
+            </li>
+          {:else}
+            <li tabindex=1 class="dropdown-item ts-item ts-js-item"  data-index="{index}"
+               on:blur={handleBlur}
+               on:click={handleItemClick}
+               on:keydown={handleItemKeydown}
+               on:keyup={handleItemKeyup}>
+
+              <div class="ts-item-text">
+                {item.display_text || item.text}
+              </div>
+              {#if item.desc}
+                <div class="ts-item-desc">
+                  {item.desc}
+                </div>
+              {/if}
+            </li>
+          {/if}
+        {/each}
+      </ul>
+    </div>
+
     {#if fetchError}
-      <div tabindex="-1" class="dropdown-item text-danger">
+      <div tabindex="-1" class="dropdown-item text-danger ts-message-item">
         {fetchError}
       </div>
     {:else if activeFetch && !fetchingMore}
-      <div tabindex="-1" class="dropdown-item ts-item-info">
+      <div tabindex="-1" class="dropdown-item ts-item-muted ts-message-item">
         {translate('fetching')}
       </div>
     {:else if actualCount === 0}
-      <div tabindex="-1" class="dropdown-item ts-item-info">
+      <div tabindex="-1" class="dropdown-item ts-item-muted ts-message-item">
         {#if tooShort }
           {translate('too_short')}
         {:else}
           {translate('no_results')}
         {/if}
       </div>
-    {:else}
-      {#each items as item, index}
-        {#if item.separator}
-          <div tabindex="-1"
-            class="dropdown-divider ts-js-dead"
-            data-index="{index}"
-            on:keydown={handleItemKeydown}>
-          </div>
-        {:else if item.disabled || item.placeholder}
-          <div tabindex="-1" class="dropdown-item ts-item-disabled ts-js-dead"
-               on:keydown={handleItemKeydown}>
-            <div class="ts-item-text">
-              {item.display_text || item.text}
-            </div>
-            {#if item.desc}
-              <div class="ts-item-desc">
-                {item.desc}
-              </div>
-            {/if}
-          </div>
-        {:else}
-          <div tabindex=1 class="dropdown-item ts-item ts-js-item"  data-index="{index}"
-             on:blur={handleBlur}
-             on:click={handleItemClick}
-             on:keydown={handleItemKeydown}
-             on:keyup={handleItemKeyup}>
-
-            <div class="ts-item-text">
-              {item.display_text || item.text}
-            </div>
-            {#if item.desc}
-              <div class="ts-item-desc">
-                {item.desc}
-              </div>
-            {/if}
-          </div>
-        {/if}
-      {/each}
     {/if}
   </div>
 </div>

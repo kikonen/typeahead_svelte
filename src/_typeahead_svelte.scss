@@ -29,10 +29,6 @@
   padding-top: 0;
   padding-bottom: 0;
   max-width: 90vw;
-
-  max-height: 45vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
 }
 .ts-popup-fixed {
   position: fixed;
@@ -51,6 +47,16 @@
 .ts-popup-fixed-top {
   top: unset;
 }
+.ts-result {
+  max-height: 45vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.ts-item-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 .ts-item {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -68,9 +74,12 @@
   padding-right: 0.5rem;
   color: $text-muted;
 }
-.ts-item-info {
+.ts-item-muted {
+  color: $text-muted;
+}
+.ts-message-item {
   @include ts-no-click;
+
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  color: $text-muted;
 }
