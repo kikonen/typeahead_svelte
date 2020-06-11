@@ -817,8 +817,15 @@
            autocapitalize=off
            spellcheck=off
 
+           type=search
+           role=searchbox
+
            aria-labelledby={labelId}
            aria-label={labelText}
+
+           aria-expanded="{popupVisible}"
+           aria-haspopup=listbox
+           aria-controls="{containerId}_items"
 
            data-target="{real.id}"
            placeholder="{real.placeholder}"
@@ -851,6 +858,8 @@
        class:ss-popup-left={popupLeft && !popupFixed}
        class:ss-popup-fixed-top={popupTop && popupFixed}
        class:ss-popup-fixed-left={popupLeft && popupFixed}
+
+       id="{containerId}_popup"
 
        bind:this={popupEl}
 
