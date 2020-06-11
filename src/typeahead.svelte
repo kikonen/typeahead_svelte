@@ -86,6 +86,7 @@
  let containerName = null;
 
  let labelId = null;
+ let labelText = null;
 
  let setupDone = false;
 
@@ -404,13 +405,15 @@
  }
 
  function bindLabel() {
-     if (!real.id) {
-         return;
+     if (real.id) {
+         let label = document.querySelector(`[for="${real.id}"]`);
+         if (label) {
+             label.id = label.id || `ts_label_${real.id}`;
+             labelId = label.id;
+         }
      }
-     let label = document.querySelector(`[for="${real.id}"]`);
-     if (label) {
-         label.id = label.id || `ts_label_${real.id}`;
-         labelId = label.id;
+     if (!labelId) {
+         labelText = real.getAttribute('aria-label') || null;
      }
  }
 
@@ -731,6 +734,7 @@
            spellcheck=off
 
            aria-labelledby={labelId}
+           aria-label={labelText}
 
            data-target="{real.id}"
            placeholder="{real.placeholder}"
