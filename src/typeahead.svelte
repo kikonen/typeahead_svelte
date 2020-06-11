@@ -561,6 +561,25 @@
      },
  };
 
+ function blockScrollUpIfNeeded(event) {
+     if (popupEl.scrollTop === 0) {
+         event.preventDefault();
+     }
+ }
+
+ function blockScrollDownIfNeeded(event) {
+     if (fetchingMore) {
+         event.preventDefault();
+         return;
+     }
+
+     let popupRect = popupEl.getBoundingClientRect();
+
+     if (Math.ceil(popupEl.scrollTop + popupRect.height) >= popupEl.scrollHeight) {
+         event.preventDefault();
+     }
+ }
+
  let itemKeydownHandlers = {
      base: function(event) {
          if (isMetaKey(event)) {
@@ -622,10 +641,18 @@
          event.preventDefault();
      },
      // allow "meta" keys to navigate in items
-     PageUp: nop,
-     PageDown: nop,
-     Home: nop,
-     End: nop,
+     PageUp: function(event) {
+         blockScrollUpIfNeeded(event);
+     },
+     PageDown: function(event) {
+         blockScrollDownIfNeeded(event);
+     },
+     Home: function(event) {
+         blockScrollUpIfNeeded(event);
+     },
+     End: function(event) {
+         blockScrollDownIfNeeded(event);
+     },
      // disallow modifier keys to trigger search
      Control: nop,
      Shift: nop,
