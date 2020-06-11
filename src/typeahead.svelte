@@ -67,6 +67,7 @@
 
  export let real;
 
+ export let debugMode = false;
  export let fetcher;
  export let queryMinLen = 1;
  export let query;
@@ -654,6 +655,10 @@
  }
 
  function handleBlur(event) {
+     if (debugMode) {
+         return;
+     }
+
      if (!containsElement(event.relatedTarget)) {
          cancelFetch();
          closePopup(false);
