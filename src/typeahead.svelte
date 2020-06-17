@@ -403,6 +403,7 @@
  function setupComponent() {
      real.classList.add('ts-real-hidden');
      real.setAttribute('tabindex', '-1');
+     real.setAttribute('aria-hidden', 'true');
 
      let ds = real.dataset;
 
@@ -844,7 +845,7 @@
                 on:keydown={handleToggleKeydown}
                 on:click={handleToggleClick}>
           <span class="sr-only">{translate('toggle')}</span>
-          <i class="text-dark fas fa-caret-down"></i>
+          <i class="text-dark fas fa-caret-down" aria-hidden=true></i>
         </button>
       </div>
     {/if}
