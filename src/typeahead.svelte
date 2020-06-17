@@ -860,6 +860,8 @@
        class:ss-popup-fixed-top={popupTop && popupFixed}
        class:ss-popup-fixed-left={popupLeft && popupFixed}
 
+       aria-hidden={!popupVisible}
+
        id="{containerId}_popup"
 
        bind:this={popupEl}
