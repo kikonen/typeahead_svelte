@@ -461,7 +461,7 @@ var Typeahead = (function () {
     child_ctx[81] = list[i];
     child_ctx[83] = i;
     return child_ctx;
-  } // (832:4) {#if showToggle}
+  } // (840:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -484,6 +484,7 @@ var Typeahead = (function () {
         i = element("i");
         attr(span, "class", "sr-only");
         attr(i, "class", "text-dark fas fa-caret-down");
+        attr(i, "aria-hidden", "true");
         attr(button, "class", "btn btn-outline-secondary");
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
@@ -520,7 +521,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (892:10) {:else}
+  } // (902:10) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -607,7 +608,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (880:54) 
+  } // (890:54) 
 
 
   function create_if_block_5(ctx) {
@@ -684,7 +685,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (874:10) {#if item.separator}
+  } // (884:10) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -718,7 +719,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (902:14) {#if item.desc}
+  } // (912:14) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -748,7 +749,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (886:14) {#if item.desc}
+  } // (896:14) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -778,7 +779,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (873:8) {#each items as item, index}
+  } // (883:8) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -825,7 +826,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (921:32) 
+  } // (931:32) 
 
 
   function create_if_block_2(ctx) {
@@ -869,7 +870,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (917:43) 
+  } // (927:43) 
 
 
   function create_if_block_1(ctx) {
@@ -891,7 +892,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (913:4) {#if fetchError}
+  } // (923:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -921,7 +922,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (925:8) {:else}
+  } // (935:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -941,7 +942,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (923:8) {#if tooShort }
+  } // (933:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -967,6 +968,7 @@ var Typeahead = (function () {
     var div3;
     var div0;
     var input;
+    var input_aria_controls_value;
     var input_data_target_value;
     var input_placeholder_value;
     var t0;
@@ -976,6 +978,7 @@ var Typeahead = (function () {
     var ul;
     var ul_id_value;
     var t2;
+    var div2_id_value;
     var div3_class_value;
     var mounted;
     var dispose;
@@ -1030,12 +1033,21 @@ var Typeahead = (function () {
         attr(input, "autocorrect", "off");
         attr(input, "autocapitalize", "off");
         attr(input, "spellcheck", "off");
+        attr(input, "type", "search");
+        attr(input, "role", "searchbox");
         attr(input, "aria-labelledby",
         /*labelId*/
         ctx[13]);
         attr(input, "aria-label",
         /*labelText*/
         ctx[14]);
+        attr(input, "aria-expanded",
+        /*popupVisible*/
+        ctx[20]);
+        attr(input, "aria-haspopup", "listbox");
+        attr(input, "aria-controls", input_aria_controls_value = "" + (
+        /*containerId*/
+        ctx[11] + "_items"));
         attr(input, "data-target", input_data_target_value =
         /*real*/
         ctx[0].id);
@@ -1054,6 +1066,9 @@ var Typeahead = (function () {
         attr(ul, "aria-hidden", "false");
         attr(div1, "class", "ts-result");
         attr(div2, "class", "dropdown-menu ts-popup");
+        attr(div2, "id", div2_id_value = "" + (
+        /*containerId*/
+        ctx[11] + "_popup"));
         attr(div2, "tabindex", "-1");
         toggle_class(div2, "show",
         /*popupVisible*/
@@ -1164,6 +1179,22 @@ var Typeahead = (function () {
         }
 
         if (dirty[0] &
+        /*popupVisible*/
+        1048576) {
+          attr(input, "aria-expanded",
+          /*popupVisible*/
+          ctx[20]);
+        }
+
+        if (dirty[0] &
+        /*containerId*/
+        2048 && input_aria_controls_value !== (input_aria_controls_value = "" + (
+        /*containerId*/
+        ctx[11] + "_items"))) {
+          attr(input, "aria-controls", input_aria_controls_value);
+        }
+
+        if (dirty[0] &
         /*real*/
         1 && input_data_target_value !== (input_data_target_value =
         /*real*/
@@ -1181,9 +1212,7 @@ var Typeahead = (function () {
 
         if (dirty[0] &
         /*query*/
-        2 && input.value !==
-        /*query*/
-        ctx[1]) {
+        2) {
           set_input_value(input,
           /*query*/
           ctx[1]);
@@ -1262,6 +1291,14 @@ var Typeahead = (function () {
             if_block1.c();
             if_block1.m(div2, null);
           }
+        }
+
+        if (dirty[0] &
+        /*containerId*/
+        2048 && div2_id_value !== (div2_id_value = "" + (
+        /*containerId*/
+        ctx[11] + "_popup"))) {
+          attr(div2, "id", div2_id_value);
         }
 
         if (dirty[0] &
@@ -1745,6 +1782,7 @@ var Typeahead = (function () {
     function setupComponent() {
       real.classList.add("ts-real-hidden");
       real.setAttribute("tabindex", "-1");
+      real.setAttribute("aria-hidden", "true");
       var ds = real.dataset;
       var baseId = real.id || nextUID();
       $$invalidate(11, containerId = "ts_container_".concat(baseId));

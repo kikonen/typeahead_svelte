@@ -286,7 +286,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (832:4) {#if showToggle}
+// (840:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -306,6 +306,7 @@ function create_if_block_8(ctx) {
 			i = element("i");
 			attr(span, "class", "sr-only");
 			attr(i, "class", "text-dark fas fa-caret-down");
+			attr(i, "aria-hidden", "true");
 			attr(button, "class", "btn btn-outline-secondary");
 			attr(button, "type", "button");
 			attr(button, "tabindex", "-1");
@@ -339,7 +340,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (892:10) {:else}
+// (902:10) {:else}
 function create_else_block_1(ctx) {
 	let li;
 	let div;
@@ -409,7 +410,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (880:54) 
+// (890:54) 
 function create_if_block_5(ctx) {
 	let li;
 	let div;
@@ -471,7 +472,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (874:10) {#if item.separator}
+// (884:10) {#if item.separator}
 function create_if_block_4(ctx) {
 	let li;
 	let li_data_index_value;
@@ -502,7 +503,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (902:14) {#if item.desc}
+// (912:14) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[81].desc + "";
@@ -527,7 +528,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (886:14) {#if item.desc}
+// (896:14) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[81].desc + "";
@@ -552,7 +553,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (873:8) {#each items as item, index}
+// (883:8) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -594,7 +595,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (921:32) 
+// (931:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -637,7 +638,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (917:43) 
+// (927:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -658,7 +659,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (913:4) {#if fetchError}
+// (923:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -683,7 +684,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (925:8) {:else}
+// (935:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[24]("no_results") + "";
 	let t;
@@ -702,7 +703,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (923:8) {#if tooShort }
+// (933:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[24]("too_short") + "";
 	let t;
@@ -725,6 +726,7 @@ function create_fragment(ctx) {
 	let div3;
 	let div0;
 	let input;
+	let input_aria_controls_value;
 	let input_data_target_value;
 	let input_placeholder_value;
 	let t0;
@@ -734,6 +736,7 @@ function create_fragment(ctx) {
 	let ul;
 	let ul_id_value;
 	let t2;
+	let div2_id_value;
 	let div3_class_value;
 	let mounted;
 	let dispose;
@@ -777,8 +780,13 @@ function create_fragment(ctx) {
 			attr(input, "autocorrect", "off");
 			attr(input, "autocapitalize", "off");
 			attr(input, "spellcheck", "off");
+			attr(input, "type", "search");
+			attr(input, "role", "searchbox");
 			attr(input, "aria-labelledby", /*labelId*/ ctx[13]);
 			attr(input, "aria-label", /*labelText*/ ctx[14]);
+			attr(input, "aria-expanded", /*popupVisible*/ ctx[20]);
+			attr(input, "aria-haspopup", "listbox");
+			attr(input, "aria-controls", input_aria_controls_value = "" + (/*containerId*/ ctx[11] + "_items"));
 			attr(input, "data-target", input_data_target_value = /*real*/ ctx[0].id);
 			attr(input, "placeholder", input_placeholder_value = /*real*/ ctx[0].placeholder);
 			attr(div0, "class", "input-group");
@@ -789,6 +797,7 @@ function create_fragment(ctx) {
 			attr(ul, "aria-hidden", "false");
 			attr(div1, "class", "ts-result");
 			attr(div2, "class", "dropdown-menu ts-popup");
+			attr(div2, "id", div2_id_value = "" + (/*containerId*/ ctx[11] + "_popup"));
 			attr(div2, "tabindex", "-1");
 			toggle_class(div2, "show", /*popupVisible*/ ctx[20]);
 			toggle_class(div2, "ss-popup-fixed", /*popupFixed*/ ctx[4]);
@@ -847,6 +856,14 @@ function create_fragment(ctx) {
 				attr(input, "aria-label", /*labelText*/ ctx[14]);
 			}
 
+			if (dirty[0] & /*popupVisible*/ 1048576) {
+				attr(input, "aria-expanded", /*popupVisible*/ ctx[20]);
+			}
+
+			if (dirty[0] & /*containerId*/ 2048 && input_aria_controls_value !== (input_aria_controls_value = "" + (/*containerId*/ ctx[11] + "_items"))) {
+				attr(input, "aria-controls", input_aria_controls_value);
+			}
+
 			if (dirty[0] & /*real*/ 1 && input_data_target_value !== (input_data_target_value = /*real*/ ctx[0].id)) {
 				attr(input, "data-target", input_data_target_value);
 			}
@@ -855,7 +872,7 @@ function create_fragment(ctx) {
 				attr(input, "placeholder", input_placeholder_value);
 			}
 
-			if (dirty[0] & /*query*/ 2 && input.value !== /*query*/ ctx[1]) {
+			if (dirty[0] & /*query*/ 2) {
 				set_input_value(input, /*query*/ ctx[1]);
 			}
 
@@ -913,6 +930,10 @@ function create_fragment(ctx) {
 					if_block1.c();
 					if_block1.m(div2, null);
 				}
+			}
+
+			if (dirty[0] & /*containerId*/ 2048 && div2_id_value !== (div2_id_value = "" + (/*containerId*/ ctx[11] + "_popup"))) {
+				attr(div2, "id", div2_id_value);
 			}
 
 			if (dirty[0] & /*popupVisible*/ 1048576) {
@@ -1353,6 +1374,7 @@ function instance($$self, $$props, $$invalidate) {
 	function setupComponent() {
 		real.classList.add("ts-real-hidden");
 		real.setAttribute("tabindex", "-1");
+		real.setAttribute("aria-hidden", "true");
 		let ds = real.dataset;
 		let baseId = real.id || nextUID();
 		$$invalidate(11, containerId = `ts_container_${baseId}`);
