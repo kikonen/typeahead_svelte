@@ -498,7 +498,7 @@ var Typeahead = (function () {
         append(button, i);
         /*button_binding*/
 
-        ctx[76](button);
+        ctx[44](button);
 
         if (!mounted) {
           dispose = [listen(button, "blur",
@@ -516,12 +516,12 @@ var Typeahead = (function () {
         if (detaching) detach(div);
         /*button_binding*/
 
-        ctx[76](null);
+        ctx[44](null);
         mounted = false;
         run_all(dispose);
       }
     };
-  } // (902:10) {:else}
+  } // (904:10) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -608,7 +608,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (890:54) 
+  } // (892:54) 
 
 
   function create_if_block_5(ctx) {
@@ -685,7 +685,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (884:10) {#if item.separator}
+  } // (886:10) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -719,7 +719,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (912:14) {#if item.desc}
+  } // (914:14) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -749,7 +749,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (896:14) {#if item.desc}
+  } // (898:14) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -779,7 +779,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (883:8) {#each items as item, index}
+  } // (885:8) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -826,7 +826,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (931:32) 
+  } // (933:32) 
 
 
   function create_if_block_2(ctx) {
@@ -870,7 +870,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (927:43) 
+  } // (929:43) 
 
 
   function create_if_block_1(ctx) {
@@ -892,7 +892,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (923:4) {#if fetchError}
+  } // (925:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -922,7 +922,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (935:8) {:else}
+  } // (937:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -942,7 +942,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (933:8) {#if tooShort }
+  } // (935:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -978,6 +978,7 @@ var Typeahead = (function () {
     var ul;
     var ul_id_value;
     var t2;
+    var div2_aria_hidden_value;
     var div2_id_value;
     var div3_class_value;
     var mounted;
@@ -1066,6 +1067,9 @@ var Typeahead = (function () {
         attr(ul, "aria-hidden", "false");
         attr(div1, "class", "ts-result");
         attr(div2, "class", "dropdown-menu ts-popup");
+        attr(div2, "aria-hidden", div2_aria_hidden_value = !
+        /*popupVisible*/
+        ctx[20]);
         attr(div2, "id", div2_id_value = "" + (
         /*containerId*/
         ctx[11] + "_popup"));
@@ -1112,7 +1116,7 @@ var Typeahead = (function () {
         append(div0, input);
         /*input_binding*/
 
-        ctx[74](input);
+        ctx[42](input);
         set_input_value(input,
         /*query*/
         ctx[1]);
@@ -1129,25 +1133,25 @@ var Typeahead = (function () {
         /*ul_binding*/
 
 
-        ctx[77](ul);
+        ctx[45](ul);
         /*div1_binding*/
 
-        ctx[78](div1);
+        ctx[46](div1);
         append(div2, t2);
         if (if_block1) if_block1.m(div2, null);
         /*div2_binding*/
 
-        ctx[79](div2);
+        ctx[47](div2);
         /*div3_binding*/
 
-        ctx[80](div3);
+        ctx[48](div3);
 
         if (!mounted) {
           dispose = [listen(window_1, "scroll",
           /*handleWindowScroll*/
           ctx[35]), listen(input, "input",
           /*input_input_handler*/
-          ctx[75]), listen(input, "blur",
+          ctx[43]), listen(input, "blur",
           /*handleBlur*/
           ctx[25]), listen(input, "keypress",
           /*handleInputKeypress*/
@@ -1294,6 +1298,14 @@ var Typeahead = (function () {
         }
 
         if (dirty[0] &
+        /*popupVisible*/
+        1048576 && div2_aria_hidden_value !== (div2_aria_hidden_value = !
+        /*popupVisible*/
+        ctx[20])) {
+          attr(div2, "aria-hidden", div2_aria_hidden_value);
+        }
+
+        if (dirty[0] &
         /*containerId*/
         2048 && div2_id_value !== (div2_id_value = "" + (
         /*containerId*/
@@ -1387,15 +1399,15 @@ var Typeahead = (function () {
         if (detaching) detach(div3);
         /*input_binding*/
 
-        ctx[74](null);
+        ctx[42](null);
         if (if_block0) if_block0.d();
         destroy_each(each_blocks, detaching);
         /*ul_binding*/
 
-        ctx[77](null);
+        ctx[45](null);
         /*div1_binding*/
 
-        ctx[78](null);
+        ctx[46](null);
 
         if (if_block1) {
           if_block1.d();
@@ -1403,10 +1415,10 @@ var Typeahead = (function () {
         /*div2_binding*/
 
 
-        ctx[79](null);
+        ctx[47](null);
         /*div3_binding*/
 
-        ctx[80](null);
+        ctx[48](null);
         mounted = false;
         run_all(dispose);
       }
@@ -1527,7 +1539,6 @@ var Typeahead = (function () {
     var popupLeft = false;
     var activeFetch = null;
     var previousQuery = null;
-    var fetched = false;
     var selectedItem = null;
     var wasDown = false;
     var isSyncToReal = false; ////////////////////////////////////////////////////////////
@@ -1562,7 +1573,6 @@ var Typeahead = (function () {
         offsetCount = 0;
         $$invalidate(16, actualCount = 0);
         hasMore = false;
-        fetched = false;
         $$invalidate(18, fetchingMore = false);
       }
 
@@ -1619,7 +1629,6 @@ var Typeahead = (function () {
           $$invalidate(17, tooShort = info.too_short === true);
           previousQuery = currentQuery;
           $$invalidate(23, activeFetch = null);
-          fetched = true;
           $$invalidate(18, fetchingMore = false);
         } //         } else {
         //             console.debug("ABORT fetch: " + currentQuery);
@@ -1635,7 +1644,6 @@ var Typeahead = (function () {
           $$invalidate(17, tooShort = false);
           previousQuery = null;
           $$invalidate(23, activeFetch = null);
-          fetched = false;
           $$invalidate(18, fetchingMore = false);
           inputEl.focus();
           openPopup();
@@ -1668,8 +1676,6 @@ var Typeahead = (function () {
     function cancelFetch() {
       if (activeFetch !== null) {
         $$invalidate(23, activeFetch = null); // no result fetched; since it doesn't match input any longer
-
-        fetched = false;
         previousQuery = null;
       }
     }
@@ -1705,7 +1711,7 @@ var Typeahead = (function () {
       var item = items[el.dataset.index];
 
       if (item) {
-        $$invalidate(48, selectedItem = item);
+        $$invalidate(55, selectedItem = item);
         var changed = item.text !== query;
         $$invalidate(1, query = item.text);
         previousQuery = query.trim();
@@ -1857,7 +1863,7 @@ var Typeahead = (function () {
 
     var inputKeypressHandlers = {
       base: function base(event) {
-        $$invalidate(48, selectedItem = null);
+        $$invalidate(55, selectedItem = null);
       }
     };
     var inputKeydownHandlers = {
@@ -2181,7 +2187,8 @@ var Typeahead = (function () {
 
     function input_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(6, inputEl = $$value);
+        inputEl = $$value;
+        $$invalidate(6, inputEl);
       });
     }
 
@@ -2192,31 +2199,36 @@ var Typeahead = (function () {
 
     function button_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(7, toggleEl = $$value);
+        toggleEl = $$value;
+        $$invalidate(7, toggleEl);
       });
     }
 
     function ul_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(10, itemsEl = $$value);
+        itemsEl = $$value;
+        $$invalidate(10, itemsEl);
       });
     }
 
     function div1_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(9, resultEl = $$value);
+        resultEl = $$value;
+        $$invalidate(9, resultEl);
       });
     }
 
     function div2_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(8, popupEl = $$value);
+        popupEl = $$value;
+        $$invalidate(8, popupEl);
       });
     }
 
     function div3_binding($$value) {
       binding_callbacks[$$value ? "unshift" : "push"](function () {
-        $$invalidate(5, containerEl = $$value);
+        containerEl = $$value;
+        $$invalidate(5, containerEl);
       });
     }
 
@@ -2239,7 +2251,7 @@ var Typeahead = (function () {
       /*query*/
       2 | $$self.$$.dirty[1] &
       /*selectedItem*/
-      131072) {
+      16777216) {
         ////////////////////////////////////////////////////////////
         // HANDLERS
         //
@@ -2252,7 +2264,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, itemsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handleResultScroll, handleWindowScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, resizeObserver, setupDone, offsetCount, hasMore, previousQuery, fetched, selectedItem, wasDown, isSyncToReal, fetchItems, resolveItems, cancelFetch, fetchMoreIfneeded, closePopup, openPopup, selectItem, containsElement, syncFromReal, syncToReal, setupComponent, bindLabel, handleResize, updatePopupPosition, eventListeners, inputKeypressHandlers, inputKeydownHandlers, inputKeyupHandlers, toggleKeydownHandlers, blockScrollUpIfNeeded, blockScrollDownIfNeeded, itemKeydownHandlers, itemKeyupHandlers, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
+    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, itemsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemKeydown, handleItemKeyup, handleItemClick, handleResultScroll, handleWindowScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
