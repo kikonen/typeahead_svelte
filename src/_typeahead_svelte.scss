@@ -1,3 +1,14 @@
+$ts-selected-color: theme-color-level("primary", $alert-color-level) !default;
+$ts-selected-bg: theme-color-level("secondary", $alert-bg-level) !default;
+$ts-selected-border-color: theme-color-level("secondary", $alert-border-level) !default;
+
+$ts-active-color: theme-color-level("primary", $alert-color-level) !default;
+$ts-active-bg: theme-color-level("primary", $alert-bg-level) !default;
+$ts-active-border-color: theme-color-level("primary", $alert-border-level) !default;
+
+$ts-caret-color: $dark !default;
+$ts-text-muted: $text-muted !default;
+
 @mixin ts-no-click {
   pointer-events: none;
   user-select: none;
@@ -48,6 +59,8 @@
   top: unset;
 }
 .ts-result {
+  position: relative;
+
   max-height: 45vh;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -60,22 +73,34 @@
 .ts-item {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+
+  border: 2px solid transparent;
+}
+.ts-item-selected {
+  color: $ts-selected-color;
+  background-color: $ts-selected-bg;
+  border: 2px solid $ts-selected-border-color;
+}
+.ts-item-active {
+  color: $ts-active-color;
+  background-color: $ts-active-bg;
+  border: 2px solid $ts-active-border-color;
 }
 .ts-item-text {
   @include ts-no-click;
 }
 .ts-item-desc {
   @include ts-no-click;
-  color: $text-muted;
+  color: $ts-text-muted;
 }
 .ts-item-disabled {
   @include ts-no-click;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  color: $text-muted;
+  color: $ts-text-muted;
 }
 .ts-item-muted {
-  color: $text-muted;
+  color: $ts-text-muted;
 }
 .ts-message-item {
   @include ts-no-click;

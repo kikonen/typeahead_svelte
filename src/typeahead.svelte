@@ -53,6 +53,8 @@
      F12: true,
  }
 
+ const MUTATIONS = { attributes: true };
+
  let uidBase = 0;
 
  function nop() {};
@@ -94,13 +96,15 @@
  let toggleEl;
  let popupEl;
  let resultEl;
- let itemsEl;
+ let optionsEl;
 
  let containerId = null;
  let containerName = null;
 
  let labelId = null;
  let labelText = null;
+
+ const mutationObserver = new MutationObserver(handleMutation);
 
  let resizeObserver = null;
 
@@ -115,6 +119,9 @@
 
  let hasMore = false;
  let tooShort = false;
+
+ let activeId = null;
+
  let fetchingMore = false;
  let fetchError = null;
 
@@ -130,6 +137,8 @@
  let downQuery = null;
  let wasDown = false;
 
+ let disabled = false;
+
  let isSyncToReal = false;
 
  ////////////////////////////////////////////////////////////
@@ -137,6 +146,16 @@
 
  function translate(key) {
      return translations[key];
+ }
+
+ function focusInput() {
+     if (disabled) {
+         return;
+     }
+     if (document.activeElement !== inputEl) {
+         if (DEBUG) console.log("FOCUS_INPUT. was", document.activeElement);
+         inputEl.focus();
+     }
  }
 
  ////////////////////////////////////////////////////////////
@@ -245,7 +264,7 @@
              fetched = false;
              fetchingMore = false;
 
-             inputEl.focus();
+             focusInput();
              openPopup();
          }
      });
@@ -289,31 +308,38 @@
 
  function fetchMoreIfneeded() {
      if (hasMore && !fetchingMore && popupVisible) {
-         let lastItem = itemsEl.querySelector('.ts-item:last-child');
+         let lastItem = optionsEl.querySelector('.ts-item:last-child');
          if (resultEl.scrollTop + resultEl.clientHeight >= resultEl.scrollHeight - lastItem.clientHeight * 2 - 2) {
              fetchItems(true);
          }
      }
  }
 
- function closePopup(focusInput) {
+ function closePopup(focus) {
      popupVisible = false;
-     if (focusInput) {
-         inputEl.focus();
+     if (focus) {
+         focusInput();
      }
  }
 
  function openPopup() {
-     if (!popupVisible) {
-         popupVisible = true;
-         let w = containerEl.offsetWidth;
-         popupEl.style.minWidth = w + "px";
-
-         updatePopupPosition();
+     if (popupVisible) {
+         return false;
      }
+
+     popupVisible = true;
+     let w = containerEl.offsetWidth;
+     popupEl.style.minWidth = w + "px";
+
+     updatePopupPosition();
+     return true;
  }
 
- function selectItem(el) {
+ function selectOption(el) {
+     if (!el || disabled) {
+         return;
+     }
+
      let item = items[el.dataset.index];
      if (item) {
          selectedItem = item;
@@ -351,6 +377,14 @@
      }
  }
 
+ function syncFromRealDisabled() {
+     disabled = real.disabled;
+
+     if (disabled) {
+         closePopup();
+     }
+ }
+
  function syncFromReal() {
      if (isSyncToReal) {
          return;
@@ -379,6 +413,8 @@
 
  onMount(function() {
      query = real.value || '';
+
+     syncFromRealDisabled();
 
      Object.keys(eventListeners).forEach(function(ev) {
          real.addEventListener(ev, eventListeners[ev]);
@@ -411,6 +447,8 @@
      containerId = `ts_container_${baseId}`;
      containerName = real.name ? `ts_container_${real.name}` : null;
 
+     mutationObserver.observe(real, MUTATIONS);
+
      bindLabel();
 
      queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen;
@@ -437,8 +475,36 @@
      }
  }
 
+ function handleMutation(mutationsList, observer) {
+     for (let mutation of mutationsList) {
+         if (mutation.type === 'attributes') {
+             if (mutation.attributeName === 'disabled') {
+                 syncFromRealDisabled();
+             }
+         }
+     }
+ }
+
  function handleResize(resizeList, observer) {
      updatePopupPosition();
+ }
+
+ function findActiveOption() {
+     return optionsEl.querySelector('.ts-item-active');
+ }
+
+ function findFirstOption() {
+     let children = optionsEl.children;
+     return children[0];
+ }
+
+ function findLastOption() {
+     let children = optionsEl.children;
+     return children[children.length - 1];
+ }
+
+ function findInitialOption() {
+     return optionsEl.querySelectorAll('.ts-js-item')[0];
  }
 
  function updatePopupPosition() {
@@ -475,7 +541,7 @@
          syncFromReal();
      },
      'focus': function(event) {
-         inputEl.focus();
+         focusInput();
      },
  }
 
@@ -496,29 +562,41 @@
      },
      Enter: function(event) {
          if (popupVisible) {
-             closePopup(false);
+             let el = findActiveOption();
+             if (el) {
+                 selectOption(el);
+             } else {
+                 closePopup(true);
+             }
              if (!passEnter) {
                  event.preventDefault();
              }
          }
      },
      ArrowDown: function(event) {
-         let item = popupVisible ? itemsEl.querySelectorAll('.ts-js-item')[0] : null;
-         if (item) {
-             while (item && item.classList.contains('ts-js-dead')) {
-                 item = item.nextElementSibling;
-             }
-             item.focus();
-         } else {
-             openPopup();
+         if (openPopup()) {
              fetchItems();
+         } else {
+             if (!fetchingMore) {
+                 activateArrowDown(event);
+             }
          }
          event.preventDefault();
      },
      ArrowUp: function(event) {
-         // NOTE KI closing popup here is *irritating* i.e. if one is trying to select
-         // first item in dropdown
-         event.preventDefault();
+         activateArrowUp(event);
+     },
+     PageUp: function(event) {
+         activatePageUp(event);
+     },
+     PageDown: function(event) {
+         activatePageDown(event);
+     },
+     Home: function(event) {
+         activateHome(event);
+     },
+     End: function(event) {
+         activateEnd(event);
      },
      Escape: function(event) {
          cancelFetch();
@@ -560,175 +638,169 @@
          if (isMetaKey(event)) {
              return;
          }
-         inputEl.focus();
+         focusInput();
      },
+     Enter: inputKeydownHandlers.Enter,
      ArrowDown: inputKeydownHandlers.ArrowDown,
      ArrowUp: inputKeydownHandlers.ArrowDown,
+     PageUp: inputKeydownHandlers.PageUp,
+     PageDown: inputKeydownHandlers.PageDown,
+     Home: inputKeydownHandlers.Home,
+     End: inputKeydownHandlers.End,
      Escape: function(event) {
          cancelFetch();
          closePopup(false);
-         inputEl.focus();
+         focusInput();
      },
      Tab: function(event) {
-         inputEl.focus();
+         focusInput();
      },
  };
 
- function blockScrollUpIfNeeded(event) {
-     if (resultEl.scrollTop === 0) {
-         event.preventDefault();
+ function activateOption(el, old) {
+     old = old || findActiveOption();
+     if (old && old !== el) {
+         old.classList.remove('ts-item-active');
      }
- }
+     activeId = null;
 
- function blockScrollDownIfNeeded(event) {
-     if (fetchingMore) {
-         event.preventDefault();
+     if (!el) {
          return;
      }
 
-     let resultRect = resultEl.getBoundingClientRect();
+     el.classList.add('ts-item-active');
 
-     if (Math.ceil(resultEl.scrollTop + resultRect.height) >= resultEl.scrollHeight) {
-         event.preventDefault();
+     activeId = `${containerId}_item_${el.dataset.index}`
+
+     let clientHeight = resultEl.clientHeight;
+
+     if (resultEl.scrollHeight > clientHeight) {
+         let y = el.offsetTop;
+         let elementBottom = y + el.offsetHeight;
+
+         let scrollTop = resultEl.scrollTop;
+
+         if (elementBottom > scrollTop + clientHeight) {
+             resultEl.scrollTop = elementBottom - clientHeight;
+         } else if (y < scrollTop) {
+             resultEl.scrollTop = y;
+         }
      }
  }
 
- let itemKeydownHandlers = {
-     base: function(event) {
-         if (isMetaKey(event)) {
-             return;
+ function activateArrowUp(event) {
+     if (disabled || !popupVisible) {
+         return;
+     }
+
+     let el = findActiveOption();
+     let next = el && el.previousElementSibling;
+
+     if (next) {
+         while (next && next.classList.contains('ts-js-dead')) {
+             next = next.previousElementSibling;
+         }
+         if (next && !next.classList.contains('ts-js-item')) {
+             next = null;
+         }
+     }
+
+     activateOption(next, el);
+     event.preventDefault();
+ }
+
+ function activateArrowDown(event) {
+     if (disabled || !popupVisible) {
+         return;
+     }
+
+     let el = findActiveOption();
+     let next = el ? el.nextElementSibling : findFirstOption();
+
+     if (next) {
+         while (next && next.classList.contains('ts-js-dead')) {
+             next = next.nextElementSibling;
          }
 
-         wasDown = true;
-         inputEl.focus();
-     },
-     ArrowDown: function(event) {
-         let next = event.target.nextElementSibling;
+         if (next && !next.classList.contains('ts-js-item')) {
+             next = null;
+         }
+     }
 
-         if (next) {
-             while (next && next.classList.contains('ts-js-dead')) {
-                 next = next.nextElementSibling;
-             }
+     activateOption(next, el);
+     event.preventDefault();
+ }
 
-             if (next && !next.classList.contains('ts-js-item')) {
-                 next = null;
-             }
-         }
+ function activatePageUp(event) {
+     if (disabled || !popupVisible) {
+         return;
+     }
 
-         if (next) {
-             next.focus();
-         }
-         event.preventDefault();
-     },
-     ArrowUp: function(event) {
-         let next = event.target.previousElementSibling;
+     let newY = resultEl.scrollTop - resultEl.clientHeight;
 
-         if (next) {
-             while (next && next.classList.contains('ts-js-dead')) {
-                 next = next.previousElementSibling;
-             }
-             if (next && !next.classList.contains('ts-js-item')) {
-                 next = null;
-             }
-         }
+     let nodes = optionsEl.querySelectorAll('.ts-js-item');
 
-         if (next) {
-             next.focus();
-         } else {
-             inputEl.focus();
+     let next = null;
+     for (let i = 0; !next && i < nodes.length; i++) {
+         let node = nodes[i];
+         if (newY <= node.offsetTop) {
+             next = node;
          }
-         event.preventDefault();
-     },
-     Enter: function(event) {
-         selectItem(event.target)
-         if (!passEnter) {
-             event.preventDefault();
-         }
-     },
-     Escape: function(event) {
-         cancelFetch();
-         closePopup(true);
-     },
-     Tab: function(event) {
-         inputEl.focus();
-         event.preventDefault();
-     },
-     // allow "meta" keys to navigate in items
-     PageUp: function(event) {
-         blockScrollUpIfNeeded(event);
-     },
-     PageDown: function(event) {
-         blockScrollDownIfNeeded(event);
-     },
-     Home: function(event) {
-         blockScrollUpIfNeeded(event);
-     },
-     End: function(event) {
-         blockScrollDownIfNeeded(event);
-     },
-     // disallow modifier keys to trigger search
-     Control: nop,
-     Shift: nop,
-     AltGraph: nop,
-     Meta: nop,
-     ContextMenu: nop,
- };
+     }
+     if (!next) {
+         next = nodes[0];
+     }
 
- let itemKeyupHandlers = {
-     base: nop,
-     // allow "meta" keys to navigate in items
-     PageUp: function(event) {
-         let scrollLeft = document.body.scrollLeft;
-         let scrollTop = document.body.scrollTop;
+     activateOption(next);
+     event.preventDefault();
+ }
 
-         let rect = resultEl.getBoundingClientRect();
-         let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + 1);
-         if (!item) {
-             item = itemsEl.querySelector('.ts-js-item:first-child');
-         } else {
-             if (!item.classList.contains('ts-js-item')) {
-                 item = itemsEl.querySelector('.ts-js-item:first-child');
-             }
-         }
-         if (item) {
-             item.focus();
-         }
-         event.preventDefault();
-     },
-     PageDown: function(event) {
-         let scrollLeft = document.body.scrollLeft;
-         let scrollTop = document.body.scrollTop;
-         let h = resultEl.offsetHeight;
+ function activatePageDown(event) {
+     if (disabled || !popupVisible) {
+         return;
+     }
 
-         let rect = resultEl.getBoundingClientRect();
-         let item = document.elementFromPoint(scrollLeft + rect.x + 10, scrollTop + rect.top + h - 10);
-         if (!item) {
-             item = itemsEl.querySelector('.ts-js-item:last-child');
-         } else {
-             if (!item.classList.contains('ts-js-item')) {
-                 item = itemsEl.querySelector('.ts-js-item:last-child');
-             }
-         }
-         if (item) {
-             item.focus();
-         }
+     let curr = findActiveOption() || findFirstOption();
 
-         event.preventDefault();
-     },
-     Home: function(event) {
-         let item = itemsEl.querySelector('.ts-js-item:first-child');
-         if (item) {
-             item.focus();
+     let newY = curr.offsetTop + resultEl.clientHeight;
+
+     let nodes = optionsEl.querySelectorAll('.ts-js-item');
+
+     let next = null;
+     for (let i = 0; !next && i < nodes.length; i++) {
+         let node = nodes[i];
+         if (node.offsetTop + node.clientHeight >= newY) {
+             next = node;
          }
-         event.preventDefault();
-     },
-     End: function(event) {
-         let item = itemsEl.querySelector('.ts-js-item:last-child');
-         if (item) {
-             item.focus();
-         }
-         event.preventDefault();
-     },
+     }
+     if (!next) {
+         next = nodes[nodes.length - 1];
+     }
+
+     activateOption(next);
+     event.preventDefault();
+ }
+
+ function activateHome(event) {
+     if (disabled || !popupVisible) {
+         return;
+     }
+
+     let nodes = optionsEl.querySelectorAll('.ts-js-item');
+     let next = nodes.length ? nodes[0] : null;
+     activateOption(next);
+     event.preventDefault();
+ }
+
+ function activateEnd(event) {
+     if (disabled || !popupVisible) {
+         return;
+     }
+
+     let nodes = optionsEl.querySelectorAll('.ts-js-item');
+     let next = nodes.length ? nodes[nodes.length - 1] : null;
+     activateOption(next);
+     event.preventDefault();
  }
 
  ////////////////////////////////////////////////////////////
@@ -765,27 +837,24 @@
  }
 
  function handleToggleClick(event) {
+     if (disabled) {
+         return;
+     }
+
      if (event.button === 0 && !hasModifier(event)) {
          if (popupVisible) {
              closePopup(false);
          } else {
-             openPopup();
-             fetchItems();
+             if (openPopup()) {
+                 fetchItems();
+             }
          }
      }
  }
 
- function handleItemKeydown(event) {
-     handleEvent(event.key, itemKeydownHandlers, event);
- }
-
- function handleItemKeyup(event) {
-     handleEvent(event.key, itemKeyupHandlers, event);
- }
-
  function handleItemClick(event) {
      if (event.button === 0 && !hasModifier(event)) {
-         selectItem(event.target)
+         selectOption(event.target)
      }
  }
 
@@ -827,6 +896,8 @@
            aria-haspopup=listbox
            aria-controls="{containerId}_items"
 
+           aria-activedescendant="{activeId || null}"
+
            data-target="{real.id}"
            placeholder="{real.placeholder}"
            bind:this={inputEl}
@@ -853,19 +924,17 @@
   <div class="dropdown-menu ts-popup"
        class:show={popupVisible}
 
-       class:ss-popup-fixed={popupFixed}
-       class:ss-popup-top={popupTop && !popupFixed}
-       class:ss-popup-left={popupLeft && !popupFixed}
-       class:ss-popup-fixed-top={popupTop && popupFixed}
-       class:ss-popup-fixed-left={popupLeft && popupFixed}
+       class:ts-popup-fixed={popupFixed}
+       class:ts-popup-top={popupTop && !popupFixed}
+       class:ts-popup-left={popupLeft && !popupFixed}
+       class:ts-popup-fixed-top={popupTop && popupFixed}
+       class:ts-popup-fixed-left={popupLeft && popupFixed}
 
        aria-hidden={!popupVisible}
 
        id="{containerId}_popup"
 
        bind:this={popupEl}
-
-       tabindex="-1"
     >
 
     <div class="ts-result"
@@ -879,18 +948,15 @@
         aria-expanded={popupVisible}
         aria-hidden=false
 
-        bind:this={itemsEl}
+        bind:this={optionsEl}
         >
         {#each items as item, index}
           {#if item.separator}
-            <li tabindex="-1"
-              class="dropdown-divider ts-js-dead"
-              data-index="{index}"
-              on:keydown={handleItemKeydown}>
+            <li class="dropdown-divider ts-js-dead"
+              data-index="{index}">
             </li>
           {:else if item.disabled || item.placeholder}
-            <li tabindex="-1" class="dropdown-item ts-item-disabled ts-js-dead"
-                 on:keydown={handleItemKeydown}>
+            <li class="dropdown-item ts-item-disabled ts-js-dead">
               <div class="ts-item-text">
                 {item.display_text || item.text}
               </div>
@@ -901,11 +967,12 @@
               {/if}
             </li>
           {:else}
-            <li tabindex=1 class="dropdown-item ts-item ts-js-item"  data-index="{index}"
-               on:blur={handleBlur}
+            <li class="dropdown-item ts-item ts-js-item"
+               data-index="{index}"
+               id="{containerId}_item_{index}"
+
                on:click={handleItemClick}
-               on:keydown={handleItemKeydown}
-               on:keyup={handleItemKeyup}>
+            >
 
               <div class="ts-item-text">
                 {item.display_text || item.text}
@@ -922,15 +989,15 @@
     </div>
 
     {#if fetchError}
-      <div tabindex="-1" class="dropdown-item text-danger ts-message-item">
+      <div class="dropdown-item text-danger ts-message-item">
         {fetchError}
       </div>
     {:else if activeFetch && !fetchingMore}
-      <div tabindex="-1" class="dropdown-item ts-item-muted ts-message-item">
+      <div class="dropdown-item ts-item-muted ts-message-item">
         {translate('fetching')}
       </div>
     {:else if actualCount === 0}
-      <div tabindex="-1" class="dropdown-item ts-item-muted ts-message-item">
+      <div class="dropdown-item ts-item-muted ts-message-item">
         {#if tooShort }
           {translate('too_short')}
         {:else}
