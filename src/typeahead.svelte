@@ -818,8 +818,7 @@
            autocapitalize=off
            spellcheck=off
 
-           type=search
-           role=searchbox
+           role=combobox
 
            aria-labelledby={labelId}
            aria-label={labelText}
