@@ -851,7 +851,7 @@
      }
  }
 
- function handleItemClick(event) {
+ function handleOptionClick(event) {
      if (event.button === 0 && !hasModifier(event)) {
          selectOption(event.target)
      }
@@ -970,7 +970,7 @@
                data-index="{index}"
                id="{containerId}_item_{index}"
 
-               on:click={handleItemClick}
+               on:click={handleOptionClick}
             >
 
               <div class="ts-item-text">

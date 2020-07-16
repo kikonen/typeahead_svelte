@@ -577,7 +577,7 @@ var Typeahead = (function () {
 
         if (!mounted) {
           dispose = listen(li, "click",
-          /*handleItemClick*/
+          /*handleOptionClick*/
           ctx[32]);
           mounted = true;
         }
@@ -1240,7 +1240,7 @@ var Typeahead = (function () {
         if (dirty[0] &
         /*items, containerId*/
         34816 | dirty[1] &
-        /*handleItemClick*/
+        /*handleOptionClick*/
         2) {
           each_value =
           /*items*/
@@ -2229,7 +2229,7 @@ var Typeahead = (function () {
       }
     }
 
-    function handleItemClick(event) {
+    function handleOptionClick(event) {
       if (event.button === 0 && !hasModifier(event)) {
         selectOption(event.target);
       }
@@ -2322,7 +2322,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, optionsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, activeId, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleItemClick, handleResultScroll, handleWindowScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
+    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, optionsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, activeId, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleOptionClick, handleResultScroll, handleWindowScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {

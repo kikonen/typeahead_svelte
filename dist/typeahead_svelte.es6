@@ -376,7 +376,7 @@ function create_else_block_1(ctx) {
 			append(li, t2);
 
 			if (!mounted) {
-				dispose = listen(li, "click", /*handleItemClick*/ ctx[32]);
+				dispose = listen(li, "click", /*handleOptionClick*/ ctx[32]);
 				mounted = true;
 			}
 		},
@@ -871,7 +871,7 @@ function create_fragment(ctx) {
 				if_block0 = null;
 			}
 
-			if (dirty[0] & /*items, containerId*/ 34816 | dirty[1] & /*handleItemClick*/ 2) {
+			if (dirty[0] & /*items, containerId*/ 34816 | dirty[1] & /*handleOptionClick*/ 2) {
 				each_value = /*items*/ ctx[15];
 				let i;
 
@@ -1793,7 +1793,7 @@ function instance($$self, $$props, $$invalidate) {
 		}
 	}
 
-	function handleItemClick(event) {
+	function handleOptionClick(event) {
 		if (event.button === 0 && !hasModifier(event)) {
 			selectOption(event.target);
 		}
@@ -1915,7 +1915,7 @@ function instance($$self, $$props, $$invalidate) {
 		handleInputKeyup,
 		handleToggleKeydown,
 		handleToggleClick,
-		handleItemClick,
+		handleOptionClick,
 		handleResultScroll,
 		handleWindowScroll,
 		queryMinLen,
