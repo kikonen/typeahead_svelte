@@ -641,8 +641,8 @@
          focusInput();
      },
      Enter: inputKeydownHandlers.Enter,
+     ArrowUp: inputKeydownHandlers.ArrowUp,
      ArrowDown: inputKeydownHandlers.ArrowDown,
-     ArrowUp: inputKeydownHandlers.ArrowDown,
      PageUp: inputKeydownHandlers.PageUp,
      PageDown: inputKeydownHandlers.PageDown,
      Home: inputKeydownHandlers.Home,
@@ -696,13 +696,11 @@
      let el = findActiveOption();
      let next = el && el.previousElementSibling;
 
-     if (next) {
-         while (next && next.classList.contains('ts-js-dead')) {
-             next = next.previousElementSibling;
-         }
-         if (next && !next.classList.contains('ts-js-item')) {
-             next = null;
-         }
+     while (next && next.classList.contains('ts-js-dead')) {
+         next = next.previousElementSibling;
+     }
+     if (next && !next.classList.contains('ts-js-item')) {
+         next = null;
      }
 
      activateOption(next, el);
@@ -717,15 +715,15 @@
      let el = findActiveOption();
      let next = el ? el.nextElementSibling : findFirstOption();
 
-     if (next) {
-         while (next && next.classList.contains('ts-js-dead')) {
-             next = next.nextElementSibling;
-         }
-
-         if (next && !next.classList.contains('ts-js-item')) {
-             next = null;
-         }
+     while (next && next.classList.contains('ts-js-dead')) {
+         next = next.nextElementSibling;
      }
+
+     if (next && !next.classList.contains('ts-js-item')) {
+         next = null;
+     }
+
+     next = next || findLastOption();
 
      activateOption(next, el);
      event.preventDefault();
@@ -773,6 +771,7 @@
              next = node;
          }
      }
+
      if (!next) {
          next = nodes[nodes.length - 1];
      }

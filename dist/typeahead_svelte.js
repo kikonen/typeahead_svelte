@@ -467,7 +467,7 @@ var Typeahead = (function () {
     child_ctx[92] = list[i];
     child_ctx[94] = i;
     return child_ctx;
-  } // (910:4) {#if showToggle}
+  } // (909:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -527,7 +527,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (969:10) {:else}
+  } // (968:10) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -623,7 +623,7 @@ var Typeahead = (function () {
         dispose();
       }
     };
-  } // (958:54) 
+  } // (957:54) 
 
 
   function create_if_block_5(ctx) {
@@ -688,7 +688,7 @@ var Typeahead = (function () {
         if (if_block) if_block.d();
       }
     };
-  } // (954:10) {#if item.separator}
+  } // (953:10) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -710,7 +710,7 @@ var Typeahead = (function () {
         if (detaching) detach(li);
       }
     };
-  } // (980:14) {#if item.desc}
+  } // (979:14) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
@@ -740,7 +740,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (963:14) {#if item.desc}
+  } // (962:14) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
@@ -770,7 +770,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (953:8) {#each items as item, index}
+  } // (952:8) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -817,7 +817,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (999:32) 
+  } // (998:32) 
 
 
   function create_if_block_2(ctx) {
@@ -860,7 +860,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (995:43) 
+  } // (994:43) 
 
 
   function create_if_block_1(ctx) {
@@ -881,7 +881,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (991:4) {#if fetchError}
+  } // (990:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -910,7 +910,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (1003:8) {:else}
+  } // (1002:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -930,7 +930,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (1001:8) {#if tooShort }
+  } // (1000:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1886,6 +1886,11 @@ var Typeahead = (function () {
       return children[0];
     }
 
+    function findLastOption() {
+      var children = optionsEl.children;
+      return children[children.length - 1];
+    }
+
     function updatePopupPosition() {
       if (!popupVisible) {
         return;
@@ -2021,8 +2026,8 @@ var Typeahead = (function () {
         focusInput();
       },
       Enter: inputKeydownHandlers.Enter,
+      ArrowUp: inputKeydownHandlers.ArrowUp,
       ArrowDown: inputKeydownHandlers.ArrowDown,
-      ArrowUp: inputKeydownHandlers.ArrowDown,
       PageUp: inputKeydownHandlers.PageUp,
       PageDown: inputKeydownHandlers.PageDown,
       Home: inputKeydownHandlers.Home,
@@ -2075,14 +2080,12 @@ var Typeahead = (function () {
       var el = findActiveOption();
       var next = el && el.previousElementSibling;
 
-      if (next) {
-        while (next && next.classList.contains("ts-js-dead")) {
-          next = next.previousElementSibling;
-        }
+      while (next && next.classList.contains("ts-js-dead")) {
+        next = next.previousElementSibling;
+      }
 
-        if (next && !next.classList.contains("ts-js-item")) {
-          next = null;
-        }
+      if (next && !next.classList.contains("ts-js-item")) {
+        next = null;
       }
 
       activateOption(next, el);
@@ -2097,16 +2100,15 @@ var Typeahead = (function () {
       var el = findActiveOption();
       var next = el ? el.nextElementSibling : findFirstOption();
 
-      if (next) {
-        while (next && next.classList.contains("ts-js-dead")) {
-          next = next.nextElementSibling;
-        }
-
-        if (next && !next.classList.contains("ts-js-item")) {
-          next = null;
-        }
+      while (next && next.classList.contains("ts-js-dead")) {
+        next = next.nextElementSibling;
       }
 
+      if (next && !next.classList.contains("ts-js-item")) {
+        next = null;
+      }
+
+      next = next || findLastOption();
       activateOption(next, el);
       event.preventDefault();
     }

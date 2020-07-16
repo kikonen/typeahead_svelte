@@ -286,7 +286,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (910:4) {#if showToggle}
+// (909:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -340,7 +340,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (969:10) {:else}
+// (968:10) {:else}
 function create_else_block_1(ctx) {
 	let li;
 	let div;
@@ -409,7 +409,7 @@ function create_else_block_1(ctx) {
 	};
 }
 
-// (958:54) 
+// (957:54) 
 function create_if_block_5(ctx) {
 	let li;
 	let div;
@@ -461,7 +461,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (954:10) {#if item.separator}
+// (953:10) {#if item.separator}
 function create_if_block_4(ctx) {
 	let li;
 	let li_data_index_value;
@@ -482,7 +482,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (980:14) {#if item.desc}
+// (979:14) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[92].desc + "";
@@ -507,7 +507,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (963:14) {#if item.desc}
+// (962:14) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[92].desc + "";
@@ -532,7 +532,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (953:8) {#each items as item, index}
+// (952:8) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -574,7 +574,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (999:32) 
+// (998:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -616,7 +616,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (995:43) 
+// (994:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -636,7 +636,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (991:4) {#if fetchError}
+// (990:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -660,7 +660,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (1003:8) {:else}
+// (1002:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[25]("no_results") + "";
 	let t;
@@ -679,7 +679,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (1001:8) {#if tooShort }
+// (1000:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[25]("too_short") + "";
 	let t;
@@ -1446,6 +1446,11 @@ function instance($$self, $$props, $$invalidate) {
 		return children[0];
 	}
 
+	function findLastOption() {
+		let children = optionsEl.children;
+		return children[children.length - 1];
+	}
+
 	function updatePopupPosition() {
 		if (!popupVisible) {
 			return;
@@ -1585,8 +1590,8 @@ function instance($$self, $$props, $$invalidate) {
 			focusInput();
 		},
 		Enter: inputKeydownHandlers.Enter,
+		ArrowUp: inputKeydownHandlers.ArrowUp,
 		ArrowDown: inputKeydownHandlers.ArrowDown,
-		ArrowUp: inputKeydownHandlers.ArrowDown,
 		PageUp: inputKeydownHandlers.PageUp,
 		PageDown: inputKeydownHandlers.PageDown,
 		Home: inputKeydownHandlers.Home,
@@ -1639,14 +1644,12 @@ function instance($$self, $$props, $$invalidate) {
 		let el = findActiveOption();
 		let next = el && el.previousElementSibling;
 
-		if (next) {
-			while (next && next.classList.contains("ts-js-dead")) {
-				next = next.previousElementSibling;
-			}
+		while (next && next.classList.contains("ts-js-dead")) {
+			next = next.previousElementSibling;
+		}
 
-			if (next && !next.classList.contains("ts-js-item")) {
-				next = null;
-			}
+		if (next && !next.classList.contains("ts-js-item")) {
+			next = null;
 		}
 
 		activateOption(next, el);
@@ -1661,16 +1664,15 @@ function instance($$self, $$props, $$invalidate) {
 		let el = findActiveOption();
 		let next = el ? el.nextElementSibling : findFirstOption();
 
-		if (next) {
-			while (next && next.classList.contains("ts-js-dead")) {
-				next = next.nextElementSibling;
-			}
-
-			if (next && !next.classList.contains("ts-js-item")) {
-				next = null;
-			}
+		while (next && next.classList.contains("ts-js-dead")) {
+			next = next.nextElementSibling;
 		}
 
+		if (next && !next.classList.contains("ts-js-item")) {
+			next = null;
+		}
+
+		next = next || findLastOption();
 		activateOption(next, el);
 		event.preventDefault();
 	}
