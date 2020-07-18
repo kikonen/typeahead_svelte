@@ -286,7 +286,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (909:4) {#if showToggle}
+// (916:4) {#if showToggle}
 function create_if_block_8(ctx) {
 	let div;
 	let button;
@@ -340,7 +340,7 @@ function create_if_block_8(ctx) {
 	};
 }
 
-// (968:10) {:else}
+// (975:10) {:else}
 function create_else_block_1(ctx) {
 	let li;
 	let div;
@@ -376,7 +376,11 @@ function create_else_block_1(ctx) {
 			append(li, t2);
 
 			if (!mounted) {
-				dispose = listen(li, "click", /*handleOptionClick*/ ctx[32]);
+				dispose = [
+					listen(li, "mousedown", handleOptionMouseDown),
+					listen(li, "click", /*handleOptionClick*/ ctx[32])
+				];
+
 				mounted = true;
 			}
 		},
@@ -404,12 +408,12 @@ function create_else_block_1(ctx) {
 			if (detaching) detach(li);
 			if (if_block) if_block.d();
 			mounted = false;
-			dispose();
+			run_all(dispose);
 		}
 	};
 }
 
-// (957:54) 
+// (964:54) 
 function create_if_block_5(ctx) {
 	let li;
 	let div;
@@ -461,7 +465,7 @@ function create_if_block_5(ctx) {
 	};
 }
 
-// (953:10) {#if item.separator}
+// (960:10) {#if item.separator}
 function create_if_block_4(ctx) {
 	let li;
 	let li_data_index_value;
@@ -482,7 +486,7 @@ function create_if_block_4(ctx) {
 	};
 }
 
-// (979:14) {#if item.desc}
+// (986:14) {#if item.desc}
 function create_if_block_7(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[92].desc + "";
@@ -507,7 +511,7 @@ function create_if_block_7(ctx) {
 	};
 }
 
-// (962:14) {#if item.desc}
+// (969:14) {#if item.desc}
 function create_if_block_6(ctx) {
 	let div;
 	let t_value = /*item*/ ctx[92].desc + "";
@@ -532,7 +536,7 @@ function create_if_block_6(ctx) {
 	};
 }
 
-// (952:8) {#each items as item, index}
+// (959:8) {#each items as item, index}
 function create_each_block(ctx) {
 	let if_block_anchor;
 
@@ -574,7 +578,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (998:32) 
+// (1005:32) 
 function create_if_block_2(ctx) {
 	let div;
 
@@ -616,7 +620,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (994:43) 
+// (1001:43) 
 function create_if_block_1(ctx) {
 	let div;
 
@@ -636,7 +640,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (990:4) {#if fetchError}
+// (997:4) {#if fetchError}
 function create_if_block(ctx) {
 	let div;
 	let t;
@@ -660,7 +664,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (1002:8) {:else}
+// (1009:8) {:else}
 function create_else_block(ctx) {
 	let t_value = /*translate*/ ctx[25]("no_results") + "";
 	let t;
@@ -679,7 +683,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (1000:8) {#if tooShort }
+// (1007:8) {#if tooShort }
 function create_if_block_3(ctx) {
 	let t_value = /*translate*/ ctx[25]("too_short") + "";
 	let t;
@@ -1058,6 +1062,13 @@ function isMetaKey(event) {
 //
 function handleEvent(code, handlers, event) {
 	(handlers[code] || handlers.base)(event);
+}
+
+/**
+ * NOTE KI blocks undesired blur in option select
+ */
+function handleOptionMouseDown(event) {
+	event.preventDefault();
 }
 
 function instance($$self, $$props, $$invalidate) {

@@ -851,6 +851,13 @@
      }
  }
 
+ /**
+  * NOTE KI blocks undesired blur in option select
+  */
+ function handleOptionMouseDown(event) {
+     event.preventDefault();
+ }
+
  function handleOptionClick(event) {
      if (event.button === 0 && !hasModifier(event)) {
          selectOption(event.target)
@@ -970,8 +977,8 @@
                data-index="{index}"
                id="{containerId}_item_{index}"
 
-               on:click={handleOptionClick}
-            >
+               on:mousedown={handleOptionMouseDown}
+               on:click={handleOptionClick}>
 
               <div class="ts-item-text">
                 {item.display_text || item.text}
