@@ -313,8 +313,6 @@ var Typeahead = (function () {
     }
   }
 
-  var globals = typeof window !== 'undefined' ? window : typeof globalThis !== 'undefined' ? globalThis : global;
-
   function mount_component(component, target, anchor) {
     var _component$$$ = component.$$,
         fragment = _component$$$.fragment,
@@ -460,14 +458,13 @@ var Typeahead = (function () {
   function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
 
   function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-  var window_1 = globals.window;
 
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
-    child_ctx[92] = list[i];
-    child_ctx[94] = i;
+    child_ctx[93] = list[i];
+    child_ctx[95] = i;
     return child_ctx;
-  } // (916:4) {#if showToggle}
+  } // (928:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -504,7 +501,7 @@ var Typeahead = (function () {
         append(button, i);
         /*button_binding*/
 
-        ctx[43](button);
+        ctx[42](button);
 
         if (!mounted) {
           dispose = [listen(button, "blur",
@@ -522,12 +519,12 @@ var Typeahead = (function () {
         if (detaching) detach(div);
         /*button_binding*/
 
-        ctx[43](null);
+        ctx[42](null);
         mounted = false;
         run_all(dispose);
       }
     };
-  } // (975:10) {:else}
+  } // (987:10) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -535,9 +532,9 @@ var Typeahead = (function () {
     var div;
     var t0_value = (
     /*item*/
-    ctx[92].display_text ||
+    ctx[93].display_text ||
     /*item*/
-    ctx[92].text) + "";
+    ctx[93].text) + "";
     var t0;
     var t1;
     var t2;
@@ -547,7 +544,7 @@ var Typeahead = (function () {
     var dispose;
     var if_block =
     /*item*/
-    ctx[92].desc && create_if_block_7(ctx);
+    ctx[93].desc && create_if_block_7(ctx);
     return {
       c: function c() {
         li = element("li");
@@ -560,12 +557,12 @@ var Typeahead = (function () {
         attr(li, "class", "dropdown-item ts-item ts-js-item");
         attr(li, "data-index", li_data_index_value =
         /*index*/
-        ctx[94]);
+        ctx[95]);
         attr(li, "id", li_id_value = "" + (
         /*containerId*/
         ctx[11] + "_item_" +
         /*index*/
-        ctx[94]));
+        ctx[95]));
       },
       m: function m(target, anchor) {
         insert(target, li, anchor);
@@ -587,13 +584,13 @@ var Typeahead = (function () {
         /*items*/
         32768 && t0_value !== (t0_value = (
         /*item*/
-        ctx[92].display_text ||
+        ctx[93].display_text ||
         /*item*/
-        ctx[92].text) + "")) set_data(t0, t0_value);
+        ctx[93].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[92].desc) {
+        ctx[93].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -612,7 +609,7 @@ var Typeahead = (function () {
         /*containerId*/
         ctx[11] + "_item_" +
         /*index*/
-        ctx[94]))) {
+        ctx[95]))) {
           attr(li, "id", li_id_value);
         }
       },
@@ -623,7 +620,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (964:54) 
+  } // (976:54) 
 
 
   function create_if_block_5(ctx) {
@@ -631,15 +628,15 @@ var Typeahead = (function () {
     var div;
     var t0_value = (
     /*item*/
-    ctx[92].display_text ||
+    ctx[93].display_text ||
     /*item*/
-    ctx[92].text) + "";
+    ctx[93].text) + "";
     var t0;
     var t1;
     var t2;
     var if_block =
     /*item*/
-    ctx[92].desc && create_if_block_6(ctx);
+    ctx[93].desc && create_if_block_6(ctx);
     return {
       c: function c() {
         li = element("li");
@@ -664,13 +661,13 @@ var Typeahead = (function () {
         /*items*/
         32768 && t0_value !== (t0_value = (
         /*item*/
-        ctx[92].display_text ||
+        ctx[93].display_text ||
         /*item*/
-        ctx[92].text) + "")) set_data(t0, t0_value);
+        ctx[93].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[92].desc) {
+        ctx[93].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -688,7 +685,7 @@ var Typeahead = (function () {
         if (if_block) if_block.d();
       }
     };
-  } // (960:10) {#if item.separator}
+  } // (972:10) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -700,7 +697,7 @@ var Typeahead = (function () {
         attr(li, "class", "dropdown-divider ts-js-dead");
         attr(li, "data-index", li_data_index_value =
         /*index*/
-        ctx[94]);
+        ctx[95]);
       },
       m: function m(target, anchor) {
         insert(target, li, anchor);
@@ -710,14 +707,14 @@ var Typeahead = (function () {
         if (detaching) detach(li);
       }
     };
-  } // (986:14) {#if item.desc}
+  } // (998:14) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[92].desc + "";
+    ctx[93].desc + "";
     var t;
     return {
       c: function c() {
@@ -734,20 +731,20 @@ var Typeahead = (function () {
         /*items*/
         32768 && t_value !== (t_value =
         /*item*/
-        ctx[92].desc + "")) set_data(t, t_value);
+        ctx[93].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (969:14) {#if item.desc}
+  } // (981:14) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[92].desc + "";
+    ctx[93].desc + "";
     var t;
     return {
       c: function c() {
@@ -764,13 +761,13 @@ var Typeahead = (function () {
         /*items*/
         32768 && t_value !== (t_value =
         /*item*/
-        ctx[92].desc + "")) set_data(t, t_value);
+        ctx[93].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (959:8) {#each items as item, index}
+  } // (971:8) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -779,12 +776,12 @@ var Typeahead = (function () {
     function select_block_type(ctx, dirty) {
       if (
       /*item*/
-      ctx[92].separator) return create_if_block_4;
+      ctx[93].separator) return create_if_block_4;
       if (
       /*item*/
-      ctx[92].disabled ||
+      ctx[93].disabled ||
       /*item*/
-      ctx[92].placeholder) return create_if_block_5;
+      ctx[93].placeholder) return create_if_block_5;
       return create_else_block_1;
     }
 
@@ -817,7 +814,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (1005:32) 
+  } // (1017:32) 
 
 
   function create_if_block_2(ctx) {
@@ -860,7 +857,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (1001:43) 
+  } // (1013:43) 
 
 
   function create_if_block_1(ctx) {
@@ -881,7 +878,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (997:4) {#if fetchError}
+  } // (1009:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -910,7 +907,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (1009:8) {:else}
+  } // (1021:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -930,7 +927,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (1007:8) {#if tooShort }
+  } // (1019:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1106,7 +1103,7 @@ var Typeahead = (function () {
         append(div0, input);
         /*input_binding*/
 
-        ctx[41](input);
+        ctx[40](input);
         set_input_value(input,
         /*query*/
         ctx[1]);
@@ -1123,25 +1120,23 @@ var Typeahead = (function () {
         /*ul_binding*/
 
 
-        ctx[44](ul);
+        ctx[43](ul);
         /*div1_binding*/
 
-        ctx[45](div1);
+        ctx[44](div1);
         append(div2, t2);
         if (if_block1) if_block1.m(div2, null);
         /*div2_binding*/
 
-        ctx[46](div2);
+        ctx[45](div2);
         /*div3_binding*/
 
-        ctx[47](div3);
+        ctx[46](div3);
 
         if (!mounted) {
-          dispose = [listen(window_1, "scroll",
-          /*handleWindowScroll*/
-          ctx[34]), listen(input, "input",
+          dispose = [listen(input, "input",
           /*input_input_handler*/
-          ctx[42]), listen(input, "blur",
+          ctx[41]), listen(input, "blur",
           /*handleBlur*/
           ctx[26]), listen(input, "keypress",
           /*handleInputKeypress*/
@@ -1399,15 +1394,15 @@ var Typeahead = (function () {
         if (detaching) detach(div3);
         /*input_binding*/
 
-        ctx[41](null);
+        ctx[40](null);
         if (if_block0) if_block0.d();
         destroy_each(each_blocks, detaching);
         /*ul_binding*/
 
-        ctx[44](null);
+        ctx[43](null);
         /*div1_binding*/
 
-        ctx[45](null);
+        ctx[44](null);
 
         if (if_block1) {
           if_block1.d();
@@ -1415,10 +1410,10 @@ var Typeahead = (function () {
         /*div2_binding*/
 
 
-        ctx[46](null);
+        ctx[45](null);
         /*div3_binding*/
 
-        ctx[47](null);
+        ctx[46](null);
         mounted = false;
         run_all(dispose);
       }
@@ -1538,6 +1533,7 @@ var Typeahead = (function () {
     var labelText = null;
     var mutationObserver = new MutationObserver(handleMutation);
     var resizeObserver = null;
+    var windowScrollListener = null;
     var setupDone = false;
     var items = [];
     var offsetCount = 0;
@@ -1714,14 +1710,6 @@ var Typeahead = (function () {
       }
     }
 
-    function closePopup(focus) {
-      $$invalidate(21, popupVisible = false);
-
-      if (focus) {
-        focusInput();
-      }
-    }
-
     function openPopup() {
       if (popupVisible) {
         return false;
@@ -1731,7 +1719,26 @@ var Typeahead = (function () {
       var w = containerEl.offsetWidth;
       $$invalidate(8, popupEl.style.minWidth = w + "px", popupEl);
       updatePopupPosition();
+
+      if (!windowScrollListener) {
+        windowScrollListener = handleWindowScroll;
+        window.addEventListener("scroll", windowScrollListener);
+      }
+
       return true;
+    }
+
+    function closePopup(focus) {
+      $$invalidate(21, popupVisible = false);
+
+      if (windowScrollListener) {
+        window.removeEventListener("scroll", windowScrollListener);
+        windowScrollListener = null;
+      }
+
+      if (focus) {
+        focusInput();
+      }
     }
 
     function selectOption(el) {
@@ -1835,13 +1842,13 @@ var Typeahead = (function () {
       $$invalidate(12, containerName = real.name ? "ts_container_".concat(real.name) : null);
       mutationObserver.observe(real, MUTATIONS);
       bindLabel();
-      $$invalidate(35, queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
+      $$invalidate(34, queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
       $$invalidate(1, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
-      $$invalidate(36, delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay);
+      $$invalidate(35, delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay);
       $$invalidate(3, showToggle = ds.tsShowToggle !== undefined ? true : showToggle);
-      $$invalidate(38, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
+      $$invalidate(37, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
       $$invalidate(4, popupFixed = ds.tsPopupFixed !== undefined ? true : popupFixed);
-      $$invalidate(37, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
+      $$invalidate(36, translations = Object.assign({}, I18N_DEFAULTS, translations || {}));
       $$invalidate(2, styles = Object.assign({}, STYLE_DEFAULTS, styles || {}));
     }
 
@@ -2300,15 +2307,15 @@ var Typeahead = (function () {
 
     $$self.$set = function ($$props) {
       if ("real" in $$props) $$invalidate(0, real = $$props.real);
-      if ("debugMode" in $$props) $$invalidate(39, debugMode = $$props.debugMode);
-      if ("fetcher" in $$props) $$invalidate(40, fetcher = $$props.fetcher);
-      if ("queryMinLen" in $$props) $$invalidate(35, queryMinLen = $$props.queryMinLen);
+      if ("debugMode" in $$props) $$invalidate(38, debugMode = $$props.debugMode);
+      if ("fetcher" in $$props) $$invalidate(39, fetcher = $$props.fetcher);
+      if ("queryMinLen" in $$props) $$invalidate(34, queryMinLen = $$props.queryMinLen);
       if ("query" in $$props) $$invalidate(1, query = $$props.query);
-      if ("delay" in $$props) $$invalidate(36, delay = $$props.delay);
-      if ("translations" in $$props) $$invalidate(37, translations = $$props.translations);
+      if ("delay" in $$props) $$invalidate(35, delay = $$props.delay);
+      if ("translations" in $$props) $$invalidate(36, translations = $$props.translations);
       if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
       if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
-      if ("passEnter" in $$props) $$invalidate(38, passEnter = $$props.passEnter);
+      if ("passEnter" in $$props) $$invalidate(37, passEnter = $$props.passEnter);
       if ("popupFixed" in $$props) $$invalidate(4, popupFixed = $$props.popupFixed);
     };
 
@@ -2330,7 +2337,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, optionsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, activeId, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleOptionClick, handleResultScroll, handleWindowScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
+    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, optionsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, activeId, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleOptionClick, handleResultScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
@@ -2346,15 +2353,15 @@ var Typeahead = (function () {
       _this = _super.call(this);
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
         real: 0,
-        debugMode: 39,
-        fetcher: 40,
-        queryMinLen: 35,
+        debugMode: 38,
+        fetcher: 39,
+        queryMinLen: 34,
         query: 1,
-        delay: 36,
-        translations: 37,
+        delay: 35,
+        translations: 36,
         styles: 2,
         showToggle: 3,
-        passEnter: 38,
+        passEnter: 37,
         popupFixed: 4
       }, [-1, -1, -1, -1]);
       return _this;

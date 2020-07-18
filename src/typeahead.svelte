@@ -107,6 +107,7 @@
  const mutationObserver = new MutationObserver(handleMutation);
 
  let resizeObserver = null;
+ let windowScrollListener = null;
 
  let setupDone = false;
 
@@ -315,13 +316,6 @@
      }
  }
 
- function closePopup(focus) {
-     popupVisible = false;
-     if (focus) {
-         focusInput();
-     }
- }
-
  function openPopup() {
      if (popupVisible) {
          return false;
@@ -332,7 +326,26 @@
      popupEl.style.minWidth = w + "px";
 
      updatePopupPosition();
+
+     if (!windowScrollListener) {
+         windowScrollListener = handleWindowScroll;
+         window.addEventListener('scroll', windowScrollListener);
+     }
+
      return true;
+ }
+
+ function closePopup(focus) {
+     popupVisible = false;
+
+     if (windowScrollListener) {
+         window.removeEventListener('scroll', windowScrollListener);
+         windowScrollListener = null;
+     }
+
+     if (focus) {
+         focusInput();
+     }
  }
 
  function selectOption(el) {
@@ -880,7 +893,6 @@
 
 <!-- ------------------------------------------------------------ -->
 <!-- ------------------------------------------------------------ -->
-<svelte:window on:scroll={handleWindowScroll}/>
 <div class="form-control ts-container {styles.container_class}"
      id={containerId}
      name={containerName}
