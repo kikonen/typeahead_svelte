@@ -683,6 +683,7 @@
      },
      Tab: function(event) {
          focusInput();
+         event.preventDefault();
      },
  };
 
