@@ -734,6 +734,12 @@
      }
 
      activateOption(next, el);
+
+     // NOTE KI in *UP* case, focus needs to be moved into input, to avoid enforced selection
+     if (!next) {
+       focusInput();
+     }
+
      event.preventDefault();
  }
 
