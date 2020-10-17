@@ -162,6 +162,14 @@
      }
  }
 
+ function hasInputSelection() {
+     if (disabled) {
+         return;
+     }
+
+   return inputEl.selectionStart !== inputEl.selectionEnd;
+ }
+
  ////////////////////////////////////////////////////////////
  //
  function fetchItems(fetchMore) {
@@ -666,6 +674,9 @@
      base: function(event) {
          if (isMetaKey(event)) {
              return;
+         }
+         if (hasInputSelection()) {
+           inputEl.selectionStart = inputEl.selectionEnd;
          }
          focusInput();
      },
