@@ -13,6 +13,8 @@
      container_class: '',
  };
 
+ const FETCH_INDICATOR_DELAY = 250;
+
  const META_KEYS = {
      // Modifiers
      Control: true,
@@ -123,6 +125,7 @@
 
  let activeId = null;
 
+ let showFetching = false;
  let fetchingMore = false;
  let fetchError = null;
 
@@ -189,6 +192,7 @@
          fetchingMore = false;
      }
      fetchError = null;
+     showFetching = false;
 
      let currentFetchOffset = fetchOffset;
      let currentFetchingMore = fetchingMore;
@@ -247,6 +251,8 @@
              activeFetch = null;
              fetched = true;
              fetchingMore = false;
+             showFetching = false;
+
 //         } else {
 //             console.debug("ABORT fetch: " + currentQuery);
          }
@@ -264,11 +270,19 @@
              activeFetch = null;
              fetched = false;
              fetchingMore = false;
+             showFetching = false;
 
              focusInput();
              openPopup();
          }
      });
+
+     setTimeout(function() {
+         if (activeFetch === currentFetch) {
+             if (DEBUG) console.log("fetching...");
+             showFetching = true;
+         }
+     }, FETCH_INDICATOR_DELAY);
 
      activeFetch = currentFetch;
  }
@@ -304,6 +318,8 @@
          // no result fetched; since it doesn't match input any longer
          fetched = false;
          previousQuery = null;
+
+         showFetching = false;
      }
  }
 
@@ -905,6 +921,8 @@
            autocapitalize=off
            spellcheck=off
 
+           disabled="{disabled ? 'disabled' : null}"
+
            role=combobox
 
            aria-labelledby={labelId}
@@ -927,13 +945,27 @@
 
     {#if showToggle}
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" tabindex="-1"
+        <button class="btn btn-outline-secondary"
+                disabled="{disabled ? 'disabled' : null}"
+                type="button"
+                tabindex="-1"
                 bind:this={toggleEl}
                 on:blur={handleBlur}
                 on:keydown={handleToggleKeydown}
                 on:click={handleToggleClick}>
           <span class="sr-only">{translate('toggle')}</span>
-          <i class="text-dark fas fa-caret-down" aria-hidden=true></i>
+          <div class="ts-caret">
+            {#if showFetching}
+              <svg viewBox="0 0 16 16" class="{disabled ? 'ts-svg-caret-diasbled' : 'ts-svg-caret'}">
+                <polygon points="4,2 12,2 12,10 4,10" />
+              </svg>
+            {:else}
+              <svg viewBox="0 0 16 16" class="{disabled ? 'ts-svg-caret-diasbled' : 'ts-svg-caret'}">
+                <polygon points="2,2 14,2 8,8" />
+              </svg>
+            {/if}
+          </div>
+
         </button>
       </div>
     {/if}

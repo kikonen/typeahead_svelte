@@ -108,3 +108,19 @@ $ts-text-muted: $text-muted !default;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
+
+.ts-caret {
+  color: $ts-caret-color;
+  // NOTE KI "em" match to "container" font-size
+  width: 0.75em;
+  height: auto;
+}
+
+.ts-svg-caret {
+  fill: $ts-caret-color;
+  stroke: $ts-caret-color;
+}
+.ts-svg-caret-diasbled {
+  fill: $ts-text-muted;
+  stroke: $ts-text-muted;
+}
