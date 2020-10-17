@@ -5,7 +5,6 @@ Simple typeahead widget implemented using Svelte
 ## Styling
 
 - Uses bootstrap 4
-- Uses Fontawesome
 
 ## Fetures
 
