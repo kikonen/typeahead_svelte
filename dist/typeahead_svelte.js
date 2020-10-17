@@ -476,10 +476,10 @@ var Typeahead = (function () {
 
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
-    child_ctx[94] = list[i];
-    child_ctx[96] = i;
+    child_ctx[95] = list[i];
+    child_ctx[97] = i;
     return child_ctx;
-  } // (946:4) {#if showToggle}
+  } // (964:4) {#if showToggle}
 
 
   function create_if_block_8(ctx) {
@@ -575,7 +575,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (962:12) {:else}
+  } // (980:12) {:else}
 
 
   function create_else_block_2(ctx) {
@@ -609,7 +609,7 @@ var Typeahead = (function () {
         if (detaching) detach(svg);
       }
     };
-  } // (958:12) {#if showFetching}
+  } // (976:12) {#if showFetching}
 
 
   function create_if_block_9(ctx) {
@@ -643,7 +643,7 @@ var Typeahead = (function () {
         if (detaching) detach(svg);
       }
     };
-  } // (1019:10) {:else}
+  } // (1037:10) {:else}
 
 
   function create_else_block_1(ctx) {
@@ -651,9 +651,9 @@ var Typeahead = (function () {
     var div;
     var t0_value = (
     /*item*/
-    ctx[94].display_text ||
+    ctx[95].display_text ||
     /*item*/
-    ctx[94].text) + "";
+    ctx[95].text) + "";
     var t0;
     var t1;
     var t2;
@@ -663,7 +663,7 @@ var Typeahead = (function () {
     var dispose;
     var if_block =
     /*item*/
-    ctx[94].desc && create_if_block_7(ctx);
+    ctx[95].desc && create_if_block_7(ctx);
     return {
       c: function c() {
         li = element("li");
@@ -676,12 +676,12 @@ var Typeahead = (function () {
         attr(li, "class", "dropdown-item ts-item ts-js-item");
         attr(li, "data-index", li_data_index_value =
         /*index*/
-        ctx[96]);
+        ctx[97]);
         attr(li, "id", li_id_value = "" + (
         /*containerId*/
         ctx[11] + "_item_" +
         /*index*/
-        ctx[96]));
+        ctx[97]));
       },
       m: function m(target, anchor) {
         insert(target, li, anchor);
@@ -703,13 +703,13 @@ var Typeahead = (function () {
         /*items*/
         32768 && t0_value !== (t0_value = (
         /*item*/
-        ctx[94].display_text ||
+        ctx[95].display_text ||
         /*item*/
-        ctx[94].text) + "")) set_data(t0, t0_value);
+        ctx[95].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[94].desc) {
+        ctx[95].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -728,7 +728,7 @@ var Typeahead = (function () {
         /*containerId*/
         ctx[11] + "_item_" +
         /*index*/
-        ctx[96]))) {
+        ctx[97]))) {
           attr(li, "id", li_id_value);
         }
       },
@@ -739,7 +739,7 @@ var Typeahead = (function () {
         run_all(dispose);
       }
     };
-  } // (1008:54) 
+  } // (1026:54) 
 
 
   function create_if_block_5(ctx) {
@@ -747,15 +747,15 @@ var Typeahead = (function () {
     var div;
     var t0_value = (
     /*item*/
-    ctx[94].display_text ||
+    ctx[95].display_text ||
     /*item*/
-    ctx[94].text) + "";
+    ctx[95].text) + "";
     var t0;
     var t1;
     var t2;
     var if_block =
     /*item*/
-    ctx[94].desc && create_if_block_6(ctx);
+    ctx[95].desc && create_if_block_6(ctx);
     return {
       c: function c() {
         li = element("li");
@@ -780,13 +780,13 @@ var Typeahead = (function () {
         /*items*/
         32768 && t0_value !== (t0_value = (
         /*item*/
-        ctx[94].display_text ||
+        ctx[95].display_text ||
         /*item*/
-        ctx[94].text) + "")) set_data(t0, t0_value);
+        ctx[95].text) + "")) set_data(t0, t0_value);
 
         if (
         /*item*/
-        ctx[94].desc) {
+        ctx[95].desc) {
           if (if_block) {
             if_block.p(ctx, dirty);
           } else {
@@ -804,7 +804,7 @@ var Typeahead = (function () {
         if (if_block) if_block.d();
       }
     };
-  } // (1004:10) {#if item.separator}
+  } // (1022:10) {#if item.separator}
 
 
   function create_if_block_4(ctx) {
@@ -816,7 +816,7 @@ var Typeahead = (function () {
         attr(li, "class", "dropdown-divider ts-js-dead");
         attr(li, "data-index", li_data_index_value =
         /*index*/
-        ctx[96]);
+        ctx[97]);
       },
       m: function m(target, anchor) {
         insert(target, li, anchor);
@@ -826,14 +826,14 @@ var Typeahead = (function () {
         if (detaching) detach(li);
       }
     };
-  } // (1030:14) {#if item.desc}
+  } // (1048:14) {#if item.desc}
 
 
   function create_if_block_7(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[94].desc + "";
+    ctx[95].desc + "";
     var t;
     return {
       c: function c() {
@@ -850,20 +850,20 @@ var Typeahead = (function () {
         /*items*/
         32768 && t_value !== (t_value =
         /*item*/
-        ctx[94].desc + "")) set_data(t, t_value);
+        ctx[95].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (1013:14) {#if item.desc}
+  } // (1031:14) {#if item.desc}
 
 
   function create_if_block_6(ctx) {
     var div;
     var t_value =
     /*item*/
-    ctx[94].desc + "";
+    ctx[95].desc + "";
     var t;
     return {
       c: function c() {
@@ -880,13 +880,13 @@ var Typeahead = (function () {
         /*items*/
         32768 && t_value !== (t_value =
         /*item*/
-        ctx[94].desc + "")) set_data(t, t_value);
+        ctx[95].desc + "")) set_data(t, t_value);
       },
       d: function d(detaching) {
         if (detaching) detach(div);
       }
     };
-  } // (1003:8) {#each items as item, index}
+  } // (1021:8) {#each items as item, index}
 
 
   function create_each_block(ctx) {
@@ -895,12 +895,12 @@ var Typeahead = (function () {
     function select_block_type_1(ctx, dirty) {
       if (
       /*item*/
-      ctx[94].separator) return create_if_block_4;
+      ctx[95].separator) return create_if_block_4;
       if (
       /*item*/
-      ctx[94].disabled ||
+      ctx[95].disabled ||
       /*item*/
-      ctx[94].placeholder) return create_if_block_5;
+      ctx[95].placeholder) return create_if_block_5;
       return create_else_block_1;
     }
 
@@ -933,7 +933,7 @@ var Typeahead = (function () {
         if (detaching) detach(if_block_anchor);
       }
     };
-  } // (1049:32) 
+  } // (1067:32) 
 
 
   function create_if_block_2(ctx) {
@@ -976,7 +976,7 @@ var Typeahead = (function () {
         if_block.d();
       }
     };
-  } // (1045:43) 
+  } // (1063:43) 
 
 
   function create_if_block_1(ctx) {
@@ -997,7 +997,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (1041:4) {#if fetchError}
+  } // (1059:4) {#if fetchError}
 
 
   function create_if_block(ctx) {
@@ -1026,7 +1026,7 @@ var Typeahead = (function () {
         if (detaching) detach(div);
       }
     };
-  } // (1053:8) {:else}
+  } // (1071:8) {:else}
 
 
   function create_else_block(ctx) {
@@ -1046,7 +1046,7 @@ var Typeahead = (function () {
         if (detaching) detach(t);
       }
     };
-  } // (1051:8) {#if tooShort }
+  } // (1069:8) {#if tooShort }
 
 
   function create_if_block_3(ctx) {
@@ -1699,6 +1699,14 @@ var Typeahead = (function () {
       if (document.activeElement !== inputEl) {
         inputEl.focus();
       }
+    }
+
+    function hasInputSelection() {
+      if (disabled) {
+        return;
+      }
+
+      return inputEl.selectionStart !== inputEl.selectionEnd;
     } ////////////////////////////////////////////////////////////
     //
 
@@ -2180,6 +2188,10 @@ var Typeahead = (function () {
           return;
         }
 
+        if (hasInputSelection()) {
+          $$invalidate(6, inputEl.selectionStart = inputEl.selectionEnd, inputEl);
+        }
+
         focusInput();
       },
       Enter: inputKeydownHandlers.Enter,
@@ -2196,6 +2208,7 @@ var Typeahead = (function () {
       },
       Tab: function Tab(event) {
         focusInput();
+        event.preventDefault();
       }
     };
 
@@ -2245,7 +2258,12 @@ var Typeahead = (function () {
         next = null;
       }
 
-      activateOption(next, el);
+      activateOption(next, el); // NOTE KI in *UP* case, focus needs to be moved into input, to avoid enforced selection
+
+      if (!next) {
+        focusInput();
+      }
+
       event.preventDefault();
     }
 
