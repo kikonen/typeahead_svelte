@@ -1,6 +1,25 @@
 var Typeahead = (function () {
   'use strict';
 
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
+    return Constructor;
+  }
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -36,28 +55,27 @@ var Typeahead = (function () {
         configurable: true
       }
     });
+    Object.defineProperty(subClass, "prototype", {
+      writable: false
+    });
     if (superClass) _setPrototypeOf(subClass, superClass);
   }
 
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function _typeof(obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function _typeof(obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-
-    return _typeof(obj);
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
   }
 
   function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
       return call;
+    } else if (call !== void 0) {
+      throw new TypeError("Derived constructors may only return object or undefined");
     }
 
     return _assertThisInitialized(self);
@@ -70,7 +88,7 @@ var Typeahead = (function () {
     return _getPrototypeOf(o);
   }
 
-  function _arrayLikeToArray(arr, len) {
+  function _arrayLikeToArray$1(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
 
     for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -81,20 +99,20 @@ var Typeahead = (function () {
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+    if (Array.isArray(arr)) return _arrayLikeToArray$1(arr);
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
   }
 
-  function _unsupportedIterableToArray(o, minLen) {
+  function _unsupportedIterableToArray$1(o, minLen) {
     if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    if (typeof o === "string") return _arrayLikeToArray$1(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen);
   }
 
   function _nonIterableSpread() {
@@ -102,23 +120,7 @@ var Typeahead = (function () {
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-  }
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray$1(arr) || _nonIterableSpread();
   }
 
   function noop() {}
@@ -220,7 +222,7 @@ var Typeahead = (function () {
   }
 
   function get_current_component() {
-    if (!current_component) throw new Error("Function called outside component initialization");
+    if (!current_component) throw new Error('Function called outside component initialization');
     return current_component;
   }
 
@@ -253,25 +255,44 @@ var Typeahead = (function () {
   function add_render_callback(fn) {
     render_callbacks.push(fn);
   }
+  // 1. All beforeUpdate callbacks, in order: parents before children
+  // 2. All bind:this callbacks, in reverse order: children before parents.
+  // 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
+  //    for afterUpdates called during the initial onMount, which are called in
+  //    reverse order: children before parents.
+  // Since callbacks might update component values, which could trigger another
+  // call to flush(), the following steps guard against this:
+  // 1. During beforeUpdate, any updated components will be added to the
+  //    dirty_components array and will cause a reentrant call to flush(). Because
+  //    the flush index is kept outside the function, the reentrant call will pick
+  //    up where the earlier call left off and go through all dirty components. The
+  //    current_component value is saved and restored so that the reentrant call will
+  //    not interfere with the "parent" flush() call.
+  // 2. bind:this callbacks cannot trigger new flush() calls.
+  // 3. During afterUpdate, any updated components will NOT have their afterUpdate
+  //    callback called a second time; the seen_callbacks set, outside the flush()
+  //    function, guarantees this behavior.
 
-  var flushing = false;
+
   var seen_callbacks = new Set();
+  var flushidx = 0; // Do *not* move this inside the flush() function
 
   function flush() {
-    if (flushing) return;
-    flushing = true;
+    var saved_component = current_component;
 
     do {
       // first, call beforeUpdate functions
       // and update components
-      for (var i = 0; i < dirty_components.length; i += 1) {
-        var component = dirty_components[i];
+      while (flushidx < dirty_components.length) {
+        var component = dirty_components[flushidx];
+        flushidx++;
         set_current_component(component);
         update(component.$$);
       }
 
       set_current_component(null);
       dirty_components.length = 0;
+      flushidx = 0;
 
       while (binding_callbacks.length) {
         binding_callbacks.pop()();
@@ -280,8 +301,8 @@ var Typeahead = (function () {
       // subsequent updates...
 
 
-      for (var _i = 0; _i < render_callbacks.length; _i += 1) {
-        var callback = render_callbacks[_i];
+      for (var i = 0; i < render_callbacks.length; i += 1) {
+        var callback = render_callbacks[i];
 
         if (!seen_callbacks.has(callback)) {
           // ...so guard against infinite loops
@@ -298,8 +319,8 @@ var Typeahead = (function () {
     }
 
     update_scheduled = false;
-    flushing = false;
     seen_callbacks.clear();
+    set_current_component(saved_component);
   }
 
   function update($$) {
@@ -322,27 +343,31 @@ var Typeahead = (function () {
     }
   }
 
-  function mount_component(component, target, anchor) {
+  function mount_component(component, target, anchor, customElement) {
     var _component$$$ = component.$$,
         fragment = _component$$$.fragment,
         on_mount = _component$$$.on_mount,
         on_destroy = _component$$$.on_destroy,
         after_update = _component$$$.after_update;
-    fragment && fragment.m(target, anchor); // onMount happens before the initial afterUpdate
+    fragment && fragment.m(target, anchor);
 
-    add_render_callback(function () {
-      var new_on_destroy = on_mount.map(run).filter(is_function);
+    if (!customElement) {
+      // onMount happens before the initial afterUpdate
+      add_render_callback(function () {
+        var new_on_destroy = on_mount.map(run).filter(is_function);
 
-      if (on_destroy) {
-        on_destroy.push.apply(on_destroy, _toConsumableArray(new_on_destroy));
-      } else {
-        // Edge case - component was destroyed immediately,
-        // most likely as a result of a binding initialising
-        run_all(new_on_destroy);
-      }
+        if (on_destroy) {
+          on_destroy.push.apply(on_destroy, _toConsumableArray(new_on_destroy));
+        } else {
+          // Edge case - component was destroyed immediately,
+          // most likely as a result of a binding initialising
+          run_all(new_on_destroy);
+        }
 
-      component.$$.on_mount = [];
-    });
+        component.$$.on_mount = [];
+      });
+    }
+
     after_update.forEach(add_render_callback);
   }
 
@@ -369,11 +394,10 @@ var Typeahead = (function () {
     component.$$.dirty[i / 31 | 0] |= 1 << i % 31;
   }
 
-  function init(component, options, instance, create_fragment, not_equal, props) {
-    var dirty = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : [-1];
+  function init(component, options, instance, create_fragment, not_equal, props, append_styles) {
+    var dirty = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : [-1];
     var parent_component = current_component;
     set_current_component(component);
-    var prop_values = options.props || {};
     var $$ = component.$$ = {
       fragment: null,
       ctx: null,
@@ -385,16 +409,19 @@ var Typeahead = (function () {
       // lifecycle
       on_mount: [],
       on_destroy: [],
+      on_disconnect: [],
       before_update: [],
       after_update: [],
-      context: new Map(parent_component ? parent_component.$$.context : []),
+      context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
       // everything else
       callbacks: blank_object(),
       dirty: dirty,
-      skip_bound: false
+      skip_bound: false,
+      root: options.target || parent_component.$$.root
     };
+    append_styles && append_styles($$.root);
     var ready = false;
-    $$.ctx = instance ? instance(component, prop_values, function (i, ret) {
+    $$.ctx = instance ? instance(component, options.props || {}, function (i, ret) {
       var value = (arguments.length <= 2 ? 0 : arguments.length - 2) ? arguments.length <= 2 ? undefined : arguments[2] : ret;
 
       if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
@@ -422,12 +449,16 @@ var Typeahead = (function () {
       }
 
       if (options.intro) transition_in(component.$$.fragment);
-      mount_component(component, options.target, options.anchor);
+      mount_component(component, options.target, options.anchor, options.customElement);
       flush();
     }
 
     set_current_component(parent_component);
   }
+  /**
+   * Base class for Svelte components. Used when dev=false.
+   */
+
 
   var SvelteComponent = /*#__PURE__*/function () {
     function SvelteComponent() {
@@ -466,13 +497,13 @@ var Typeahead = (function () {
 
   function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-  function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+  function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-  function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray$1(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+  function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
-  function _unsupportedIterableToArray$1(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray$1(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen); }
+  function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-  function _arrayLikeToArray$1(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+  function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
@@ -508,7 +539,7 @@ var Typeahead = (function () {
         span = element("span");
         span.textContent = "".concat(
         /*translate*/
-        ctx[27]("toggle"));
+        ctx[27]('toggle'));
         t1 = space();
         div0 = element("div");
         if_block.c();
@@ -517,7 +548,7 @@ var Typeahead = (function () {
         attr(button, "class", "btn btn-outline-secondary");
         button.disabled = button_disabled_value =
         /*disabled*/
-        ctx[26] ? "disabled" : null;
+        ctx[26] ? 'disabled' : null;
         attr(button, "type", "button");
         attr(button, "tabindex", "-1");
         attr(div1, "class", "input-group-append");
@@ -531,7 +562,7 @@ var Typeahead = (function () {
         if_block.m(div0, null);
         /*button_binding*/
 
-        ctx[44](button);
+        ctx[45](button);
 
         if (!mounted) {
           dispose = [listen(button, "blur",
@@ -561,7 +592,7 @@ var Typeahead = (function () {
         /*disabled*/
         67108864 && button_disabled_value !== (button_disabled_value =
         /*disabled*/
-        ctx[26] ? "disabled" : null)) {
+        ctx[26] ? 'disabled' : null)) {
           button.disabled = button_disabled_value;
         }
       },
@@ -570,7 +601,7 @@ var Typeahead = (function () {
         if_block.d();
         /*button_binding*/
 
-        ctx[44](null);
+        ctx[45](null);
         mounted = false;
         run_all(dispose);
       }
@@ -590,7 +621,7 @@ var Typeahead = (function () {
         attr(svg, "viewBox", "0 0 16 16");
         attr(svg, "class", svg_class_value =
         /*disabled*/
-        ctx[26] ? "ts-svg-caret-diasbled" : "ts-svg-caret");
+        ctx[26] ? 'ts-svg-caret-diasbled' : 'ts-svg-caret');
       },
       m: function m(target, anchor) {
         insert(target, svg, anchor);
@@ -601,7 +632,7 @@ var Typeahead = (function () {
         /*disabled*/
         67108864 && svg_class_value !== (svg_class_value =
         /*disabled*/
-        ctx[26] ? "ts-svg-caret-diasbled" : "ts-svg-caret")) {
+        ctx[26] ? 'ts-svg-caret-diasbled' : 'ts-svg-caret')) {
           attr(svg, "class", svg_class_value);
         }
       },
@@ -624,7 +655,7 @@ var Typeahead = (function () {
         attr(svg, "viewBox", "0 0 16 16");
         attr(svg, "class", svg_class_value =
         /*disabled*/
-        ctx[26] ? "ts-svg-caret-diasbled" : "ts-svg-caret");
+        ctx[26] ? 'ts-svg-caret-diasbled' : 'ts-svg-caret');
       },
       m: function m(target, anchor) {
         insert(target, svg, anchor);
@@ -635,7 +666,7 @@ var Typeahead = (function () {
         /*disabled*/
         67108864 && svg_class_value !== (svg_class_value =
         /*disabled*/
-        ctx[26] ? "ts-svg-caret-diasbled" : "ts-svg-caret")) {
+        ctx[26] ? 'ts-svg-caret-diasbled' : 'ts-svg-caret')) {
           attr(svg, "class", svg_class_value);
         }
       },
@@ -657,7 +688,6 @@ var Typeahead = (function () {
     var t0;
     var t1;
     var t2;
-    var li_data_index_value;
     var li_id_value;
     var mounted;
     var dispose;
@@ -674,8 +704,7 @@ var Typeahead = (function () {
         t2 = space();
         attr(div, "class", "ts-item-text");
         attr(li, "class", "dropdown-item ts-item ts-js-item");
-        attr(li, "data-index", li_data_index_value =
-        /*index*/
+        attr(li, "data-index", /*index*/
         ctx[97]);
         attr(li, "id", li_id_value = "" + (
         /*containerId*/
@@ -809,13 +838,11 @@ var Typeahead = (function () {
 
   function create_if_block_4(ctx) {
     var li;
-    var li_data_index_value;
     return {
       c: function c() {
         li = element("li");
         attr(li, "class", "dropdown-divider ts-js-dead");
-        attr(li, "data-index", li_data_index_value =
-        /*index*/
+        attr(li, "data-index", /*index*/
         ctx[97]);
       },
       m: function m(target, anchor) {
@@ -986,7 +1013,7 @@ var Typeahead = (function () {
         div = element("div");
         div.textContent = "".concat(
         /*translate*/
-        ctx[27]("fetching"));
+        ctx[27]('fetching'));
         attr(div, "class", "dropdown-item ts-item-muted ts-message-item");
       },
       m: function m(target, anchor) {
@@ -1032,7 +1059,7 @@ var Typeahead = (function () {
   function create_else_block(ctx) {
     var t_value =
     /*translate*/
-    ctx[27]("no_results") + "";
+    ctx[27]('no_results') + "";
     var t;
     return {
       c: function c() {
@@ -1052,7 +1079,7 @@ var Typeahead = (function () {
   function create_if_block_3(ctx) {
     var t_value =
     /*translate*/
-    ctx[27]("too_short") + "";
+    ctx[27]('too_short') + "";
     var t;
     return {
       c: function c() {
@@ -1142,7 +1169,7 @@ var Typeahead = (function () {
         attr(input, "spellcheck", "off");
         input.disabled = input_disabled_value =
         /*disabled*/
-        ctx[26] ? "disabled" : null;
+        ctx[26] ? 'disabled' : null;
         attr(input, "role", "combobox");
         attr(input, "aria-labelledby",
         /*labelId*/
@@ -1162,10 +1189,10 @@ var Typeahead = (function () {
         ctx[18] || null);
         attr(input, "data-target", input_data_target_value =
         /*real*/
-        ctx[0].id);
+        ctx[1].id);
         attr(input, "placeholder", input_placeholder_value =
         /*real*/
-        ctx[0].placeholder);
+        ctx[1].placeholder);
         attr(div0, "class", "input-group");
         attr(ul, "class", "ts-item-list");
         attr(ul, "id", ul_id_value = "" + (
@@ -1226,10 +1253,10 @@ var Typeahead = (function () {
         append(div0, input);
         /*input_binding*/
 
-        ctx[42](input);
+        ctx[43](input);
         set_input_value(input,
         /*query*/
-        ctx[1]);
+        ctx[0]);
         append(div0, t0);
         if (if_block0) if_block0.m(div0, null);
         append(div3, t1);
@@ -1243,23 +1270,23 @@ var Typeahead = (function () {
         /*ul_binding*/
 
 
-        ctx[45](ul);
+        ctx[46](ul);
         /*div1_binding*/
 
-        ctx[46](div1);
+        ctx[47](div1);
         append(div2, t2);
         if (if_block1) if_block1.m(div2, null);
         /*div2_binding*/
 
-        ctx[47](div2);
+        ctx[48](div2);
         /*div3_binding*/
 
-        ctx[48](div3);
+        ctx[49](div3);
 
         if (!mounted) {
           dispose = [listen(input, "input",
           /*input_input_handler*/
-          ctx[43]), listen(input, "blur",
+          ctx[44]), listen(input, "blur",
           /*handleBlur*/
           ctx[28]), listen(input, "keypress",
           /*handleInputKeypress*/
@@ -1278,7 +1305,7 @@ var Typeahead = (function () {
         /*disabled*/
         67108864 && input_disabled_value !== (input_disabled_value =
         /*disabled*/
-        ctx[26] ? "disabled" : null)) {
+        ctx[26] ? 'disabled' : null)) {
           input.disabled = input_disabled_value;
         }
 
@@ -1324,28 +1351,28 @@ var Typeahead = (function () {
 
         if (dirty[0] &
         /*real*/
-        1 && input_data_target_value !== (input_data_target_value =
+        2 && input_data_target_value !== (input_data_target_value =
         /*real*/
-        ctx[0].id)) {
+        ctx[1].id)) {
           attr(input, "data-target", input_data_target_value);
         }
 
         if (dirty[0] &
         /*real*/
-        1 && input_placeholder_value !== (input_placeholder_value =
+        2 && input_placeholder_value !== (input_placeholder_value =
         /*real*/
-        ctx[0].placeholder)) {
+        ctx[1].placeholder)) {
           attr(input, "placeholder", input_placeholder_value);
         }
 
         if (dirty[0] &
         /*query*/
-        2 && input.value !==
+        1 && input.value !==
         /*query*/
-        ctx[1]) {
+        ctx[0]) {
           set_input_value(input,
           /*query*/
-          ctx[1]);
+          ctx[0]);
         }
 
         if (
@@ -1525,15 +1552,15 @@ var Typeahead = (function () {
         if (detaching) detach(div3);
         /*input_binding*/
 
-        ctx[42](null);
+        ctx[43](null);
         if (if_block0) if_block0.d();
         destroy_each(each_blocks, detaching);
         /*ul_binding*/
 
-        ctx[45](null);
+        ctx[46](null);
         /*div1_binding*/
 
-        ctx[46](null);
+        ctx[47](null);
 
         if (if_block1) {
           if_block1.d();
@@ -1541,24 +1568,24 @@ var Typeahead = (function () {
         /*div2_binding*/
 
 
-        ctx[47](null);
+        ctx[48](null);
         /*div3_binding*/
 
-        ctx[48](null);
+        ctx[49](null);
         mounted = false;
         run_all(dispose);
       }
     };
   }
   var I18N_DEFAULTS = {
-    fetching: "Searching..",
-    no_results: "No results",
-    too_short: "Too short",
-    toggle: "Toggle popup",
-    fetching_more: "Searching more..."
+    fetching: 'Searching..',
+    no_results: 'No results',
+    too_short: 'Too short',
+    toggle: 'Toggle popup',
+    fetching_more: 'Searching more...'
   };
   var STYLE_DEFAULTS = {
-    container_class: ""
+    container_class: ''
   };
   var FETCH_INDICATOR_DELAY = 250;
   var META_KEYS = {
@@ -1852,7 +1879,7 @@ var Typeahead = (function () {
 
     function fetchMoreIfneeded() {
       if (hasMore && !fetchingMore && popupVisible) {
-        var lastItem = optionsEl.querySelector(".ts-item:last-child");
+        var lastItem = optionsEl.querySelector('.ts-item:last-child');
 
         if (resultEl.scrollTop + resultEl.clientHeight >= resultEl.scrollHeight - lastItem.clientHeight * 2 - 2) {
           fetchItems(true);
@@ -1872,7 +1899,7 @@ var Typeahead = (function () {
 
       if (!windowScrollListener) {
         windowScrollListener = handleWindowScroll;
-        window.addEventListener("scroll", windowScrollListener);
+        window.addEventListener('scroll', windowScrollListener);
       }
 
       return true;
@@ -1882,7 +1909,7 @@ var Typeahead = (function () {
       $$invalidate(22, popupVisible = false);
 
       if (windowScrollListener) {
-        window.removeEventListener("scroll", windowScrollListener);
+        window.removeEventListener('scroll', windowScrollListener);
         windowScrollListener = null;
       }
 
@@ -1899,9 +1926,9 @@ var Typeahead = (function () {
       var item = items[el.dataset.index];
 
       if (item) {
-        $$invalidate(56, selectedItem = item);
+        $$invalidate(42, selectedItem = item);
         var changed = item.text !== query;
-        $$invalidate(1, query = item.text);
+        $$invalidate(0, query = item.text);
         previousQuery = query.trim();
 
         if (previousQuery.length > 0) {
@@ -1915,7 +1942,7 @@ var Typeahead = (function () {
         }
 
         syncToReal(query);
-        real.dispatchEvent(new CustomEvent("typeahead-select", {
+        real.dispatchEvent(new CustomEvent('typeahead-select', {
           detail: item
         }));
       } //     } else {
@@ -1943,7 +1970,7 @@ var Typeahead = (function () {
       var realValue = real.value;
 
       if (realValue !== query) {
-        $$invalidate(1, query = realValue);
+        $$invalidate(0, query = realValue);
       }
     }
 
@@ -1952,8 +1979,8 @@ var Typeahead = (function () {
       if (real.value !== query) {
         try {
           isSyncToReal = true;
-          $$invalidate(0, real.value = query, real);
-          real.dispatchEvent(new Event("change"));
+          $$invalidate(1, real.value = query, real);
+          real.dispatchEvent(new Event('change'));
         } finally {
           isSyncToReal = false;
         }
@@ -1961,7 +1988,7 @@ var Typeahead = (function () {
     }
 
     onMount(function () {
-      $$invalidate(1, query = real.value || "");
+      $$invalidate(0, query = real.value || '');
       syncFromRealDisabled();
       Object.keys(eventListeners).forEach(function (ev) {
         real.addEventListener(ev, eventListeners[ev]);
@@ -1983,9 +2010,9 @@ var Typeahead = (function () {
     });
 
     function setupComponent() {
-      real.classList.add("ts-real-hidden");
-      real.setAttribute("tabindex", "-1");
-      real.setAttribute("aria-hidden", "true");
+      real.classList.add('ts-real-hidden');
+      real.setAttribute('tabindex', '-1');
+      real.setAttribute('aria-hidden', 'true');
       var ds = real.dataset;
       var baseId = real.id || nextUID();
       $$invalidate(11, containerId = "ts_container_".concat(baseId));
@@ -1993,7 +2020,7 @@ var Typeahead = (function () {
       mutationObserver.observe(real, MUTATIONS);
       bindLabel();
       $$invalidate(36, queryMinLen = ds.tsQueryMinLen !== undefined ? parseInt(ds.tsQueryMinLen, 10) : queryMinLen);
-      $$invalidate(1, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
+      $$invalidate(0, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
       $$invalidate(37, delay = ds.tsDelay !== undefined ? parseInt(ds.tsDelay, 10) : delay);
       $$invalidate(3, showToggle = ds.tsShowToggle !== undefined ? true : showToggle);
       $$invalidate(39, passEnter = ds.tsPassEnter !== undefined ? true : passEnter);
@@ -2013,7 +2040,7 @@ var Typeahead = (function () {
       }
 
       if (!labelId) {
-        $$invalidate(14, labelText = real.getAttribute("aria-label") || null);
+        $$invalidate(14, labelText = real.getAttribute('aria-label') || null);
       }
     }
 
@@ -2025,8 +2052,8 @@ var Typeahead = (function () {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var mutation = _step.value;
 
-          if (mutation.type === "attributes") {
-            if (mutation.attributeName === "disabled") {
+          if (mutation.type === 'attributes') {
+            if (mutation.attributeName === 'disabled') {
               syncFromRealDisabled();
             }
           }
@@ -2043,7 +2070,7 @@ var Typeahead = (function () {
     }
 
     function findActiveOption() {
-      return optionsEl.querySelector(".ts-item-active");
+      return optionsEl.querySelector('.ts-item-active');
     }
 
     function findFirstOption() {
@@ -2088,7 +2115,7 @@ var Typeahead = (function () {
       change: function change() {
         syncFromReal();
       },
-      "focus": function focus(event) {
+      'focus': function focus(event) {
         focusInput();
       }
     }; ////////////////////////////////////////////////////////////
@@ -2096,7 +2123,7 @@ var Typeahead = (function () {
 
     var inputKeypressHandlers = {
       base: function base(event) {
-        $$invalidate(56, selectedItem = null);
+        $$invalidate(42, selectedItem = null);
       }
     };
     var inputKeydownHandlers = {
@@ -2216,7 +2243,7 @@ var Typeahead = (function () {
       old = old || findActiveOption();
 
       if (old && old !== el) {
-        old.classList.remove("ts-item-active");
+        old.classList.remove('ts-item-active');
       }
 
       $$invalidate(18, activeId = null);
@@ -2225,7 +2252,7 @@ var Typeahead = (function () {
         return;
       }
 
-      el.classList.add("ts-item-active");
+      el.classList.add('ts-item-active');
       $$invalidate(18, activeId = "".concat(containerId, "_item_").concat(el.dataset.index));
       var clientHeight = resultEl.clientHeight;
 
@@ -2250,11 +2277,11 @@ var Typeahead = (function () {
       var el = findActiveOption();
       var next = el && el.previousElementSibling;
 
-      while (next && next.classList.contains("ts-js-dead")) {
+      while (next && next.classList.contains('ts-js-dead')) {
         next = next.previousElementSibling;
       }
 
-      if (next && !next.classList.contains("ts-js-item")) {
+      if (next && !next.classList.contains('ts-js-item')) {
         next = null;
       }
 
@@ -2275,11 +2302,11 @@ var Typeahead = (function () {
       var el = findActiveOption();
       var next = el ? el.nextElementSibling : findFirstOption();
 
-      while (next && next.classList.contains("ts-js-dead")) {
+      while (next && next.classList.contains('ts-js-dead')) {
         next = next.nextElementSibling;
       }
 
-      if (next && !next.classList.contains("ts-js-item")) {
+      if (next && !next.classList.contains('ts-js-item')) {
         next = null;
       }
 
@@ -2294,7 +2321,7 @@ var Typeahead = (function () {
       }
 
       var newY = resultEl.scrollTop - resultEl.clientHeight;
-      var nodes = optionsEl.querySelectorAll(".ts-js-item");
+      var nodes = optionsEl.querySelectorAll('.ts-js-item');
       var next = null;
 
       for (var i = 0; !next && i < nodes.length; i++) {
@@ -2320,7 +2347,7 @@ var Typeahead = (function () {
 
       var curr = findActiveOption() || findFirstOption();
       var newY = curr.offsetTop + resultEl.clientHeight;
-      var nodes = optionsEl.querySelectorAll(".ts-js-item");
+      var nodes = optionsEl.querySelectorAll('.ts-js-item');
       var next = null;
 
       for (var i = 0; !next && i < nodes.length; i++) {
@@ -2344,7 +2371,7 @@ var Typeahead = (function () {
         return;
       }
 
-      var nodes = optionsEl.querySelectorAll(".ts-js-item");
+      var nodes = optionsEl.querySelectorAll('.ts-js-item');
       var next = nodes.length ? nodes[0] : null;
       activateOption(next);
       event.preventDefault();
@@ -2355,7 +2382,7 @@ var Typeahead = (function () {
         return;
       }
 
-      var nodes = optionsEl.querySelectorAll(".ts-js-item");
+      var nodes = optionsEl.querySelectorAll('.ts-js-item');
       var next = nodes.length ? nodes[nodes.length - 1] : null;
       activateOption(next);
       event.preventDefault();
@@ -2419,7 +2446,7 @@ var Typeahead = (function () {
     }
 
     function input_binding($$value) {
-      binding_callbacks[$$value ? "unshift" : "push"](function () {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
         inputEl = $$value;
         $$invalidate(6, inputEl);
       });
@@ -2427,68 +2454,68 @@ var Typeahead = (function () {
 
     function input_input_handler() {
       query = this.value;
-      $$invalidate(1, query);
+      $$invalidate(0, query);
     }
 
     function button_binding($$value) {
-      binding_callbacks[$$value ? "unshift" : "push"](function () {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
         toggleEl = $$value;
         $$invalidate(7, toggleEl);
       });
     }
 
     function ul_binding($$value) {
-      binding_callbacks[$$value ? "unshift" : "push"](function () {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
         optionsEl = $$value;
         $$invalidate(10, optionsEl);
       });
     }
 
     function div1_binding($$value) {
-      binding_callbacks[$$value ? "unshift" : "push"](function () {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
         resultEl = $$value;
         $$invalidate(9, resultEl);
       });
     }
 
     function div2_binding($$value) {
-      binding_callbacks[$$value ? "unshift" : "push"](function () {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
         popupEl = $$value;
         $$invalidate(8, popupEl);
       });
     }
 
     function div3_binding($$value) {
-      binding_callbacks[$$value ? "unshift" : "push"](function () {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
         containerEl = $$value;
         $$invalidate(5, containerEl);
       });
     }
 
     $$self.$$set = function ($$props) {
-      if ("real" in $$props) $$invalidate(0, real = $$props.real);
-      if ("debugMode" in $$props) $$invalidate(40, debugMode = $$props.debugMode);
-      if ("fetcher" in $$props) $$invalidate(41, fetcher = $$props.fetcher);
-      if ("queryMinLen" in $$props) $$invalidate(36, queryMinLen = $$props.queryMinLen);
-      if ("query" in $$props) $$invalidate(1, query = $$props.query);
-      if ("delay" in $$props) $$invalidate(37, delay = $$props.delay);
-      if ("translations" in $$props) $$invalidate(38, translations = $$props.translations);
-      if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
-      if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
-      if ("passEnter" in $$props) $$invalidate(39, passEnter = $$props.passEnter);
-      if ("popupFixed" in $$props) $$invalidate(4, popupFixed = $$props.popupFixed);
+      if ('real' in $$props) $$invalidate(1, real = $$props.real);
+      if ('debugMode' in $$props) $$invalidate(40, debugMode = $$props.debugMode);
+      if ('fetcher' in $$props) $$invalidate(41, fetcher = $$props.fetcher);
+      if ('queryMinLen' in $$props) $$invalidate(36, queryMinLen = $$props.queryMinLen);
+      if ('query' in $$props) $$invalidate(0, query = $$props.query);
+      if ('delay' in $$props) $$invalidate(37, delay = $$props.delay);
+      if ('translations' in $$props) $$invalidate(38, translations = $$props.translations);
+      if ('styles' in $$props) $$invalidate(2, styles = $$props.styles);
+      if ('showToggle' in $$props) $$invalidate(3, showToggle = $$props.showToggle);
+      if ('passEnter' in $$props) $$invalidate(39, passEnter = $$props.passEnter);
+      if ('popupFixed' in $$props) $$invalidate(4, popupFixed = $$props.popupFixed);
     };
 
     $$self.$$.update = function () {
       if ($$self.$$.dirty[0] &
       /*query*/
-      2 | $$self.$$.dirty[1] &
+      1 | $$self.$$.dirty[1] &
       /*selectedItem*/
-      33554432) {
+      2048) {
         ////////////////////////////////////////////////////////////
         // HANDLERS
         //
-         {
+        {
 
           if (syncToReal) {
             syncToReal(query);
@@ -2497,7 +2524,7 @@ var Typeahead = (function () {
       }
     };
 
-    return [real, query, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, optionsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, activeId, showFetching, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, disabled, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleOptionClick, handleResultScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
+    return [query, real, styles, showToggle, popupFixed, containerEl, inputEl, toggleEl, popupEl, resultEl, optionsEl, containerId, containerName, labelId, labelText, items, actualCount, tooShort, activeId, showFetching, fetchingMore, fetchError, popupVisible, popupTop, popupLeft, activeFetch, disabled, translate, handleBlur, handleInputKeypress, handleInputKeydown, handleInputKeyup, handleToggleKeydown, handleToggleClick, handleOptionClick, handleResultScroll, queryMinLen, delay, translations, passEnter, debugMode, fetcher, selectedItem, input_binding, input_input_handler, button_binding, ul_binding, div1_binding, div2_binding, div3_binding];
   }
 
   var Typeahead = /*#__PURE__*/function (_SvelteComponent) {
@@ -2512,24 +2539,24 @@ var Typeahead = (function () {
 
       _this = _super.call(this);
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
-        real: 0,
+        real: 1,
         debugMode: 40,
         fetcher: 41,
         queryMinLen: 36,
-        query: 1,
+        query: 0,
         delay: 37,
         translations: 38,
         styles: 2,
         showToggle: 3,
         passEnter: 39,
         popupFixed: 4
-      }, [-1, -1, -1, -1]);
+      }, null, [-1, -1, -1, -1]);
       return _this;
     }
 
-    return Typeahead;
+    return _createClass(Typeahead);
   }(SvelteComponent);
 
   return Typeahead;
 
-}());
+})();

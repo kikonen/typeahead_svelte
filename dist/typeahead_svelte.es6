@@ -17,7 +17,6 @@ function safe_not_equal(a, b) {
 function is_empty(obj) {
     return Object.keys(obj).length === 0;
 }
-
 function append(target, node) {
     target.appendChild(node);
 }
@@ -79,7 +78,7 @@ function set_current_component(component) {
 }
 function get_current_component() {
     if (!current_component)
-        throw new Error(`Function called outside component initialization`);
+        throw new Error('Function called outside component initialization');
     return current_component;
 }
 function beforeUpdate(fn) {
@@ -107,22 +106,40 @@ function schedule_update() {
 function add_render_callback(fn) {
     render_callbacks.push(fn);
 }
-let flushing = false;
+// flush() calls callbacks in this order:
+// 1. All beforeUpdate callbacks, in order: parents before children
+// 2. All bind:this callbacks, in reverse order: children before parents.
+// 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
+//    for afterUpdates called during the initial onMount, which are called in
+//    reverse order: children before parents.
+// Since callbacks might update component values, which could trigger another
+// call to flush(), the following steps guard against this:
+// 1. During beforeUpdate, any updated components will be added to the
+//    dirty_components array and will cause a reentrant call to flush(). Because
+//    the flush index is kept outside the function, the reentrant call will pick
+//    up where the earlier call left off and go through all dirty components. The
+//    current_component value is saved and restored so that the reentrant call will
+//    not interfere with the "parent" flush() call.
+// 2. bind:this callbacks cannot trigger new flush() calls.
+// 3. During afterUpdate, any updated components will NOT have their afterUpdate
+//    callback called a second time; the seen_callbacks set, outside the flush()
+//    function, guarantees this behavior.
 const seen_callbacks = new Set();
+let flushidx = 0; // Do *not* move this inside the flush() function
 function flush() {
-    if (flushing)
-        return;
-    flushing = true;
+    const saved_component = current_component;
     do {
         // first, call beforeUpdate functions
         // and update components
-        for (let i = 0; i < dirty_components.length; i += 1) {
-            const component = dirty_components[i];
+        while (flushidx < dirty_components.length) {
+            const component = dirty_components[flushidx];
+            flushidx++;
             set_current_component(component);
             update(component.$$);
         }
         set_current_component(null);
         dirty_components.length = 0;
+        flushidx = 0;
         while (binding_callbacks.length)
             binding_callbacks.pop()();
         // then, once components are updated, call
@@ -142,8 +159,8 @@ function flush() {
         flush_callbacks.pop()();
     }
     update_scheduled = false;
-    flushing = false;
     seen_callbacks.clear();
+    set_current_component(saved_component);
 }
 function update($$) {
     if ($$.fragment !== null) {
@@ -162,22 +179,24 @@ function transition_in(block, local) {
         block.i(local);
     }
 }
-function mount_component(component, target, anchor) {
+function mount_component(component, target, anchor, customElement) {
     const { fragment, on_mount, on_destroy, after_update } = component.$$;
     fragment && fragment.m(target, anchor);
-    // onMount happens before the initial afterUpdate
-    add_render_callback(() => {
-        const new_on_destroy = on_mount.map(run).filter(is_function);
-        if (on_destroy) {
-            on_destroy.push(...new_on_destroy);
-        }
-        else {
-            // Edge case - component was destroyed immediately,
-            // most likely as a result of a binding initialising
-            run_all(new_on_destroy);
-        }
-        component.$$.on_mount = [];
-    });
+    if (!customElement) {
+        // onMount happens before the initial afterUpdate
+        add_render_callback(() => {
+            const new_on_destroy = on_mount.map(run).filter(is_function);
+            if (on_destroy) {
+                on_destroy.push(...new_on_destroy);
+            }
+            else {
+                // Edge case - component was destroyed immediately,
+                // most likely as a result of a binding initialising
+                run_all(new_on_destroy);
+            }
+            component.$$.on_mount = [];
+        });
+    }
     after_update.forEach(add_render_callback);
 }
 function destroy_component(component, detaching) {
@@ -199,10 +218,9 @@ function make_dirty(component, i) {
     }
     component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 }
-function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
     const parent_component = current_component;
     set_current_component(component);
-    const prop_values = options.props || {};
     const $$ = component.$$ = {
         fragment: null,
         ctx: null,
@@ -214,17 +232,20 @@ function init(component, options, instance, create_fragment, not_equal, props, d
         // lifecycle
         on_mount: [],
         on_destroy: [],
+        on_disconnect: [],
         before_update: [],
         after_update: [],
-        context: new Map(parent_component ? parent_component.$$.context : []),
+        context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
         // everything else
         callbacks: blank_object(),
         dirty,
-        skip_bound: false
+        skip_bound: false,
+        root: options.target || parent_component.$$.root
     };
+    append_styles && append_styles($$.root);
     let ready = false;
     $$.ctx = instance
-        ? instance(component, prop_values, (i, ret, ...rest) => {
+        ? instance(component, options.props || {}, (i, ret, ...rest) => {
             const value = rest.length ? rest[0] : ret;
             if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
                 if (!$$.skip_bound && $$.bound[i])
@@ -253,11 +274,14 @@ function init(component, options, instance, create_fragment, not_equal, props, d
         }
         if (options.intro)
             transition_in(component.$$.fragment);
-        mount_component(component, options.target, options.anchor);
+        mount_component(component, options.target, options.anchor, options.customElement);
         flush();
     }
     set_current_component(parent_component);
 }
+/**
+ * Base class for Svelte components. Used when dev=false.
+ */
 class SvelteComponent {
     $destroy() {
         destroy_component(this, 1);
@@ -281,7 +305,7 @@ class SvelteComponent {
     }
 }
 
-/* src/typeahead.svelte generated by Svelte v3.29.0 */
+/* src/typeahead.svelte generated by Svelte v3.46.3 */
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
@@ -314,14 +338,14 @@ function create_if_block_8(ctx) {
 			div1 = element("div");
 			button = element("button");
 			span = element("span");
-			span.textContent = `${/*translate*/ ctx[27]("toggle")}`;
+			span.textContent = `${/*translate*/ ctx[27]('toggle')}`;
 			t1 = space();
 			div0 = element("div");
 			if_block.c();
 			attr(span, "class", "sr-only");
 			attr(div0, "class", "ts-caret");
 			attr(button, "class", "btn btn-outline-secondary");
-			button.disabled = button_disabled_value = /*disabled*/ ctx[26] ? "disabled" : null;
+			button.disabled = button_disabled_value = /*disabled*/ ctx[26] ? 'disabled' : null;
 			attr(button, "type", "button");
 			attr(button, "tabindex", "-1");
 			attr(div1, "class", "input-group-append");
@@ -333,7 +357,7 @@ function create_if_block_8(ctx) {
 			append(button, t1);
 			append(button, div0);
 			if_block.m(div0, null);
-			/*button_binding*/ ctx[44](button);
+			/*button_binding*/ ctx[45](button);
 
 			if (!mounted) {
 				dispose = [
@@ -358,14 +382,14 @@ function create_if_block_8(ctx) {
 				}
 			}
 
-			if (dirty[0] & /*disabled*/ 67108864 && button_disabled_value !== (button_disabled_value = /*disabled*/ ctx[26] ? "disabled" : null)) {
+			if (dirty[0] & /*disabled*/ 67108864 && button_disabled_value !== (button_disabled_value = /*disabled*/ ctx[26] ? 'disabled' : null)) {
 				button.disabled = button_disabled_value;
 			}
 		},
 		d(detaching) {
 			if (detaching) detach(div1);
 			if_block.d();
-			/*button_binding*/ ctx[44](null);
+			/*button_binding*/ ctx[45](null);
 			mounted = false;
 			run_all(dispose);
 		}
@@ -386,8 +410,8 @@ function create_else_block_2(ctx) {
 			attr(svg, "viewBox", "0 0 16 16");
 
 			attr(svg, "class", svg_class_value = /*disabled*/ ctx[26]
-			? "ts-svg-caret-diasbled"
-			: "ts-svg-caret");
+			? 'ts-svg-caret-diasbled'
+			: 'ts-svg-caret');
 		},
 		m(target, anchor) {
 			insert(target, svg, anchor);
@@ -395,8 +419,8 @@ function create_else_block_2(ctx) {
 		},
 		p(ctx, dirty) {
 			if (dirty[0] & /*disabled*/ 67108864 && svg_class_value !== (svg_class_value = /*disabled*/ ctx[26]
-			? "ts-svg-caret-diasbled"
-			: "ts-svg-caret")) {
+			? 'ts-svg-caret-diasbled'
+			: 'ts-svg-caret')) {
 				attr(svg, "class", svg_class_value);
 			}
 		},
@@ -420,8 +444,8 @@ function create_if_block_9(ctx) {
 			attr(svg, "viewBox", "0 0 16 16");
 
 			attr(svg, "class", svg_class_value = /*disabled*/ ctx[26]
-			? "ts-svg-caret-diasbled"
-			: "ts-svg-caret");
+			? 'ts-svg-caret-diasbled'
+			: 'ts-svg-caret');
 		},
 		m(target, anchor) {
 			insert(target, svg, anchor);
@@ -429,8 +453,8 @@ function create_if_block_9(ctx) {
 		},
 		p(ctx, dirty) {
 			if (dirty[0] & /*disabled*/ 67108864 && svg_class_value !== (svg_class_value = /*disabled*/ ctx[26]
-			? "ts-svg-caret-diasbled"
-			: "ts-svg-caret")) {
+			? 'ts-svg-caret-diasbled'
+			: 'ts-svg-caret')) {
 				attr(svg, "class", svg_class_value);
 			}
 		},
@@ -448,7 +472,6 @@ function create_else_block_1(ctx) {
 	let t0;
 	let t1;
 	let t2;
-	let li_data_index_value;
 	let li_id_value;
 	let mounted;
 	let dispose;
@@ -464,7 +487,7 @@ function create_else_block_1(ctx) {
 			t2 = space();
 			attr(div, "class", "ts-item-text");
 			attr(li, "class", "dropdown-item ts-item ts-js-item");
-			attr(li, "data-index", li_data_index_value = /*index*/ ctx[97]);
+			attr(li, "data-index", /*index*/ ctx[97]);
 			attr(li, "id", li_id_value = "" + (/*containerId*/ ctx[11] + "_item_" + /*index*/ ctx[97]));
 		},
 		m(target, anchor) {
@@ -568,13 +591,12 @@ function create_if_block_5(ctx) {
 // (1022:10) {#if item.separator}
 function create_if_block_4(ctx) {
 	let li;
-	let li_data_index_value;
 
 	return {
 		c() {
 			li = element("li");
 			attr(li, "class", "dropdown-divider ts-js-dead");
-			attr(li, "data-index", li_data_index_value = /*index*/ ctx[97]);
+			attr(li, "data-index", /*index*/ ctx[97]);
 		},
 		m(target, anchor) {
 			insert(target, li, anchor);
@@ -727,7 +749,7 @@ function create_if_block_1(ctx) {
 	return {
 		c() {
 			div = element("div");
-			div.textContent = `${/*translate*/ ctx[27]("fetching")}`;
+			div.textContent = `${/*translate*/ ctx[27]('fetching')}`;
 			attr(div, "class", "dropdown-item ts-item-muted ts-message-item");
 		},
 		m(target, anchor) {
@@ -766,7 +788,7 @@ function create_if_block(ctx) {
 
 // (1071:8) {:else}
 function create_else_block(ctx) {
-	let t_value = /*translate*/ ctx[27]("no_results") + "";
+	let t_value = /*translate*/ ctx[27]('no_results') + "";
 	let t;
 
 	return {
@@ -785,7 +807,7 @@ function create_else_block(ctx) {
 
 // (1069:8) {#if tooShort }
 function create_if_block_3(ctx) {
-	let t_value = /*translate*/ ctx[27]("too_short") + "";
+	let t_value = /*translate*/ ctx[27]('too_short') + "";
 	let t;
 
 	return {
@@ -863,7 +885,7 @@ function create_fragment(ctx) {
 			attr(input, "autocorrect", "off");
 			attr(input, "autocapitalize", "off");
 			attr(input, "spellcheck", "off");
-			input.disabled = input_disabled_value = /*disabled*/ ctx[26] ? "disabled" : null;
+			input.disabled = input_disabled_value = /*disabled*/ ctx[26] ? 'disabled' : null;
 			attr(input, "role", "combobox");
 			attr(input, "aria-labelledby", /*labelId*/ ctx[13]);
 			attr(input, "aria-label", /*labelText*/ ctx[14]);
@@ -871,8 +893,8 @@ function create_fragment(ctx) {
 			attr(input, "aria-haspopup", "listbox");
 			attr(input, "aria-controls", input_aria_controls_value = "" + (/*containerId*/ ctx[11] + "_items"));
 			attr(input, "aria-activedescendant", input_aria_activedescendant_value = /*activeId*/ ctx[18] || null);
-			attr(input, "data-target", input_data_target_value = /*real*/ ctx[0].id);
-			attr(input, "placeholder", input_placeholder_value = /*real*/ ctx[0].placeholder);
+			attr(input, "data-target", input_data_target_value = /*real*/ ctx[1].id);
+			attr(input, "placeholder", input_placeholder_value = /*real*/ ctx[1].placeholder);
 			attr(div0, "class", "input-group");
 			attr(ul, "class", "ts-item-list");
 			attr(ul, "id", ul_id_value = "" + (/*containerId*/ ctx[11] + "_items"));
@@ -897,8 +919,8 @@ function create_fragment(ctx) {
 			insert(target, div3, anchor);
 			append(div3, div0);
 			append(div0, input);
-			/*input_binding*/ ctx[42](input);
-			set_input_value(input, /*query*/ ctx[1]);
+			/*input_binding*/ ctx[43](input);
+			set_input_value(input, /*query*/ ctx[0]);
 			append(div0, t0);
 			if (if_block0) if_block0.m(div0, null);
 			append(div3, t1);
@@ -910,16 +932,16 @@ function create_fragment(ctx) {
 				each_blocks[i].m(ul, null);
 			}
 
-			/*ul_binding*/ ctx[45](ul);
-			/*div1_binding*/ ctx[46](div1);
+			/*ul_binding*/ ctx[46](ul);
+			/*div1_binding*/ ctx[47](div1);
 			append(div2, t2);
 			if (if_block1) if_block1.m(div2, null);
-			/*div2_binding*/ ctx[47](div2);
-			/*div3_binding*/ ctx[48](div3);
+			/*div2_binding*/ ctx[48](div2);
+			/*div3_binding*/ ctx[49](div3);
 
 			if (!mounted) {
 				dispose = [
-					listen(input, "input", /*input_input_handler*/ ctx[43]),
+					listen(input, "input", /*input_input_handler*/ ctx[44]),
 					listen(input, "blur", /*handleBlur*/ ctx[28]),
 					listen(input, "keypress", /*handleInputKeypress*/ ctx[29]),
 					listen(input, "keydown", /*handleInputKeydown*/ ctx[30]),
@@ -931,7 +953,7 @@ function create_fragment(ctx) {
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*disabled*/ 67108864 && input_disabled_value !== (input_disabled_value = /*disabled*/ ctx[26] ? "disabled" : null)) {
+			if (dirty[0] & /*disabled*/ 67108864 && input_disabled_value !== (input_disabled_value = /*disabled*/ ctx[26] ? 'disabled' : null)) {
 				input.disabled = input_disabled_value;
 			}
 
@@ -955,16 +977,16 @@ function create_fragment(ctx) {
 				attr(input, "aria-activedescendant", input_aria_activedescendant_value);
 			}
 
-			if (dirty[0] & /*real*/ 1 && input_data_target_value !== (input_data_target_value = /*real*/ ctx[0].id)) {
+			if (dirty[0] & /*real*/ 2 && input_data_target_value !== (input_data_target_value = /*real*/ ctx[1].id)) {
 				attr(input, "data-target", input_data_target_value);
 			}
 
-			if (dirty[0] & /*real*/ 1 && input_placeholder_value !== (input_placeholder_value = /*real*/ ctx[0].placeholder)) {
+			if (dirty[0] & /*real*/ 2 && input_placeholder_value !== (input_placeholder_value = /*real*/ ctx[1].placeholder)) {
 				attr(input, "placeholder", input_placeholder_value);
 			}
 
-			if (dirty[0] & /*query*/ 2 && input.value !== /*query*/ ctx[1]) {
-				set_input_value(input, /*query*/ ctx[1]);
+			if (dirty[0] & /*query*/ 1 && input.value !== /*query*/ ctx[0]) {
+				set_input_value(input, /*query*/ ctx[0]);
 			}
 
 			if (/*showToggle*/ ctx[3]) {
@@ -1071,18 +1093,18 @@ function create_fragment(ctx) {
 		o: noop,
 		d(detaching) {
 			if (detaching) detach(div3);
-			/*input_binding*/ ctx[42](null);
+			/*input_binding*/ ctx[43](null);
 			if (if_block0) if_block0.d();
 			destroy_each(each_blocks, detaching);
-			/*ul_binding*/ ctx[45](null);
-			/*div1_binding*/ ctx[46](null);
+			/*ul_binding*/ ctx[46](null);
+			/*div1_binding*/ ctx[47](null);
 
 			if (if_block1) {
 				if_block1.d();
 			}
 
-			/*div2_binding*/ ctx[47](null);
-			/*div3_binding*/ ctx[48](null);
+			/*div2_binding*/ ctx[48](null);
+			/*div3_binding*/ ctx[49](null);
 			mounted = false;
 			run_all(dispose);
 		}
@@ -1090,14 +1112,14 @@ function create_fragment(ctx) {
 }
 
 const I18N_DEFAULTS = {
-	fetching: "Searching..",
-	no_results: "No results",
-	too_short: "Too short",
-	toggle: "Toggle popup",
-	fetching_more: "Searching more..."
+	fetching: 'Searching..',
+	no_results: 'No results',
+	too_short: 'Too short',
+	toggle: 'Toggle popup',
+	fetching_more: 'Searching more...'
 };
 
-const STYLE_DEFAULTS = { container_class: "" };
+const STYLE_DEFAULTS = { container_class: '' };
 const FETCH_INDICATOR_DELAY = 250;
 
 const META_KEYS = {
@@ -1147,14 +1169,10 @@ function nop() {
 	
 }
 
-
-
 function nextUID() {
 	uidBase++;
 	return uidBase;
 }
-
-
 
 function hasModifier(event) {
 	return event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
@@ -1401,7 +1419,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	function fetchMoreIfneeded() {
 		if (hasMore && !fetchingMore && popupVisible) {
-			let lastItem = optionsEl.querySelector(".ts-item:last-child");
+			let lastItem = optionsEl.querySelector('.ts-item:last-child');
 
 			if (resultEl.scrollTop + resultEl.clientHeight >= resultEl.scrollHeight - lastItem.clientHeight * 2 - 2) {
 				fetchItems(true);
@@ -1421,7 +1439,7 @@ function instance($$self, $$props, $$invalidate) {
 
 		if (!windowScrollListener) {
 			windowScrollListener = handleWindowScroll;
-			window.addEventListener("scroll", windowScrollListener);
+			window.addEventListener('scroll', windowScrollListener);
 		}
 
 		return true;
@@ -1431,7 +1449,7 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate(22, popupVisible = false);
 
 		if (windowScrollListener) {
-			window.removeEventListener("scroll", windowScrollListener);
+			window.removeEventListener('scroll', windowScrollListener);
 			windowScrollListener = null;
 		}
 
@@ -1448,9 +1466,9 @@ function instance($$self, $$props, $$invalidate) {
 		let item = items[el.dataset.index];
 
 		if (item) {
-			$$invalidate(56, selectedItem = item);
+			$$invalidate(42, selectedItem = item);
 			let changed = item.text !== query;
-			$$invalidate(1, query = item.text);
+			$$invalidate(0, query = item.text);
 			previousQuery = query.trim();
 
 			if (previousQuery.length > 0) {
@@ -1464,7 +1482,7 @@ function instance($$self, $$props, $$invalidate) {
 			}
 
 			syncToReal(query);
-			real.dispatchEvent(new CustomEvent("typeahead-select", { detail: item }));
+			real.dispatchEvent(new CustomEvent('typeahead-select', { detail: item }));
 		} //     } else {
 		//         console.debug("MISSING item", el);
 	}
@@ -1489,7 +1507,7 @@ function instance($$self, $$props, $$invalidate) {
 		let realValue = real.value;
 
 		if (realValue !== query) {
-			$$invalidate(1, query = realValue);
+			$$invalidate(0, query = realValue);
 		}
 	}
 
@@ -1498,8 +1516,8 @@ function instance($$self, $$props, $$invalidate) {
 		if (real.value !== query) {
 			try {
 				isSyncToReal = true;
-				$$invalidate(0, real.value = query, real);
-				real.dispatchEvent(new Event("change"));
+				$$invalidate(1, real.value = query, real);
+				real.dispatchEvent(new Event('change'));
 			} finally {
 				isSyncToReal = false;
 			}
@@ -1507,7 +1525,7 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	onMount(function () {
-		$$invalidate(1, query = real.value || "");
+		$$invalidate(0, query = real.value || '');
 		syncFromRealDisabled();
 
 		Object.keys(eventListeners).forEach(function (ev) {
@@ -1532,9 +1550,9 @@ function instance($$self, $$props, $$invalidate) {
 	});
 
 	function setupComponent() {
-		real.classList.add("ts-real-hidden");
-		real.setAttribute("tabindex", "-1");
-		real.setAttribute("aria-hidden", "true");
+		real.classList.add('ts-real-hidden');
+		real.setAttribute('tabindex', '-1');
+		real.setAttribute('aria-hidden', 'true');
 		let ds = real.dataset;
 		let baseId = real.id || nextUID();
 		$$invalidate(11, containerId = `ts_container_${baseId}`);
@@ -1546,7 +1564,7 @@ function instance($$self, $$props, $$invalidate) {
 		? parseInt(ds.tsQueryMinLen, 10)
 		: queryMinLen);
 
-		$$invalidate(1, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
+		$$invalidate(0, query = ds.tsQuery !== undefined ? ds.tsQuery : query);
 
 		$$invalidate(37, delay = ds.tsDelay !== undefined
 		? parseInt(ds.tsDelay, 10)
@@ -1570,14 +1588,14 @@ function instance($$self, $$props, $$invalidate) {
 		}
 
 		if (!labelId) {
-			$$invalidate(14, labelText = real.getAttribute("aria-label") || null);
+			$$invalidate(14, labelText = real.getAttribute('aria-label') || null);
 		}
 	}
 
 	function handleMutation(mutationsList, observer) {
 		for (let mutation of mutationsList) {
-			if (mutation.type === "attributes") {
-				if (mutation.attributeName === "disabled") {
+			if (mutation.type === 'attributes') {
+				if (mutation.attributeName === 'disabled') {
 					syncFromRealDisabled();
 				}
 			}
@@ -1589,7 +1607,7 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function findActiveOption() {
-		return optionsEl.querySelector(".ts-item-active");
+		return optionsEl.querySelector('.ts-item-active');
 	}
 
 	function findFirstOption() {
@@ -1634,7 +1652,7 @@ function instance($$self, $$props, $$invalidate) {
 		change() {
 			syncFromReal();
 		},
-		"focus"(event) {
+		'focus'(event) {
 			focusInput();
 		}
 	};
@@ -1643,7 +1661,7 @@ function instance($$self, $$props, $$invalidate) {
 	//
 	let inputKeypressHandlers = {
 		base(event) {
-			$$invalidate(56, selectedItem = null);
+			$$invalidate(42, selectedItem = null);
 		}
 	};
 
@@ -1766,7 +1784,7 @@ function instance($$self, $$props, $$invalidate) {
 		old = old || findActiveOption();
 
 		if (old && old !== el) {
-			old.classList.remove("ts-item-active");
+			old.classList.remove('ts-item-active');
 		}
 
 		$$invalidate(18, activeId = null);
@@ -1775,7 +1793,7 @@ function instance($$self, $$props, $$invalidate) {
 			return;
 		}
 
-		el.classList.add("ts-item-active");
+		el.classList.add('ts-item-active');
 		$$invalidate(18, activeId = `${containerId}_item_${el.dataset.index}`);
 		let clientHeight = resultEl.clientHeight;
 
@@ -1800,11 +1818,11 @@ function instance($$self, $$props, $$invalidate) {
 		let el = findActiveOption();
 		let next = el && el.previousElementSibling;
 
-		while (next && next.classList.contains("ts-js-dead")) {
+		while (next && next.classList.contains('ts-js-dead')) {
 			next = next.previousElementSibling;
 		}
 
-		if (next && !next.classList.contains("ts-js-item")) {
+		if (next && !next.classList.contains('ts-js-item')) {
 			next = null;
 		}
 
@@ -1826,11 +1844,11 @@ function instance($$self, $$props, $$invalidate) {
 		let el = findActiveOption();
 		let next = el ? el.nextElementSibling : findFirstOption();
 
-		while (next && next.classList.contains("ts-js-dead")) {
+		while (next && next.classList.contains('ts-js-dead')) {
 			next = next.nextElementSibling;
 		}
 
-		if (next && !next.classList.contains("ts-js-item")) {
+		if (next && !next.classList.contains('ts-js-item')) {
 			next = null;
 		}
 
@@ -1845,7 +1863,7 @@ function instance($$self, $$props, $$invalidate) {
 		}
 
 		let newY = resultEl.scrollTop - resultEl.clientHeight;
-		let nodes = optionsEl.querySelectorAll(".ts-js-item");
+		let nodes = optionsEl.querySelectorAll('.ts-js-item');
 		let next = null;
 
 		for (let i = 0; !next && i < nodes.length; i++) {
@@ -1871,7 +1889,7 @@ function instance($$self, $$props, $$invalidate) {
 
 		let curr = findActiveOption() || findFirstOption();
 		let newY = curr.offsetTop + resultEl.clientHeight;
-		let nodes = optionsEl.querySelectorAll(".ts-js-item");
+		let nodes = optionsEl.querySelectorAll('.ts-js-item');
 		let next = null;
 
 		for (let i = 0; !next && i < nodes.length; i++) {
@@ -1895,7 +1913,7 @@ function instance($$self, $$props, $$invalidate) {
 			return;
 		}
 
-		let nodes = optionsEl.querySelectorAll(".ts-js-item");
+		let nodes = optionsEl.querySelectorAll('.ts-js-item');
 		let next = nodes.length ? nodes[0] : null;
 		activateOption(next);
 		event.preventDefault();
@@ -1906,7 +1924,7 @@ function instance($$self, $$props, $$invalidate) {
 			return;
 		}
 
-		let nodes = optionsEl.querySelectorAll(".ts-js-item");
+		let nodes = optionsEl.querySelectorAll('.ts-js-item');
 		let next = nodes.length ? nodes[nodes.length - 1] : null;
 		activateOption(next);
 		event.preventDefault();
@@ -1970,7 +1988,7 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	function input_binding($$value) {
-		binding_callbacks[$$value ? "unshift" : "push"](() => {
+		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			inputEl = $$value;
 			$$invalidate(6, inputEl);
 		});
@@ -1978,64 +1996,64 @@ function instance($$self, $$props, $$invalidate) {
 
 	function input_input_handler() {
 		query = this.value;
-		$$invalidate(1, query);
+		$$invalidate(0, query);
 	}
 
 	function button_binding($$value) {
-		binding_callbacks[$$value ? "unshift" : "push"](() => {
+		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			toggleEl = $$value;
 			$$invalidate(7, toggleEl);
 		});
 	}
 
 	function ul_binding($$value) {
-		binding_callbacks[$$value ? "unshift" : "push"](() => {
+		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			optionsEl = $$value;
 			$$invalidate(10, optionsEl);
 		});
 	}
 
 	function div1_binding($$value) {
-		binding_callbacks[$$value ? "unshift" : "push"](() => {
+		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			resultEl = $$value;
 			$$invalidate(9, resultEl);
 		});
 	}
 
 	function div2_binding($$value) {
-		binding_callbacks[$$value ? "unshift" : "push"](() => {
+		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			popupEl = $$value;
 			$$invalidate(8, popupEl);
 		});
 	}
 
 	function div3_binding($$value) {
-		binding_callbacks[$$value ? "unshift" : "push"](() => {
+		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
 			containerEl = $$value;
 			$$invalidate(5, containerEl);
 		});
 	}
 
 	$$self.$$set = $$props => {
-		if ("real" in $$props) $$invalidate(0, real = $$props.real);
-		if ("debugMode" in $$props) $$invalidate(40, debugMode = $$props.debugMode);
-		if ("fetcher" in $$props) $$invalidate(41, fetcher = $$props.fetcher);
-		if ("queryMinLen" in $$props) $$invalidate(36, queryMinLen = $$props.queryMinLen);
-		if ("query" in $$props) $$invalidate(1, query = $$props.query);
-		if ("delay" in $$props) $$invalidate(37, delay = $$props.delay);
-		if ("translations" in $$props) $$invalidate(38, translations = $$props.translations);
-		if ("styles" in $$props) $$invalidate(2, styles = $$props.styles);
-		if ("showToggle" in $$props) $$invalidate(3, showToggle = $$props.showToggle);
-		if ("passEnter" in $$props) $$invalidate(39, passEnter = $$props.passEnter);
-		if ("popupFixed" in $$props) $$invalidate(4, popupFixed = $$props.popupFixed);
+		if ('real' in $$props) $$invalidate(1, real = $$props.real);
+		if ('debugMode' in $$props) $$invalidate(40, debugMode = $$props.debugMode);
+		if ('fetcher' in $$props) $$invalidate(41, fetcher = $$props.fetcher);
+		if ('queryMinLen' in $$props) $$invalidate(36, queryMinLen = $$props.queryMinLen);
+		if ('query' in $$props) $$invalidate(0, query = $$props.query);
+		if ('delay' in $$props) $$invalidate(37, delay = $$props.delay);
+		if ('translations' in $$props) $$invalidate(38, translations = $$props.translations);
+		if ('styles' in $$props) $$invalidate(2, styles = $$props.styles);
+		if ('showToggle' in $$props) $$invalidate(3, showToggle = $$props.showToggle);
+		if ('passEnter' in $$props) $$invalidate(39, passEnter = $$props.passEnter);
+		if ('popupFixed' in $$props) $$invalidate(4, popupFixed = $$props.popupFixed);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty[0] & /*query*/ 2 | $$self.$$.dirty[1] & /*selectedItem*/ 33554432) {
+		if ($$self.$$.dirty[0] & /*query*/ 1 | $$self.$$.dirty[1] & /*selectedItem*/ 2048) {
 			////////////////////////////////////////////////////////////
 			// HANDLERS
 			//
-			 {
+			{
 
 				if (syncToReal) {
 					syncToReal(query);
@@ -2045,8 +2063,8 @@ function instance($$self, $$props, $$invalidate) {
 	};
 
 	return [
-		real,
 		query,
+		real,
 		styles,
 		showToggle,
 		popupFixed,
@@ -2087,6 +2105,7 @@ function instance($$self, $$props, $$invalidate) {
 		passEnter,
 		debugMode,
 		fetcher,
+		selectedItem,
 		input_binding,
 		input_input_handler,
 		button_binding,
@@ -2108,11 +2127,11 @@ class Typeahead extends SvelteComponent {
 			create_fragment,
 			safe_not_equal,
 			{
-				real: 0,
+				real: 1,
 				debugMode: 40,
 				fetcher: 41,
 				queryMinLen: 36,
-				query: 1,
+				query: 0,
 				delay: 37,
 				translations: 38,
 				styles: 2,
@@ -2120,9 +2139,10 @@ class Typeahead extends SvelteComponent {
 				passEnter: 39,
 				popupFixed: 4
 			},
+			null,
 			[-1, -1, -1, -1]
 		);
 	}
 }
 
-export default Typeahead;
+export { Typeahead as default };

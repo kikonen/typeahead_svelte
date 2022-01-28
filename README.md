@@ -32,3 +32,17 @@ https://host.ikari.fi/svelte_test/typeahead
 
 ### sprockets4 version
 https://host.ikari.fi/test
+
+## Development
+
+##¤ BUILD
+
+``bash
+yarn run build
+``
+
+### RELEASE
+
+``bash
+yarn publish
+``
